@@ -1,4 +1,8 @@
-# fgpe-authorkit-ui
+# FGPE AuthorKit UI
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+The UI of a toolkit to author gamified activities to support programming learning. This is part of the Erasmus+ Project entitled Framework for Gamified Programming Education (FGPE).
 
 ## Project setup
 ```
