@@ -1,0 +1,43 @@
+
+#content-area {
+    margin-left: 260px;
+    height: 100%;
+    transition: margin-left 0.5s;
+
+    .content-wrapper {
+        min-height: calc(100vh - 3.5rem);
+    }
+
+    &.content-area-reduced {
+        margin-left: $reduced-sidebar-width;
+    }
+
+    &.content-area-full {
+        margin-left: 0px;
+    }
+
+    .vx-navbar__search-input {
+        input {
+            border: none !important;
+        }
+
+        input:focus {
+            box-shadow: none;
+        }
+    }
+}
+
+.router-view {
+    position: relative;
+    padding: $spacer;
+
+    .router-content {
+        margin-top: 5.5rem;
+    }
+    
+    .content-area__heading {
+        h2 {
+            color: #636363;
+        }
+    }
+}

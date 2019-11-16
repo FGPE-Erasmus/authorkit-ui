@@ -1,0 +1,15 @@
+@import '../_variables.scss';
+
+.fgpe-pond {
+    .filepond--panel-root {
+        background-color: $grey;
+    }
+
+    .filepond--file {
+        color: $black;
+    }
+
+    .filepond--item-panel {
+        background-color: $grey-light;
+    }
+}

@@ -1,0 +1,50 @@
+@import "variables";
+
+img {
+    max-width: 100%;
+}
+
+ul,
+ol {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.full-page-bg-color {
+    background-color: $grey;
+}
+
+.count-down {
+    text-align: center;
+}
+
+.single-counter {
+    display: inline-block;
+    position: relative;
+    width: 105px;
+    padding: 18px 10px 10px;
+
+    span {
+        display: block;
+        text-align: center;
+    }
+
+    .timer {
+        font-size: 3rem;
+    }
+}
+
+.spinner {
+    animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

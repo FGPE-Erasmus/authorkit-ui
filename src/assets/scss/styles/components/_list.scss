@@ -1,0 +1,60 @@
+@import '../_variables.scss';
+
+.fgpe-list {
+    width: 100%;
+    position: relative;
+    -webkit-box-shadow: 0 7px 7px -5px rgba(0,0,0,.08);
+    box-shadow: 0 7px 7px -5px rgba(0,0,0,.08);
+}
+
+.fgpe-list--header, .fgpe-list--item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    padding: 8px;
+    background-color: $grey-light;
+}
+
+.fgpe-list--header {
+    font-weight: 700;
+    background-color: $grey;
+}
+
+.fgpe-list--item {
+}
+
+.fgpe-list--title {
+    font-weight: 700;
+}
+
+.fgpe-list--item .list-titles .fgpe-list--subtitle {
+    font-size: .85rem;
+}
+
+.fgpe-list--slot {
+    margin-left: auto;
+    display: flex;
+}
+
+.fgpe-list--icon {
+    padding: 6px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+
+    i {
+        font-size: 1.2rem!important;
+    }
+}

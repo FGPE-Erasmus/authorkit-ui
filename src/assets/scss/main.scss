@@ -1,0 +1,14 @@
+@import "styles/variables";
+
+// overrides
+@import "overrides/vuesax";
+@import "overrides/tailwind";
+
+@import "styles/colors";
+@import "styles/layout";
+@import "styles/typography";
+@import "styles/misc";
+@import "styles/components";
+@import "styles/themes";
+@import "styles/transitions";
+@import "styles/custom";
