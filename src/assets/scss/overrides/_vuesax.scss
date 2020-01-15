@@ -123,6 +123,7 @@
   }
 }
 .vs-input--input.normal {
+  height: 2.5rem;
   padding: .7rem;
   font-size:1rem;
 }
@@ -485,6 +486,7 @@ h3.vs-navbar--title {
 
 .vs-con-textarea {
   border: 1px solid rgba(0,0,0, 0.2) !important;
+  margin: 0;
 
   &:focus {
     border: 1px solid rgba(var(--vs-primary),1)!important;

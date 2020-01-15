@@ -63,12 +63,12 @@ const state = {
 const getters = {};
 
 const actions = {
-  [EXERCISE_GET]: ({ commit, rootState }, id) => {
+  [EXERCISE_GET]: ({ commit, rootState }, { id, query }) => {
     return new Promise((resolve, reject) => {
       commit(EXERCISE_GET_REQUEST);
       exerciseService
         .authenticate(rootState.auth.token)
-        .getOne(id)
+        .getOne(id, query)
         .then(res => {
           commit(EXERCISE_GET_SUCCESS, res.data);
 

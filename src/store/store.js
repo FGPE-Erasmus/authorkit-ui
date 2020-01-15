@@ -9,6 +9,11 @@ import moduleAuth from "./auth/auth.module";
 import moduleUser from "./users/user.module";
 import moduleProject from "./projects/project.module";
 import moduleExercise from "./exercises/exercise.module";
+import moduleGamificationLayer from "./gamification-layers/gamification-layer.module";
+import moduleChallenge from "./challenges/challenge.module";
+import moduleLeaderboard from "./leaderboards/leaderboard.module";
+import moduleReward from "./rewards/reward.module";
+import moduleRule from "./rules/rule.module";
 
 export default new Vuex.Store({
   getters: moduleBase.getters,
@@ -19,7 +24,12 @@ export default new Vuex.Store({
     auth: moduleAuth,
     user: moduleUser,
     project: moduleProject,
-    exercise: moduleExercise
+    exercise: moduleExercise,
+    gamificationLayer: moduleGamificationLayer,
+    challenge: moduleChallenge,
+    leaderboard: moduleLeaderboard,
+    reward: moduleReward,
+    rule: moduleRule
   },
   strict: process.env.NODE_ENV !== "production"
 });

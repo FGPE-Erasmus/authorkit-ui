@@ -14,8 +14,7 @@
       :target="target"
       exact
     >
-      <vs-icon v-if="!featherIcon" :icon-pack="iconPack" :icon="icon">
-      </vs-icon>
+      <vs-icon v-if="!featherIcon" :icon-pack="iconPack" :icon="icon" />
       <feather-icon
         :icon="icon"
         :class="{ 'w-3 h-3': iconSmall }"
@@ -24,8 +23,7 @@
       <slot></slot>
     </router-link>
     <a v-else :target="target" :href="href">
-      <vs-icon v-if="!featherIcon" :icon-pack="iconPack" :icon="icon">
-      </vs-icon>
+      <vs-icon v-if="!featherIcon" :icon-pack="iconPack" :icon="icon" />
       <feather-icon
         :icon="icon"
         :class="{ 'w-3 h-3': iconSmall }"

@@ -225,6 +225,144 @@ export default {
       UploadFile: "Upload File"
     }
   },
+
+  // gamification layer
+  GamificationLayer: {
+    Name: "Name",
+    Description: "Description",
+    Keywords: "Keywords",
+    Status: "Status",
+    Statuses: {
+      Draft: "Draft",
+      Unpublished: "Unpublished",
+      Published: "Published",
+      Trash: "Trash"
+    },
+    Challenges: "Challenges",
+    Rules: "Rules",
+    Rewards: "Rewards",
+    Leaderboards: "Leaderboards",
+    Tree: {},
+    Form: {
+      Metadata: "Metadata",
+      Structure: "Structure",
+      Previous: "Previous",
+      Next: "Next",
+      Finish: "Finish"
+    },
+    _Challenge: "Challenge",
+    Challenge: {
+      Name: "Name",
+      Description: "Description",
+      Mode: "Mode",
+      Modes: {
+        NORMAL: "NORMAL",
+        SHAPESHIFTER: "SHAPESHIFTER",
+        SHORTENING: "SHORTENING",
+        SPEEDUP: "SPEEDUP",
+        HACK_IT: "HACK IT",
+        TIME_BOMB: "TIME BOMB",
+        DUEL: "DUEL"
+      },
+      ModeParameters: "Mode Parameters",
+      Locked: "Locked",
+      Hidden: "Hidden",
+      Difficulty: "Difficulty",
+      Difficulties: {
+        BEGINNER: "BEGINNER",
+        EASY: "EASY",
+        AVERAGE: "AVERAGE",
+        HARD: "HARD",
+        MASTER: "MASTER"
+      },
+      LinkedExercises: "Linked Exercises"
+    },
+    _Leaderboard: "Leaderboard",
+    Leaderboard: {
+      Name: "Name",
+      Metrics: "Metrics",
+      Metric: "Metric",
+      SortingOrder: "Sorting Order",
+      SortingOrders: {
+        ASC: "ASC",
+        DESC: "DESC"
+      }
+    },
+    _Reward: "Reward",
+    Reward: {
+      Name: "Name",
+      Description: "Description",
+      Kind: "Kind",
+      Kinds: {
+        POINT: "POINT",
+        BADGE: "BADGE",
+        VIRTUAL_ITEM: "VIRTUAL ITEM",
+        COUPON: "COUPON",
+        REVEAL: "REVEAL",
+        UNLOCK: "UNLOCK",
+        HINT: "HINT",
+        MESSAGE: "MESSAGE"
+      },
+      Amount: "Amount",
+      UnlockableExercises: "Unlockable Exercises",
+      UnlockableChallenges: "Unlockable Challenges",
+      RevealableExercises: "Revealable Exercises",
+      RevealableChallenges: "Revealable Challenges",
+      Hints: "Hints",
+      Hint: "Hint",
+      Congratulations: "Congratulations",
+      Congratulation: "Congratulation"
+    },
+    _Criteria: "Criteria",
+    Criteria: {
+      LeftEntity: "Left Entity",
+      LeftProperty: "Left Property",
+      RightEntity: "Right Entity",
+      RightProperty: "Right Property",
+      Subject: "Subject",
+      Subjects: {
+        FIXED: "FIXED",
+        EVENT: "EVENT",
+        ACTION: "ACTION",
+        PLAYER: "PLAYER",
+        ENVIRONMENT: "ENVIRONMENT"
+      },
+      ComparingFunction: "Comparing Function",
+      ComparingFunctions: {
+        LESS_THAN: "LESS THAN",
+        GREATER_THAN: "GREATER THAN",
+        LESS_OR_EQUAL: "LESS OR EQUAL",
+        GREAT_OR_EQUAL: "GREAT OR EQUAL",
+        EQUALS: "EQUALS",
+        NOT_EQUALS: "NOT EQUALS",
+        STARTS_WITH: "STARTS WITH",
+        MATCHES: "MATCHES",
+        NOT_MATCHES: "NOT MATCHES",
+        IS_EMPTY: "IS EMPTY",
+        NOT_EMPTY: "NOT EMPTY",
+        IN: "IN",
+        NOT_IN: "NOT IN"
+      },
+      Junctor: "Junctor",
+      Junctors: {
+        AND: "AND",
+        OR: "OR"
+      }
+    },
+    _Rule: "Rule",
+    Rule: {
+      Name: "Name",
+      ActionType: "Type of Action",
+      ActionTypes: {
+        GIVE: "GIVE",
+        TAKE: "TAKE",
+        UPDATE: "UPDATE"
+      },
+      Actions: "Actions",
+      ActionParameters: "Action Parameters"
+    }
+  },
+
   validation: {
     alpha: "The {_field_} field may only contain alphabetic characters",
     alpha_num: "The {_field_} field may only contain alpha-numeric characters",
@@ -250,6 +388,9 @@ export default {
     mimes: "The {_field_} field must have a valid file type",
     min_value: "The {_field_} field must be {min} or more",
     min: "The {_field_} field must be at least {length} characters",
+    minLength: "{_field_} field should have at least {length} entries",
+    sameLength:
+      "{_field_} field should have the same number of entries as {other}",
     numeric: "The {_field_} field may only contain numeric characters",
     oneOf: "The {_field_} field is not a valid value",
     regex: "The {_field_} field format is invalid",
@@ -258,7 +399,8 @@ export default {
     size: "The {_field_} field size must be less than {size}KB",
     maxFileSize: "The field size must be less than {filesize}",
     passwordConfirmation:
-      "The password confirmation does not match the password"
+      "The password confirmation does not match the password",
+    criteria: "The {_field_} is not a valid conditional"
   },
   fields: {
     firstname: "first name",
@@ -292,6 +434,21 @@ export default {
     nat_lang: "natural language",
     prog_lang: "programming language",
     file: "file",
-    command_line: "command line"
+    command_line: "command line",
+    name: "name",
+    description: "description",
+    metrics: "metrics",
+    kind: "kind",
+    mode: "mode",
+    unlockable_exercises: "unlockable exercises",
+    unlockable_challenges: "unlockable challenges",
+    revealable_exercises: "revealable exercises",
+    revealable_challenges: "revealable challenges",
+    hints: "hints",
+    congratulations: "congratulations",
+    criteria: "criteria",
+    action_types: "action types",
+    parameters: "parameters",
+    reward_parameters: "reward parameters"
   }
 };

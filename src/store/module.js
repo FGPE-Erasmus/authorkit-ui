@@ -44,6 +44,11 @@ const getters = {
     state.auth.loading ||
     state.project.loading ||
     state.exercise.loading ||
+    state.gamificationLayer.loading ||
+    state.challenge.loading ||
+    state.leaderboard.loading ||
+    state.reward.loading ||
+    state.rule.loading ||
     state.user.loading
 };
 

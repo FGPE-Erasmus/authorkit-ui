@@ -8,13 +8,13 @@
     >
       {{ label }}
     </label>
-    <div class="fgpe-select">
+    <div :class="'fgpe-select' + (multiple ? ' fgpe-select--multiple' : '')">
       <v-select
         v-model="selected"
         ref="input"
         class="w-full fgpe-select--input"
         :class="{
-          hasValue: !!value
+          hasValue: !!value && (value instanceof Number || value.length > 0)
         }"
         :placeholder="!value ? placeholder : null"
         :options="options"
@@ -22,6 +22,7 @@
         :searchable="searchable"
         :filterBy="filterBy"
         :reduce="reduce"
+        :multiple="multiple"
         v-on="listeners"
       >
         <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
@@ -30,21 +31,20 @@
       </v-select>
       <transition name="placeholderx">
         <span
-          v-if="isValue && (labelPlaceholder || $attrs.placeholder)"
+          v-if="isValue && (labelPlaceholder || placeholder)"
           ref="spanplaceholder"
           :style="styleLabel"
           :class="[
             labelPlaceholder,
             {
               'vs-placeholder-label': labelPlaceholder,
-              normal:
-                !isFocus && isValue && (labelPlaceholder || $attrs.placeholder)
+              normal: !isFocus && isValue && (labelPlaceholder || placeholder)
             }
           ]"
           class="input-span-placeholder fgpe-select--placeholder"
           @click="focusInput"
         >
-          {{ $attrs.placeholder || labelPlaceholder }}
+          {{ placeholder || labelPlaceholder }}
         </span>
       </transition>
     </div>
@@ -58,7 +58,7 @@ export default {
   name: "fgpe-select",
   props: {
     value: {
-      type: [String, Number],
+      type: [String, Number, Array],
       default: ""
     },
     placeholder: {
@@ -78,6 +78,10 @@ export default {
       default: false
     },
     searchable: {
+      type: Boolean,
+      default: false
+    },
+    multiple: {
       type: Boolean,
       default: false
     },

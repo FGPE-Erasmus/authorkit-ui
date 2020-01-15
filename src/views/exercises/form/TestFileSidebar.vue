@@ -124,7 +124,7 @@
             </label>
             <vs-input-number
               name="weight"
-              v-model="test.weight"
+              v-model.number="test.weight"
               :step="1"
               min="0"
               max="100"
@@ -165,7 +165,7 @@ import {
 } from "@/store/exercises/exercise.constants";
 
 import FgpeChips from "@/components/FgpeChips";
-import AddUpdateFileSidebar from "./AddUpdateFileSidebar";
+import AddUpdateFileSidebar from "@/components/sidebar-form/AddUpdateFileSidebar";
 
 export default {
   name: "test-file-sidebar",

@@ -41,7 +41,7 @@
         </div>
         <div
           v-if="allowDelete"
-          class="py-2 px-2 cursor-pointer flex items-center justify-between text-base"
+          class="py-2 px-2 cursor-pointer flex items-center justify-between text-danger"
           @click="confirmDelete(item)"
         >
           <feather-icon icon="Trash2Icon" svgClasses="h-4 w-4" />

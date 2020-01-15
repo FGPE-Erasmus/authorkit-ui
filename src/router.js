@@ -43,7 +43,7 @@ const router = new Router({
           name: "dashboard",
           component: () => import("@/views/projects/Projects.vue"),
           meta: {
-            rule: "user"
+            rule: ["user"]
           }
         },
 
@@ -57,7 +57,7 @@ const router = new Router({
               { title: "Exercises", active: true }
             ],
             pageTitle: "Exercises",
-            rule: "user"
+            rule: ["user"]
           }
         },
         {
@@ -71,7 +71,40 @@ const router = new Router({
               { title: "Exercise Form", active: true }
             ],
             pageTitle: "Exercise Form",
-            rule: "user"
+            rule: ["user"]
+          }
+        },
+
+        {
+          path: "/projects/:project_id/gamification-layers",
+          name: "gamification-layers",
+          component: () =>
+            import("@/views/gamification-layers/GamificationLayers.vue"),
+          meta: {
+            breadcrumb: [
+              { title: "Home", url: "/" },
+              { title: "Gamification Layers", active: true }
+            ],
+            pageTitle: "Gamification Layers",
+            rule: ["user"]
+          }
+        },
+        {
+          path: "/projects/:project_id/gamification-layers/:id",
+          name: "gamification-layer-form",
+          component: () =>
+            import("@/views/gamification-layers/GamificationLayerForm.vue"),
+          meta: {
+            breadcrumb: [
+              { title: "Home", url: "/" },
+              {
+                title: "Gamification Layers",
+                url: "/projects/:project_id/gamification-layers"
+              },
+              { title: "Gamification Layer Form", active: true }
+            ],
+            pageTitle: "Gamification Layer Form",
+            rule: ["user"]
           }
         }
       ]
@@ -83,50 +116,74 @@ const router = new Router({
         {
           path: "/pages/login",
           name: "pageLogin",
-          component: () => import("@/views/pages/Login.vue")
+          component: () => import("@/views/pages/Login.vue"),
+          meta: {
+            rule: ["*"]
+          }
         },
         {
           path: "/pages/register",
           name: "pageRegister",
-          component: () => import("@/views/pages/Register.vue")
+          component: () => import("@/views/pages/Register.vue"),
+          meta: {
+            rule: ["*"]
+          }
         },
         {
           path: "/pages/verify-email",
           name: "pageVerifyEmail",
           component: () => import("@/views/pages/VerifyEmail.vue"),
-          props: route => ({ ...route.params, ...route.query })
+          props: route => ({ ...route.params, ...route.query }),
+          meta: {
+            rule: ["*"]
+          }
         },
         {
           path: "/401",
           name: "error401",
-          component: () => import("@/views/pages/Error401.vue")
+          component: () => import("@/views/pages/Error401.vue"),
+          meta: {
+            rule: ["*"]
+          }
         },
         {
           path: "/403",
           name: "error403",
-          component: () => import("@/views/pages/Error403.vue")
+          component: () => import("@/views/pages/Error403.vue"),
+          meta: {
+            rule: ["*"]
+          }
         },
         {
           path: "/404",
           name: "error404",
-          component: () => import("@/views/pages/Error404.vue")
+          component: () => import("@/views/pages/Error404.vue"),
+          meta: {
+            rule: ["*"]
+          }
         },
         {
           path: "/500",
           name: "error500",
-          component: () => import("@/views/pages/Error500.vue")
+          component: () => import("@/views/pages/Error500.vue"),
+          meta: {
+            rule: ["*"]
+          }
         },
         {
           path: "/maintenance",
           name: "pageMaintenance",
-          component: () => import("@/views/pages/Maintenance.vue")
+          component: () => import("@/views/pages/Maintenance.vue"),
+          meta: {
+            rule: ["*"]
+          }
         },
         {
           path: "/pages/forgot-password",
           name: "pageForgotPassword",
           component: () => import("@/views/pages/ForgotPassword.vue"),
           meta: {
-            rule: "admin"
+            rule: ["admin"]
           }
         }
       ]
@@ -134,7 +191,10 @@ const router = new Router({
     // Redirect to 404 page, if no match found
     {
       path: "*",
-      redirect: "/404"
+      redirect: "/404",
+      meta: {
+        rule: ["*"]
+      }
     }
   ]
 });

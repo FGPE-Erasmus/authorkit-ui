@@ -56,6 +56,7 @@
             icon-pack="mi md-16"
             remove-icon="delete_forever"
             @input="updateValue()"
+            class="mt-5"
           >
             <vs-chip
               v-for="keyword in metadata.keywords"

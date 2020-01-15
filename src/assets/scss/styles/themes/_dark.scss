@@ -1,1060 +1,1088 @@
 .theme-dark {
 
-    background-color: $content-dark-bg;
-    color: $theme-dark-text-color !important;
+  background-color: $content-dark-bg;
+  color: $theme-dark-text-color !important;
 
-    .content-area__heading {
-        h2 {
-            color: $theme-dark-heading-color;
-        }
+  .content-area__heading {
+    h2 {
+      color: $theme-dark-heading-color;
     }
+  }
+
+  code {
+    color: $grey;
+    background: $content-dark-bg;
+  }
+
+  pre[class*="language-"] {
+    background-color: $dark;
+    text-shadow: none;
 
     code {
-        color: $grey;
-        background: $content-dark-bg;
+      background-color: transparent;
+
+      &[class*="language-"] {
+        text-shadow: none;
+      }
+    }
+  }
+
+  label {
+    color: $theme-dark-text-color;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: $theme-dark-heading-color;
+
+  }
+
+  .notification-dropdown {
+
+    .notification:hover,
+    .cart-item:hover {
+      background: $dark-card-color;
     }
 
-    pre[class*="language-"] {
-        background-color: $dark;
+    .checkout-footer,
+    .notification-footer {
+      background-color: $theme-light-dark-bg;
+    }
+
+    .checkout-footer:hover,
+    .notification-footer:hover {
+      background-color: $theme-dark-bg;
+    }
+  }
+
+  .vs-component {
+    &.vs-notifications {
+      &.vs-noti-dark {
+        color: $black !important;
+
+        .filling {
+          background: $grey !important;
+        }
+
+        h3 {
+          color: $black !important;
+        }
+      }
+    }
+  }
+
+  .fgpe-card {
+    background-color: $dark-card-color;
+
+    .fgpe-card__title {
+      h4 {
+        color: $theme-dark-heading-color;
+      }
+    }
+
+    .con-vs-alert-dark {
+      color: $grey-light;
+    }
+
+    .code-content {
+      pre[class^="language-"] {
+        background-color: $content-dark-bg;
         text-shadow: none;
 
         code {
-            background-color: transparent;
+          background-color: transparent;
 
-            &[class*="language-"] {
-                text-shadow: none;
-            }
+          &[class*="language-"] {
+            text-shadow: none;
+          }
         }
+      }
     }
 
-    label {
-        color: $theme-dark-text-color;
+    .fgpe-card__body {
+      .con-vs-alert-primary {
+        h4 {
+          color: rgba(var(--vs-primary), 1);
+        }
+      }
+
+      .con-vs-alert-success {
+        h4 {
+          color: rgba(var(--vs-success), 1);
+        }
+      }
+
+      .con-vs-alert-danger {
+        h4 {
+          color: rgba(var(--vs-danger), 1);
+        }
+      }
+
+      .con-vs-alert-info {
+        h4 {
+          color: rgba(var(--vs-info), 1);
+        }
+      }
+
+      .con-vs-alert-warning {
+        h4 {
+          color: rgba(var(--vs-warning), 1);
+        }
+      }
     }
+  }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        color: $theme-dark-heading-color;
+  .vx-navbar-wrapper {
+    background: linear-gradient(to bottom, rgba(44, 48, 60, 0.9) 44%, rgba(44, 48, 60, 0.43) 73%, rgba(44, 48, 60, 0) 100%);
 
-    }
+    .vx-navbar {
+      .search-full-container {
+        background-color: $dark-card-color !important;
 
-    .notification-dropdown {
-
-        .notification:hover,
-        .cart-item:hover {
+        .fgpe-auto-suggest {
+          input {
             background: $dark-card-color;
+          }
         }
+      }
 
-        .checkout-footer,
-        .notification-footer {
-            background-color: $theme-light-dark-bg;
-        }
+      .fgpe-auto-suggest {
+        .auto-suggest-suggestions-list {
+          .auto-suggest__suggestion {
+            &.fgpe-auto-suggest__current-selected {
+              background: $dark-card-color;
+              color: $white;
+            }
 
-        .checkout-footer:hover,
-        .notification-footer:hover {
-            background-color: $theme-dark-bg;
+            color: $theme-dark-text-color;
+          }
         }
+      }
+    }
+  }
+
+  .main-menu-sidebar {
+    .vs-sidebar {
+      background-color: $sidebar-dark-bg;
     }
 
-    .vs-component {
-        &.vs-notifications {
-            &.vs-noti-dark {
-                color: $black !important;
-
-                .filling {
-                    background: $grey !important;
-                }
-
-                h3 {
-                    color: $black !important;
-                }
-            }
-        }
+    .header-sidebar {
+      -webkit-box-shadow: 0px 20px 20px 10px $sidebar-dark-bg;
+      -moz-box-shadow: 0px 20px 20px 10px $sidebar-dark-bg;
+      box-shadow: 0px 20px 20px 10px $sidebar-dark-bg;
     }
 
-    .fgpe-card {
-        background-color: $dark-card-color;
+    .scroll-area--main-sidebar {
 
-        .fgpe-card__title {
-            h4 {
-                color: $theme-dark-heading-color;
-            }
+      .feather-icon,
+      span {
+        color: $theme-dark-text-color;
+      }
+
+      a {
+        .feather-icon {
+
+          svg,
+          span {
+            color: $theme-dark-text-color;
+          }
         }
+      }
 
-        .con-vs-alert-dark {
-            color: $grey-light;
-        }
-
-        .code-content {
-            pre[class^="language-"] {
-                background-color: $content-dark-bg;
-                text-shadow: none;
-
-                code {
-                    background-color: transparent;
-
-                    &[class*="language-"] {
-                        text-shadow: none;
-                    }
-                }
-            }
-        }
-
-        .fgpe-card__body {
-            .con-vs-alert-primary {
-                h4 {
-                    color: rgba(var(--vs-primary), 1);
-                }
-            }
-
-            .con-vs-alert-success {
-                h4 {
-                    color: rgba(var(--vs-success), 1);
-                }
-            }
-
-            .con-vs-alert-danger {
-                h4 {
-                    color: rgba(var(--vs-danger), 1);
-                }
-            }
-
-            .con-vs-alert-info {
-                h4 {
-                    color: rgba(var(--vs-info), 1);
-                }
-            }
-
-            .con-vs-alert-warning {
-                h4 {
-                    color: rgba(var(--vs-warning), 1);
-                }
-            }
-        }
-    }
-
-    .vx-navbar-wrapper {
-        background: linear-gradient(to bottom, rgba(44, 48, 60, 0.9) 44%, rgba(44, 48, 60, 0.43) 73%, rgba(44, 48, 60, 0) 100%);
-
-        .vx-navbar {
-            .search-full-container {
-                background-color: $dark-card-color !important;
-
-                .fgpe-auto-suggest {
-                    input {
-                        background: $dark-card-color;
-                    }
-                }
-            }
-
-            .fgpe-auto-suggest {
-                .auto-suggest-suggestions-list {
-                    .auto-suggest__suggestion {
-                        &.fgpe-auto-suggest__current-selected {
-                            background: $dark-card-color;
-                            color: $white;
-                        }
-
-                        color: $theme-dark-text-color;
-                    }
-                }
-            }
-        }
-    }
-
-    .main-menu-sidebar {
-        .vs-sidebar {
-            background-color: $sidebar-dark-bg;
-        }
-
-        .header-sidebar {
-            -webkit-box-shadow: 0px 20px 20px 10px $sidebar-dark-bg;
-            -moz-box-shadow: 0px 20px 20px 10px $sidebar-dark-bg;
-            box-shadow: 0px 20px 20px 10px $sidebar-dark-bg;
-        }
-
-        .scroll-area--main-sidebar {
-
-            .feather-icon,
-            span {
-                color: $theme-dark-text-color;
-            }
-
-            a {
-                .feather-icon {
-
-                    svg,
-                    span {
-                        color: $theme-dark-text-color;
-                    }
-                }
-            }
-
-            .vs-sidebar-group {
-                &.vs-sidebar-group-active {
-                    >.group-header {
-                        background: $content-dark-bg;
-                    }
-                }
-
-                &.vs-sidebar-group-open {
-                    >.group-header {
-                        background: $content-dark-bg;
-                    }
-                }
-            }
-
-            .con-vs-chip {
-                box-shadow: 0px 0px 4px 2px $content-dark-bg;
-            }
-        }
-    }
-
-    .ps {
-        &:hover {
-            &>.ps__scrollbar-y-rail {
-                &:hover {
-                    background-color: $dark-card-color;
-                }
-            }
-        }
-    }
-
-    .vs-alert {
-        code {
-            color: $grey;
+      .vs-sidebar-group {
+        &.vs-sidebar-group-active {
+          >.group-header {
             background: $content-dark-bg;
+          }
         }
+
+        &.vs-sidebar-group-open {
+          >.group-header {
+            background: $content-dark-bg;
+          }
+        }
+      }
+
+      .con-vs-chip {
+        box-shadow: 0px 0px 4px 2px $content-dark-bg;
+      }
+    }
+  }
+
+  .ps {
+    &:hover {
+      &>.ps__scrollbar-y-rail {
+        &:hover {
+          background-color: $dark-card-color;
+        }
+      }
+    }
+  }
+
+  .vs-alert {
+    code {
+      color: $grey;
+      background: $content-dark-bg;
+    }
+  }
+
+  .con-vs-avatar {
+    background: $theme-dark-bg !important;
+
+    &.con-vs-avatar-primary {
+      background: rgba(var(--vs-primary), 1) !important;
+    }
+
+    &.con-vs-avatar-success {
+      background: rgba(var(--vs-success), 1) !important;
+    }
+
+    &.con-vs-avatar-danger {
+      background: rgba(var(--vs-danger), 1) !important;
+    }
+
+    &.con-vs-avatar-warning {
+      background: rgba(var(--vs-warning), 1) !important;
+    }
+
+    &.con-vs-avatar-info {
+      background: rgba(var(--vs-info), 1) !important;
+    }
+
+    &.con-vs-avatar-dark {
+      background: rgba($grey, 1) !important;
+    }
+  }
+
+  .vs-breadcrumb--ol {
+
+    a,
+    .vs-breadcrum--separator {
+      color: $grey-light;
+    }
+  }
+
+  .vs-button-dark {
+    &.vs-button-filled {
+      background: $grey !important;
+
+      .vs-button--text {
+        color: $dark;
+      }
+    }
+  }
+
+  .vs-button-dark {
+
+    &.vs-button-border,
+    &.vs-button-flat,
+    &.vs-button-line {
+      border-color: $grey;
+    }
+
+    .vs-button--text,
+    .vs-icon {
+      color: $grey;
+    }
+  }
+
+  .con-chips {
+    background: $theme-light-dark-bg;
+
+    .con-chips--input {
+      background: $theme-light-dark-bg;
+    }
+  }
+
+  .con-vs-chip {
+    background: $dark-card-color;
+    color: $theme-dark-text-color !important;
+
+    &.vs-chip-primary {
+      background: rgba(var(--vs-primary), 1);
+    }
+
+    &.vs-chip-success {
+      background: rgba(var(--vs-success), 1);
+    }
+
+    &.vs-chip-danger {
+      background: rgba(var(--vs-danger), 1);
+    }
+
+    &.vs-chip-warning {
+      background: rgba(var(--vs-warning), 1);
+    }
+
+    &.vs-chip-info {
+      background: rgba(var(--vs-info), 1);
+    }
+
+    &.vs-chip-dark {
+      background: rgba(var(--vs-dark), 1);
     }
 
     .con-vs-avatar {
-        background: $theme-dark-bg !important;
-
-        &.con-vs-avatar-primary {
-            background: rgba(var(--vs-primary), 1) !important;
-        }
-
-        &.con-vs-avatar-success {
-            background: rgba(var(--vs-success), 1) !important;
-        }
-
-        &.con-vs-avatar-danger {
-            background: rgba(var(--vs-danger), 1) !important;
-        }
-
-        &.con-vs-avatar-warning {
-            background: rgba(var(--vs-warning), 1) !important;
-        }
-
-        &.con-vs-avatar-info {
-            background: rgba(var(--vs-info), 1) !important;
-        }
-
-        &.con-vs-avatar-dark {
-            background: rgba($grey, 1) !important;
-        }
+      background-color: $theme-light-dark-bg !important;
     }
 
-    .vs-breadcrumb--ol {
+    &.con-color {
+      color: $white !important;
+    }
+  }
 
-        a,
-        .vs-breadcrum--separator {
-            color: $grey-light;
-        }
+  .vs-divider {
+    .vs-divider-border {
+      border-color: $theme-dark-text-color !important;
+
+      &.vs-divider-border-primary {
+        border-color: rgba(var(--vs-primary), 1) !important;
+      }
+
+      &.vs-divider-border-success {
+        border-color: rgba(var(--vs-success), 1) !important;
+      }
+
+      &.vs-divider-border-danger {
+        border-color: rgba(var(--vs-danger), 1) !important;
+      }
+
+      &.vs-divider-border-warning {
+        border-color: rgba(var(--vs-warning), 1) !important;
+      }
+
+      &.vs-divider-border-info {
+        border-color: rgba(var(--vs-info), 1) !important;
+      }
+
+      &.vs-divider-border-dark {
+        border-color: rgba($grey, 0.5) !important;
+      }
     }
 
-    .vs-button-dark {
-        &.vs-button-filled {
-            background: $grey !important;
+    .vs-divider--text {
+      background: transparent;
+      color: $theme-dark-text-color !important;
 
-            .vs-button--text {
-                color: $dark;
-            }
-        }
+      .vs-icon {
+        color: $theme-dark-text-color;
+      }
+    }
+  }
+
+  .vs-dropdown--menu,
+  .vs-dropdown--menu--after {
+    background: $content-dark-bg;
+
+    .con-dropdown--group-ul {
+      background: $content-dark-bg;
     }
 
-    .vs-button-dark {
+    .vs-dropdown--item {
+      .vs-dropdown--item-link.disabled {
+        color: $grey !important;
+      }
+    }
+  }
 
-        &.vs-button-border,
-        &.vs-button-flat,
-        &.vs-button-line {
+  .con-vs-loading {
+    background: $dark-card-color;
+
+    h4.title-loading {
+      color: $theme-dark-text-color;
+    }
+  }
+
+  .vs-list {
+    .vs-list--header {
+      box-shadow: 0 7px 7px -5px rgba($theme-dark-heading-color, .8);
+
+    }
+
+    .vs-list--item {
+      border-color: rgba($theme-dark-text-color, .08);
+    }
+  }
+
+  .vs-navbar {
+    border-color: $content-dark-bg;
+
+    li {
+      &.vs-navbar--item {
+        a {
+          color: $grey-light;
+        }
+
+        &.is-active-item {
+          a {
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+
+  .vs-navbar {
+    background-color: $theme-dark-bg !important;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .5);
+  }
+
+  .vs-pagination--nav {
+    .vs-pagination--ul {
+      background: $theme-dark-bg;
+
+      .vs-pagination--li {
+        color: $theme-dark-text-color;
+      }
+    }
+
+    .vs-pagination--buttons {
+      background: $theme-dark-bg;
+      color: $theme-dark-text-color;
+    }
+  }
+
+  .con-vs-popup {
+    .vs-popup {
+      background: $content-dark-bg !important;
+      color: $theme-dark-text-color;
+
+      .vs-popup--header {
+        background: $dark-card-color !important;
+
+        .vs-popup--close {
+          background: $content-dark-bg !important;
+        }
+      }
+    }
+  }
+
+  .vs-sidebar {
+    background: $content-dark-bg;
+
+    h4,
+    h5 {
+      color: $theme-dark-heading-color;
+    }
+
+    .vs-sidebar--items {
+      .vs-sidebar--item {
+        a {
+          color: $theme-dark-text-color;
+        }
+      }
+    }
+
+    .vs-sidebar-group {
+      &.vs-sidebar-group-active {
+        >.group-header {
+          background: $content-dark-bg;
+        }
+      }
+    }
+  }
+
+  // Slider
+  .con-vs-slider {
+    .vs-slider {
+      background: rgba($content-dark-bg, 0.5);
+    }
+  }
+
+  .ul-tabs {
+    .vs-tabs--li {
+      button {
+        color: $theme-dark-text-color;
+      }
+    }
+  }
+
+  .vs-tabs-dark {
+
+    .activeChild button,
+    button:not(:disabled):hover {
+      color: $grey !important;
+    }
+
+    .line-vs-tabs {
+      background: linear-gradient(30deg, rgba($grey, 1), rgba($grey, .5)) !important;
+      box-shadow: 0 0 8px 0 rgba($grey, .4) !important;
+    }
+  }
+
+  .vs-tooltip {
+    &.vs-tooltip-dark {
+      background: $content-dark-bg;
+    }
+  }
+
+  input {
+    background: $theme-light-dark-bg;
+    background-color: $theme-light-dark-bg;
+    color: $theme-dark-text-color;
+
+    ~.vs-placeholder-label,
+    ~.vs-input--placeholder {
+      color: $theme-dark-text-color;
+    }
+  }
+
+  .vs-con-textarea {
+    textarea {
+      background: $theme-light-dark-bg;
+      background-color: $theme-light-dark-bg;
+      color: $theme-dark-text-color;
+    }
+
+    h4 {
+      color: $theme-dark-text-color;
+    }
+  }
+
+  .vs-input--icon {
+    border-right-color: rgba($theme-dark-text-color, .2);
+
+    &.icon-after {
+      border-left-color: rgba($theme-dark-text-color, .2);
+    }
+  }
+
+  .vs-input-number {
+    background: $content-dark-bg;
+
+    button {
+
+      &.vs-input-number--button-less,
+      &.vs-input-number--button-plus {
+
+        &:disabled,
+        &.limit {
+          opacity: 0.75;
+          background: $grey;
+        }
+      }
+    }
+  }
+
+  .vs-con-textarea {
+    background: $content-dark-bg;
+    color: $theme-dark-text-color;
+
+    .vs-textarea {
+      color: $theme-dark-text-color;
+
+      &:focus {
+        border-color: transparent;
+      }
+    }
+
+    &.focusx {
+      border-color: transparent;
+
+      h4 {
+        background: transparent;
+      }
+    }
+
+    &.textarea-danger {
+      .vs-textarea {
+        color: rgba(var(--vs-danger), 1);
+      }
+    }
+  }
+
+  .vs-switch {
+    background: $content-dark-bg;
+
+    &.vs-switch-primary {
+      &.vs-switch-active {
+        background: rgba(var(--vs-primary), 1);
+      }
+    }
+
+    &.vs-switch-success {
+      &.vs-switch-active {
+        background: rgba(var(--vs-success), 1);
+      }
+    }
+
+    &.vs-switch-danger {
+      &.vs-switch-active {
+        background: rgba(var(--vs-danger), 1);
+      }
+    }
+
+    &.vs-switch-warning {
+      &.vs-switch-active {
+        background: rgba(var(--vs-warning), 1);
+      }
+    }
+
+    &.vs-switch-info {
+      &.vs-switch-active {
+        background: rgba(var(--vs-info), 1);
+      }
+    }
+
+    &.vs-switch-dark {
+      &.vs-switch-active {
+        background: $table-dark-stripe;
+      }
+    }
+  }
+
+  .vs-radio-dark {
+    .vs-radio--circle {
+      background: $grey;
+      box-shadow: 0 3px 12px 0 rgba($grey, .4);
+    }
+  }
+
+  .op-block {
+    box-shadow: 1px 1px 10px rgba($white, .1)
+  }
+
+  .vs-input-dark {
+    .vs-input--input {
+      &:focus {
+        border-color: $grey !important;
+
+        ~.vs-input--placeholder {
+          color: $grey;
+        }
+      }
+    }
+  }
+
+  .vs__dropdown-toggle {
+    background: $content-dark-bg;
+    color: $theme-dark-text-color;
+  }
+
+  .vue-form-wizard {
+    .wizard-icon-circle {
+      background-color: $dark-card-color;
+      border-color: $content-dark-bg;
+    }
+
+    .wizard-nav-pills {
+      &>li {
+        &>a {
+          color: $theme-dark-text-disabled-color;
+
+          .stepTitle {
+            color: $theme-dark-text-disabled-color;
+          }
+
+          &:focus,
+          &:hover {
+            color: $theme-dark-text-disabled-color;
+          }
+        }
+      }
+    }
+
+    .wizard-navigation {
+      .wizard-nav {
+        .wizard-icon-circle {
+          border-color: $theme-dark-text-disabled-color;
+        }
+
+        .stepTitle {
+          color: $theme-dark-text-disabled-color;
+        }
+      }
+    }
+  }
+
+  .vs-con-table {
+    .vs-con-tbody {
+      background: $table-dark-stripe;
+      border: 2px solid $content-dark-bg;
+
+      .vs-table--tbody-table {
+        tr {
+          background: $table-light-stripe;
+        }
+
+        .vs-table--thead {
+          tr {
+            background: $table-dark-stripe;
+          }
+
+          .con-td-check {
+            background: $table-dark-stripe;
+          }
+        }
+      }
+    }
+
+    .con-edit-td {
+      background: $table-dark-stripe;
+    }
+
+    .is-selected {
+      .tr-values {
+        background: $table-dark-stripe !important;
+      }
+    }
+  }
+
+  .search-tab-filter {
+    background: $dark-card-color;
+  }
+
+  .fgpe-select .fgpe-select--input .vs__dropdown-toggle {
+    background: $theme-light-dark-bg;
+    background-color: $theme-light-dark-bg;
+  }
+
+  .vs-select--options {
+    background: $dark-card-color;
+    border-color: rgba($grey, 0.2);
+
+    .vs-select--item {
+      color: $grey;
+      border-color: rgba($grey, 0.2);
+      box-shadow: none;
+
+      &:hover {
+        background: $content-dark-bg;
+        // color: $grey;
+      }
+    }
+  }
+
+  .fgpe-select {
+    .vs__dropdown-toggle {
+
+      .vs__selected-options {
+
+        .vs__selected {
+          border: none;
+        }
+      }
+
+      .vs__actions {
+        .vs__clear {
+          color: $theme-dark-text-color;
+          fill: $theme-dark-text-color;
+        }
+
+        .vs__close {
+          color: $theme-dark-text-color;
+          opacity: 0.7;
+          fill: $theme-dark-text-color;
+        }
+
+        .vs__open-indicator {
+          color: $theme-dark-text-color;
+          fill: $theme-dark-text-color;
+
+          &:before {
             border-color: $grey;
+          }
         }
+      }
 
-        .vs-button--text,
-        .vs-icon {
-            color: $grey;
-        }
     }
 
-    .con-chips {
-        background: $theme-light-dark-bg;
-        .con-chips--input {
-            background: $theme-light-dark-bg;
-        }
+    .selected-tag {
+      color: $white;
+      background: $dark-card-color;
+      border: none;
     }
-    
-    .con-vs-chip {
+
+    .open-indicator {}
+
+    .vs__dropdown-menu {
+      background: $content-dark-bg;
+
+      li {
+        color: $white;
+      }
+    }
+
+    .fgpe-select--placeholder {
+      color: $theme-dark-text-color;
+    }
+  }
+
+  .quill-editor {
+    .ql-toolbar {
+      button {
+        color: $white;
+
+        svg {
+          path {
+            stroke: $white;
+          }
+        }
+      }
+
+      .ql-fill {
+        fill: $white;
+      }
+
+      .ql-stroke {
+        stroke: $white;
+      }
+
+      .ql-picker {
+        color: $white;
+
+        .ql-picker-options {
+          background: $dark-card-color;
+        }
+      }
+    }
+
+    .ql-editor {
+      &.ql-blank {
+        &::before {
+          color: rgba($white, .6);
+        }
+      }
+    }
+  }
+
+  .vdp-datepicker {
+    .vdp-datepicker__calendar {
+      background: $content-dark-bg;
+
+      header {
+
+        .prev,
+        .next,
+        .up {
+          &:not(.disabled) {
+            &:hover {
+              background: $dark-card-color;
+            }
+          }
+        }
+
+        .prev {
+          &:after {
+            border-right-color: $white;
+          }
+        }
+
+        .next {
+          &:after {
+            border-left-color: $white;
+          }
+        }
+      }
+
+      .disabled {
+        color: rgba($grey, .6);
+      }
+
+      .cell.highlighted {
         background: $dark-card-color;
-        color: $theme-dark-text-color !important;
-
-        &.vs-chip-primary {
-            background: rgba(var(--vs-primary), 1);
-        }
-
-        &.vs-chip-success {
-            background: rgba(var(--vs-success), 1);
-        }
-
-        &.vs-chip-danger {
-            background: rgba(var(--vs-danger), 1);
-        }
-
-        &.vs-chip-warning {
-            background: rgba(var(--vs-warning), 1);
-        }
-
-        &.vs-chip-info {
-            background: rgba(var(--vs-info), 1);
-        }
-
-        &.vs-chip-dark {
-            background: rgba(var(--vs-dark), 1);
-        }
-
-        .con-vs-avatar {
-            background-color: $theme-light-dark-bg !important;
-        }
-
-        &.con-color {
-            color: $white !important;
-        }
-    }
-
-    .vs-divider {
-        .vs-divider-border {
-            border-color: $theme-dark-text-color !important;
-
-            &.vs-divider-border-primary {
-                border-color: rgba(var(--vs-primary), 1) !important;
-            }
-
-            &.vs-divider-border-success {
-                border-color: rgba(var(--vs-success), 1) !important;
-            }
-
-            &.vs-divider-border-danger {
-                border-color: rgba(var(--vs-danger), 1) !important;
-            }
-
-            &.vs-divider-border-warning {
-                border-color: rgba(var(--vs-warning), 1) !important;
-            }
-
-            &.vs-divider-border-info {
-                border-color: rgba(var(--vs-info), 1) !important;
-            }
-
-            &.vs-divider-border-dark {
-                border-color: rgba($grey, 0.5) !important;
-            }
-        }
-
-        .vs-divider--text {
-            background: transparent;
-            color: $theme-dark-text-color !important;
-
-            .vs-icon {
-                color: $theme-dark-text-color;
-            }
-        }
-    }
-
-    .vs-dropdown--menu,
-    .vs-dropdown--menu--after {
-        background: $content-dark-bg;
-
-        .con-dropdown--group-ul {
-            background: $content-dark-bg;
-        }
-
-        .vs-dropdown--item {
-            .vs-dropdown--item-link.disabled {
-                color: $grey !important;
-            }
-        }
-    }
-
-    .con-vs-loading {
-        background: $dark-card-color;
-
-        h4.title-loading {
-            color: $theme-dark-text-color;
-        }
-    }
-
-    .vs-list {
-        .vs-list--header {
-            box-shadow: 0 7px 7px -5px rgba($theme-dark-heading-color, .8);
-
-        }
-
-        .vs-list--item {
-            border-color: rgba($theme-dark-text-color, .08);
-        }
-    }
-
-    .vs-navbar {
-        border-color: $content-dark-bg;
-
-        li {
-            &.vs-navbar--item {
-                a {
-                    color: $grey-light;
-                }
-
-                &.is-active-item {
-                    a {
-                        color: $white;
-                    }
-                }
-            }
-        }
-    }
-
-    .vs-navbar {
-        background-color: $theme-dark-bg !important;
-        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .5);
-    }
-
-    .vs-pagination--nav {
-        .vs-pagination--ul {
-            background: $theme-dark-bg;
-
-            .vs-pagination--li {
-                color: $theme-dark-text-color;
-            }
-        }
-
-        .vs-pagination--buttons {
-            background: $theme-dark-bg;
-            color: $theme-dark-text-color;
-        }
-    }
-
-    .con-vs-popup {
-        .vs-popup {
-            background: $content-dark-bg !important;
-            color: $theme-dark-text-color;
-
-            .vs-popup--header {
-                background: $dark-card-color !important;
-
-                .vs-popup--close {
-                    background: $content-dark-bg !important;
-                }
-            }
-        }
-    }
-
-    .vs-sidebar {
-        background: $content-dark-bg;
-
-        h4,
-        h5 {
-            color: $theme-dark-heading-color;
-        }
-
-        .vs-sidebar--items {
-            .vs-sidebar--item {
-                a {
-                    color: $theme-dark-text-color;
-                }
-            }
-        }
-
-        .vs-sidebar-group {
-            &.vs-sidebar-group-active {
-                >.group-header {
-                    background: $content-dark-bg;
-                }
-            }
-        }
-    }
-
-    // Slider
-    .con-vs-slider {
-        .vs-slider {
-            background: rgba($content-dark-bg, 0.5);
-        }
-    }
-
-    .ul-tabs {
-        .vs-tabs--li {
-            button {
-                color: $theme-dark-text-color;
-            }
-        }
-    }
-
-    .vs-tabs-dark {
-
-        .activeChild button,
-        button:not(:disabled):hover {
-            color: $grey !important;
-        }
-
-        .line-vs-tabs {
-            background: linear-gradient(30deg, rgba($grey, 1), rgba($grey, .5)) !important;
-            box-shadow: 0 0 8px 0 rgba($grey, .4) !important;
-        }
-    }
-
-    .vs-tooltip {
-        &.vs-tooltip-dark {
-            background: $content-dark-bg;
-        }
+      }
     }
 
     input {
-        background: $theme-dark-bg;
-        color: $theme-dark-text-color;
+      border: 0;
+      padding: 10px;
+    }
+  }
 
-        ~.vs-placeholder-label,
-        ~.vs-input--placeholder {
-            color: $theme-dark-text-color;
-        }
+  .vs-collapse {
+    &.shadow {
+      box-shadow: 0 0px 8px 0 rgba($white, .1) !important;
     }
 
-    .vs-con-textarea {
-        textarea {
-            background: $theme-dark-bg;
-            color: $theme-dark-text-color;
-        }
-        h4 {
-            color: $theme-dark-text-color;
-        }
-    }
-        
-    .vs-input--icon {
-        border-right-color: rgba($theme-dark-text-color, .2);
-
-        &.icon-after {
-            border-left-color: rgba($theme-dark-text-color, .2);
-        }
+    .vs-collapse-item {
+      border-bottom-color: rgba($white, .04);
     }
 
-    .vs-input-number {
-        background: $content-dark-bg;
+    &.border {
+      border-color: rgba($white, .1);
 
-        button {
-
-            &.vs-input-number--button-less,
-            &.vs-input-number--button-plus {
-
-                &:disabled,
-                &.limit {
-                    opacity: 0.75;
-                    background: $grey;
-                }
-            }
-        }
+      .vs-collapse-item {
+        border-bottom-color: rgba($white, .04);
+      }
     }
 
-    .vs-con-textarea {
-        background: $content-dark-bg;
-        color: $theme-dark-text-color;
-
-        .vs-textarea {
-            color: $theme-dark-text-color;
-
-            &:focus {
-                border-color: transparent;
-            }
-        }
-
-        &.focusx {
-            border-color: transparent;
-
-            h4 {
-                background: transparent;
-            }
-        }
-
-        &.textarea-danger {
-            .vs-textarea {
-                color: rgba(var(--vs-danger), 1);
-            }
-        }
+    &.margin {
+      .vs-collapse-item {
+        box-shadow: 0 2px 15px 0 rgba($white, .05)
+      }
     }
+  }
 
-    .vs-switch {
-        background: $content-dark-bg;
-
-        &.vs-switch-primary {
-            &.vs-switch-active {
-                background: rgba(var(--vs-primary), 1);
-            }
-        }
-
-        &.vs-switch-success {
-            &.vs-switch-active {
-                background: rgba(var(--vs-success), 1);
-            }
-        }
-
-        &.vs-switch-danger {
-            &.vs-switch-active {
-                background: rgba(var(--vs-danger), 1);
-            }
-        }
-
-        &.vs-switch-warning {
-            &.vs-switch-active {
-                background: rgba(var(--vs-warning), 1);
-            }
-        }
-
-        &.vs-switch-info {
-            &.vs-switch-active {
-                background: rgba(var(--vs-info), 1);
-            }
-        }
-
-        &.vs-switch-dark {
-            &.vs-switch-active {
-                background: $table-dark-stripe;
-            }
-        }
+  .fgpe-auto-suggest {
+    .auto-suggest-suggestions-list {
+      background-color: $content-dark-bg;
     }
+  }
 
-    .vs-radio-dark {
-        .vs-radio--circle {
-            background: $grey;
-            box-shadow: 0 3px 12px 0 rgba($grey, .4);
-        }
-    }
+  .con-vs-dialog {
+    .vs-dialog {
+      background: $content-dark-bg;
+      color: $white;
 
-    .op-block {
-        box-shadow: 1px 1px 10px rgba($white, .1)
-    }
-
-    .vs-input-dark {
-        .vs-input--input {
-            &:focus {
-                border-color: $grey !important;
-
-                ~.vs-input--placeholder {
-                    color: $grey;
-                }
-            }
-        }
-    }
-
-    .vs__dropdown-toggle {
-        background: $content-dark-bg;
-        color: $theme-dark-text-color;
-    }
-
-    .vue-form-wizard {
-        .wizard-icon-circle {
-            background-color: $dark-card-color;
-            border-color: $content-dark-bg;
-        }
-
-        .wizard-nav-pills {
-            &>li {
-                &>a {
-                    color: $theme-dark-text-disabled-color;
-
-                    .stepTitle {
-                        color: $theme-dark-text-disabled-color;
-                    }
-
-                    &:focus, &:hover {
-                        color: $theme-dark-text-disabled-color;
-                    }
-                }
-            }
-        }
-
-        .wizard-navigation {
-            .wizard-nav {
-                .wizard-icon-circle {
-                    border-color: $theme-dark-text-disabled-color;
-                }
-                .stepTitle {
-                    color: $theme-dark-text-disabled-color;
-                }
-            }
-        }
-    }
-
-    .vs-con-table {
-        .vs-con-tbody {
-            background: $table-dark-stripe;
-            border: 2px solid $content-dark-bg;
-
-            .vs-table--tbody-table {
-                tr {
-                    background: $table-light-stripe;
-                }
-
-                .vs-table--thead {
-                    tr {
-                        background: $table-dark-stripe;
-                    }
-
-                    .con-td-check {
-                        background: $table-dark-stripe;
-                    }
-                }
-            }
-        }
-
-        .con-edit-td {
-            background: $table-dark-stripe;
-        }
-
-        .is-selected {
-            .tr-values {
-                background: $table-dark-stripe !important;
-            }
-        }
-    }
-
-    .search-tab-filter {
+      header {
         background: $dark-card-color;
+
+        .con-title-after {
+          h3 {
+            color: $white;
+          }
+        }
+
+        .vs-dialog-cancel,
+        .vs-icon {
+          background: $content-dark-bg;
+          color: $white;
+        }
+      }
+
+      footer {
+        .vs-button--text {
+          color: $white;
+        }
+      }
+
+      .vs-dialog-text {
+        .date-label {
+          color: $white;
+        }
+      }
+
+      input,
+      .vs-con-textarea {
+        background: $dark-card-color;
+      }
+
+      .con-upload {
+
+        .con-input-upload,
+        .con-img-upload {
+          background: $dark-card-color;
+        }
+      }
+
+      .quill-editor {
+        background: $table-light-stripe;
+      }
+    }
+  }
+
+  .fgpe-list {
+
+    .fgpe-list--header,
+    .fgpe-list--item {
+      background-color: $grid-dark-color;
     }
 
-    .fgpe-select .fgpe-select--input .vs__dropdown-toggle {
+    .fgpe-list--header {
+      background-color: $theme-light-dark-bg;
+    }
+
+    .fgpe-list--item {
+      border-bottom: 1px solid $table-dark-stripe;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  .fgpe-pond {
+    .filepond--panel-root {
+      background-color: $theme-light-dark-bg;
+    }
+
+    .filepond--file {
+      color: $white;
+    }
+
+    .filepond--item-panel {
+      background-color: $grid-dark-color;
+    }
+  }
+
+  .fgpe-card {
+
+    .vs-pagination--nav {
+      .vs-pagination--ul {
         background: $theme-light-dark-bg;
+
+        .vs-pagination--li {
+          color: $white;
+        }
+      }
+
+      .vs-pagination--buttons {
+        background: $theme-light-dark-bg;
+        color: $white;
+      }
+    }
+
+    .con-vs-avatar {
+      background: $theme-light-dark-bg !important;
+
+      &.con-vs-avatar-primary {
+        background: rgba(var(--vs-primary), 1) !important;
+      }
+
+      &.con-vs-avatar-success {
+        background: rgba(var(--vs-success), 1) !important;
+      }
+
+      &.con-vs-avatar-danger {
+        background: rgba(var(--vs-danger), 1) !important;
+      }
+
+      &.con-vs-avatar-warning {
+        background: rgba(var(--vs-warning), 1) !important;
+      }
+
+      &.con-vs-avatar-info {
+        background: rgba(var(--vs-info), 1) !important;
+      }
+
+      &.con-vs-avatar-dark {
+        background: rgba($grey, 1) !important;
+      }
+    }
+
+    .vs-navbar {
+      background-color: $theme-light-dark-bg !important;
+      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .5);
+    }
+
+    input,
+    textarea,
+    select {
+      background: $theme-light-dark-bg;
+    }
+  }
+
+  .fgpe-tree {
+    background-color: $grid-dark-color;
+    color: $white;
+
+    .tree-node {
+      &.selected>.tree-content {
         background-color: $theme-light-dark-bg;
-    }
-    
-    .vs-select--options {
-        background: $dark-card-color;
-        border-color: rgba($grey, 0.2);
+      }
 
-        .vs-select--item {
-            color: $grey;
-            border-color: rgba($grey, 0.2);
-            box-shadow: none;
-
-            &:hover {
-                background: $content-dark-bg;
-                // color: $grey;
-            }
-        }
+      &:not(.selected)>.tree-content:hover {
+        background-color: $theme-light-dark-bg;
+      }
     }
 
-    .fgpe-select {
-        .vs__dropdown-toggle {
-
-            .vs__selected-options {
-
-                .vs__selected {
-                    border: none;
-                }
-            }
-
-            .vs__actions {
-                .vs__clear {
-                    color: $theme-dark-text-color;
-                    fill: $theme-dark-text-color;
-                }
-
-                .vs__close {
-                    color: $theme-dark-text-color;
-                    opacity: 0.7;
-                    fill: $theme-dark-text-color;
-                }
-
-                .vs__open-indicator {
-                    color: $theme-dark-text-color;
-                    fill: $theme-dark-text-color;
-
-                    &:before {
-                        border-color: $grey;
-                    }
-                }
-            }
-            
-        }
-
-        .selected-tag {
-            color: $white;
-            background: $dark-card-color;
-            border: none;
-        }
-
-        .open-indicator {
-        }
-
-        .vs__dropdown-menu {
-            background: $content-dark-bg;
-
-            li {
-                color: $white;
-            }
-        }
-
-        .fgpe-select--placeholder {
-            color: $theme-dark-text-color;
-        }
+    .tree-anchor {
+      color: $theme-dark-heading-color;
     }
-
-    .quill-editor {
-        .ql-toolbar {
-            button {
-                color: $white;
-
-                svg {
-                    path {
-                        stroke: $white;
-                    }
-                }
-            }
-
-            .ql-fill {
-                fill: $white;
-            }
-
-            .ql-stroke {
-                stroke: $white;
-            }
-
-            .ql-picker {
-                color: $white;
-
-                .ql-picker-options {
-                    background: $dark-card-color;
-                }
-            }
-        }
-
-        .ql-editor {
-            &.ql-blank {
-                &::before {
-                    color: rgba($white, .6);
-                }
-            }
-        }
-    }
-
-    .vdp-datepicker {
-        .vdp-datepicker__calendar {
-            background: $content-dark-bg;
-
-            header {
-
-                .prev,
-                .next,
-                .up {
-                    &:not(.disabled) {
-                        &:hover {
-                            background: $dark-card-color;
-                        }
-                    }
-                }
-
-                .prev {
-                    &:after {
-                        border-right-color: $white;
-                    }
-                }
-
-                .next {
-                    &:after {
-                        border-left-color: $white;
-                    }
-                }
-            }
-
-            .disabled {
-                color: rgba($grey, .6);
-            }
-
-            .cell.highlighted {
-                background: $dark-card-color;
-            }
-        }
-
-        input {
-            border: 0;
-            padding: 10px;
-        }
-    }
-
-    .vs-collapse {
-        &.shadow {
-            box-shadow: 0 0px 8px 0 rgba($white, .1) !important;
-        }
-
-        .vs-collapse-item {
-            border-bottom-color: rgba($white, .04);
-        }
-
-        &.border {
-            border-color: rgba($white, .1);
-
-            .vs-collapse-item {
-                border-bottom-color: rgba($white, .04);
-            }
-        }
-
-        &.margin {
-            .vs-collapse-item {
-                box-shadow: 0 2px 15px 0 rgba($white, .05)
-            }
-        }
-    }
-
-    .fgpe-auto-suggest {
-        .auto-suggest-suggestions-list {
-            background-color: $content-dark-bg;
-        }
-    }
-
-    .con-vs-dialog {
-        .vs-dialog {
-            background: $content-dark-bg;
-            color: $white;
-
-            header {
-                background: $dark-card-color;
-
-                .con-title-after {
-                    h3 {
-                        color: $white;
-                    }
-                }
-
-                .vs-dialog-cancel,
-                .vs-icon {
-                    background: $content-dark-bg;
-                    color: $white;
-                }
-            }
-
-            footer {
-                .vs-button--text {
-                    color: $white;
-                }
-            }
-
-            .vs-dialog-text {
-                .date-label {
-                    color: $white;
-                }
-            }
-
-            input,
-            .vs-con-textarea {
-                background: $dark-card-color;
-            }
-
-            .con-upload {
-
-                .con-input-upload,
-                .con-img-upload {
-                    background: $dark-card-color;
-                }
-            }
-
-            .quill-editor {
-                background: $table-light-stripe;
-            }
-        }
-    }
-
-    .fgpe-list {
-        .fgpe-list--header, .fgpe-list--item {
-            background-color: $grid-dark-color;
-        }
-        
-        .fgpe-list--header {
-            background-color: $theme-light-dark-bg;
-        }
-        
-        .fgpe-list--item {
-            border-bottom: 1px solid $table-dark-stripe;
-
-            &:last-child {
-                border-bottom: 0;
-            }
-        }
-    }
-
-    .fgpe-pond {
-        .filepond--panel-root {
-            background-color: $theme-light-dark-bg;
-        }
-
-        .filepond--file {
-            color: $white;
-        }
-
-        .filepond--item-panel {
-            background-color: $grid-dark-color;
-        }
-    }
-
-    .fgpe-card {
-
-        .vs-pagination--nav {
-            .vs-pagination--ul {
-                background: $theme-light-dark-bg;
-
-                .vs-pagination--li {
-                    color: $white;
-                }
-            }
-
-            .vs-pagination--buttons {
-                background: $theme-light-dark-bg;
-                color: $white;
-            }
-        }
-
-        .con-vs-avatar {
-            background: $theme-light-dark-bg !important;
-
-            &.con-vs-avatar-primary {
-                background: rgba(var(--vs-primary), 1) !important;
-            }
-
-            &.con-vs-avatar-success {
-                background: rgba(var(--vs-success), 1) !important;
-            }
-
-            &.con-vs-avatar-danger {
-                background: rgba(var(--vs-danger), 1) !important;
-            }
-
-            &.con-vs-avatar-warning {
-                background: rgba(var(--vs-warning), 1) !important;
-            }
-
-            &.con-vs-avatar-info {
-                background: rgba(var(--vs-info), 1) !important;
-            }
-
-            &.con-vs-avatar-dark {
-                background: rgba($grey, 1) !important;
-            }
-        }
-
-        .vs-navbar {
-            background-color: $theme-light-dark-bg !important;
-            box-shadow: 0 4px 20px 0 rgba(0,0,0,.5);
-        }
-
-        input, textarea, select {
-            background: $theme-light-dark-bg;
-        }
-    }
+  }
 }

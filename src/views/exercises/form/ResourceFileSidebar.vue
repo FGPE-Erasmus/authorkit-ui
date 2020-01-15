@@ -54,7 +54,7 @@ import {
   EXERCISE_FILE_READ
 } from "@/store/exercises/exercise.constants";
 
-import AddUpdateFileSidebar from "./AddUpdateFileSidebar";
+import AddUpdateFileSidebar from "@/components/sidebar-form/AddUpdateFileSidebar";
 
 export default {
   name: "resource-file-sidebar",

@@ -14,14 +14,14 @@ class ExercisesService extends HttpService {
   list(query) {
     return this.client.get(`exercises`, {
       headers: this.headers,
-      params: this.buildQuery(query)
+      params: query && this.buildQuery(query)
     });
   }
 
   getOne(id, query) {
     return this.client.get(`exercises/${id}`, {
       headers: this.headers,
-      params: query
+      params: query && this.buildQuery(query)
     });
   }
 

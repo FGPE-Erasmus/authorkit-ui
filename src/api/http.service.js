@@ -45,7 +45,18 @@ export default class HttpService {
     this.client.interceptors.response.use(success, error);
   }
 
-  buildQuery({ page, limit, filter, or, sort, fields, join, offset, cache }) {
+  buildQuery({
+    page,
+    limit,
+    filter,
+    or,
+    sort,
+    fields,
+    select,
+    join,
+    offset,
+    cache
+  }) {
     const searchParams = new URLSearchParams();
     if (page) {
       searchParams.append("page", page);
@@ -69,9 +80,10 @@ export default class HttpService {
       });
     }
     if (fields) {
-      fields.forEach(f => {
-        searchParams.append("select", f);
-      });
+      searchParams.append("fields", fields.join(","));
+    }
+    if (select) {
+      searchParams.append("select", select.join(","));
     }
     if (join) {
       join.forEach(j => {

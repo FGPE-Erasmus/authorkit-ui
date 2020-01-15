@@ -10,12 +10,16 @@ if (localStorage.getItem("userRole")) {
 }
 
 export default new AclCreate({
-  initial: initialRole,
+  initial: initialRole || "public",
   notfound: "/401",
   router,
   acceptLocalRules: true,
   globalRules: {
     admin: new AclRule("admin").generate(),
-    user: new AclRule("user").or("admin").generate()
+    user: new AclRule("user").or("admin").generate(),
+    public: new AclRule("*")
+      .or("user")
+      .or("admin")
+      .generate()
   }
 });

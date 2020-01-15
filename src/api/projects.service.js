@@ -14,14 +14,14 @@ class ProjectsService extends HttpService {
   list(query) {
     return this.client.get(`projects`, {
       headers: this.headers,
-      params: this.buildQuery(query)
+      params: query && this.buildQuery(query)
     });
   }
 
   getOne(id, query) {
     return this.client.get(`projects/${id}`, {
       headers: this.headers,
-      params: query
+      params: query && this.buildQuery(query)
     });
   }
 

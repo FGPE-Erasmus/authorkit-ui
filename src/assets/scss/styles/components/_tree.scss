@@ -1,0 +1,55 @@
+@import '../_variables.scss';
+
+.fgpe-tree {
+  width: 100%;
+  position: relative;
+  background-color: $grey;
+  -webkit-box-shadow: 0 7px 7px -5px rgba(0, 0, 0, .08);
+  box-shadow: 0 7px 7px -5px rgba(0, 0, 0, .08);
+
+  .tree-root {
+    padding: 0 !important;
+  }
+
+  .tree-arrow.has-child {
+    margin: 0 0 0 8px;
+  }
+
+  .tree-node {
+    &.selected > .tree-content {
+      background-color: $grey-light;
+    }
+    &:not(.selected) > .tree-content:hover {
+      background-color: $grey-light;
+    }
+  }
+
+  &__node {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+    width: 100%;
+    padding: 4px;
+    /* background-color: $grey-light; */
+
+    &__name {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      justify-items: center;
+      align-items: center;
+
+      font-weight: 700;
+    }
+
+    &__actions {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+    }
+  }
+}

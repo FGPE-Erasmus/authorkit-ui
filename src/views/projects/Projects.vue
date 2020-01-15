@@ -144,8 +144,8 @@ export default {
             this.$vs.notify({
               title: "Project Created",
               text: `Project ${res.name} has been created successfully.`,
-              iconPack: "feather",
-              icon: "icon-check-circle",
+              iconPack: "mi",
+              icon: "check_circle",
               color: "success"
             });
             this.showSidebarForm = false;
@@ -172,8 +172,8 @@ export default {
             this.$vs.notify({
               title: "Project Updated",
               text: `Project ${res.name} has been updated successfully.`,
-              iconPack: "feather",
-              icon: "icon-check-circle",
+              iconPack: "mi",
+              icon: "check_circle",
               color: "success"
             });
             this.showSidebarForm = false;

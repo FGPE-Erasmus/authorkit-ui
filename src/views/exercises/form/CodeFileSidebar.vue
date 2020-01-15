@@ -83,7 +83,7 @@ import {
 } from "@/store/exercises/exercise.constants";
 
 import FgpeSelect from "@/components/FgpeSelect";
-import AddUpdateFileSidebar from "./AddUpdateFileSidebar";
+import AddUpdateFileSidebar from "@/components/sidebar-form/AddUpdateFileSidebar";
 
 export default {
   name: "code-file-sidebar",

@@ -198,6 +198,13 @@ export default {
             slug: "exercises",
             icon: "FileTextIcon",
             i18n: "Exercises"
+          },
+          {
+            url: `/projects/${this.currentProjectId}/gamification-layers`,
+            name: "Gamification Layers",
+            slug: "gamification-layers",
+            icon: "LayersIcon",
+            i18n: "Gamification Layers"
           }
         ];
       } else {

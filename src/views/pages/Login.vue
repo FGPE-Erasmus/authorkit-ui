@@ -237,8 +237,8 @@ export default {
           this.$vs.notify({
             title: "Login Succeeded",
             text: "You have been authenticated successfully.",
-            iconPack: "feather",
-            icon: "icon-check-circle",
+            iconPack: "mi",
+            icon: "check_circle",
             color: "success"
           });
         })
@@ -246,8 +246,8 @@ export default {
           this.$vs.notify({
             title: "Login Failed",
             text: err.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
         });

@@ -12,10 +12,50 @@ extend("password", {
   message: i18n.t("validation.passwordConfirmation"),
   params: [{ name: "other", isTarget: true }]
 });
+extend("sameLength", {
+  validate: (value, { other }) =>
+    (!value && !other) || (value && other && value.length === other.length),
+  message: i18n.t("validation.sameLength"),
+  params: [{ name: "other", isTarget: true }]
+});
 extend("eachMax", {
   params: ["max"],
   message: i18n.t("validation.eachMax"),
-  validate: (value, { max }) => value && value.every(elem => elem.length <= max)
+  validate: (value, { max }) =>
+    value && value.every(elem => elem.length <= Number(max))
+});
+extend("minLength", {
+  params: ["length"],
+  message: i18n.t("validation.minLength"),
+  validate: (value, { length }) => value && value.length >= Number(length)
+});
+extend("criteria", {
+  message: i18n.t("validation.criteria"),
+  validate: value =>
+    value &&
+    value.filter((v, i) => {
+      if (i + 1 < value.length && !v.junctor) {
+        return true;
+      }
+      if (
+        v.condition.left_entity &&
+        v.condition.left_property &&
+        v.condition.comparing_function &&
+        v.condition.right_entity &&
+        v.condition.right_property
+      ) {
+        return false;
+      } else if (
+        (v.condition.comparing_function === "IS_EMPTY" ||
+          v.condition.comparing_function === "NOT_EMPTY") &&
+        v.condition.left_entity &&
+        v.condition.left_property &&
+        v.condition.comparing_function
+      ) {
+        return false;
+      }
+      return true;
+    }).length === 0
 });
 
 // Install messages

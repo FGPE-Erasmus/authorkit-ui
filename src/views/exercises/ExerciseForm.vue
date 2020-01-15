@@ -11,7 +11,7 @@
       <tab-content
         :title="$t('Exercise.Form.Metadata')"
         class="mb-5"
-        icon="feather icon-tag"
+        icon="mi label"
         :before-change="submitMetadata"
       >
         <ValidationObserver ref="metadata-observer">
@@ -21,14 +21,14 @@
       <tab-content
         :title="$t('Exercise.Form.Presentation')"
         class="mb-5"
-        icon="feather icon-eye"
+        icon="mi remove_red_eye"
       >
         <exercise-presentation-step :id="exerciseId" v-model="presentation" />
       </tab-content>
       <tab-content
         :title="$t('Exercise.Form.Evaluation')"
         class="mb-5"
-        icon="feather icon-check-circle"
+        icon="mi check_circle"
       >
         <exercise-evaluation-step :id="exerciseId" v-model="evaluation" />
       </tab-content>
@@ -194,7 +194,26 @@ export default {
   methods: {
     getExercise(id) {
       this.$store
-        .dispatch(`${MODULE_BASE}/${EXERCISE_GET}`, id)
+        .dispatch(`${MODULE_BASE}/${EXERCISE_GET}`, {
+          id,
+          query: {
+            join: [
+              "instructions",
+              "statements",
+              "embeddables",
+              "skeletons",
+              "libraries",
+              "static_correctors",
+              "dynamic_correctors",
+              "solutions",
+              "templates",
+              "tests",
+              "test_sets",
+              "test_generators",
+              "feedback_generators"
+            ]
+          }
+        })
         .then(res => {
           this.unwrap(res);
           this.$refs["exercise-wizard"].activateAll();
@@ -288,8 +307,8 @@ export default {
             this.$vs.notify({
               title: "Exercise Created",
               text: `Exercise ${res.title} has been created successfully.`,
-              iconPack: "feather",
-              icon: "icon-check-circle",
+              iconPack: "mi",
+              icon: "check_circle",
               color: "success"
             });
             resolve(res);
@@ -320,8 +339,8 @@ export default {
             this.$vs.notify({
               title: "Exercise Updated",
               text: `Exercise ${res.title} has been updated successfully.`,
-              iconPack: "feather",
-              icon: "icon-check-circle",
+              iconPack: "mi",
+              icon: "check_circle",
               color: "success"
             });
             resolve(res);

@@ -111,6 +111,9 @@
                     </div>
                   </template>
                 </fgpe-select>
+                <span v-show="errors[0]" class="text-danger text-sm">
+                  {{ errors[0] }}
+                </span>
               </ValidationProvider>
             </div>
           </div>

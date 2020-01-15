@@ -1,0 +1,26 @@
+export const MODULE_BASE = "reward";
+
+// actions
+export const REWARD_GET = "reward-get";
+export const REWARD_CREATE = "reward-create";
+export const REWARD_UPDATE = "reward-update";
+export const REWARD_LIST = "reward-list";
+export const REWARD_DELETE = "reward-delete";
+
+// mutations
+export const REWARD_GET_REQUEST = "REWARD_GET_REQUEST";
+export const REWARD_GET_SUCCESS = "REWARD_GET_SUCCESS";
+export const REWARD_GET_ERROR = "REWARD_GET_ERROR";
+export const REWARD_CREATE_REQUEST = "REWARD_CREATE_REQUEST";
+export const REWARD_CREATE_SUCCESS = "REWARD_CREATE_SUCCESS";
+export const REWARD_CREATE_ERROR = "REWARD_CREATE_ERROR";
+export const REWARD_UPDATE_REQUEST = "REWARD_UPDATE_REQUEST";
+export const REWARD_UPDATE_SUCCESS = "REWARD_UPDATE_SUCCESS";
+export const REWARD_UPDATE_ERROR = "REWARD_UPDATE_ERROR";
+export const REWARD_LIST_REQUEST = "REWARD_LIST_REQUEST";
+export const REWARD_LIST_SUCCESS = "REWARD_LIST_SUCCESS";
+export const REWARD_LIST_ERROR = "REWARD_LIST_ERROR";
+export const REWARD_DELETE_REQUEST = "REWARD_DELETE_REQUEST";
+export const REWARD_DELETE_SUCCESS = "REWARD_DELETE_SUCCESS";
+export const REWARD_DELETE_ERROR = "REWARD_DELETE_ERROR";
+export const REWARD_SET_ACTIVE = "REWARD_SET_ACTIVE";

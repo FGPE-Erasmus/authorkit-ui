@@ -41,7 +41,7 @@
             </label>
             <vs-input-number
               name="weight"
-              v-model="testset.weight"
+              v-model.number="testset.weight"
               :step="1"
               min="0"
               max="100"
@@ -74,7 +74,7 @@
 <script>
 import { ValidationProvider } from "vee-validate";
 
-import AddUpdateFileSidebar from "./AddUpdateFileSidebar";
+import AddUpdateFileSidebar from "@/components/sidebar-form/AddUpdateFileSidebar";
 
 export default {
   name: "testset-sidebar",
