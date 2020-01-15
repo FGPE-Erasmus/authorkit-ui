@@ -59,7 +59,7 @@
       <tab-content
         :title="$t('GamificationLayer.Challenges')"
         class="mb-5"
-        icon="mi list"
+        icon="mi casino"
       >
         <gamification-layer-challenges-step
           ref="challenges-step"
