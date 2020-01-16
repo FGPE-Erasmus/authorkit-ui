@@ -62,7 +62,7 @@
           <wizard-button
             v-else
             @click.native="$router.push(`/projects/${projectId}/exercises`)"
-            class="wizard-footer-right finish-button"
+            class="wizard-footer-right vs-button vs-button-primary finish-button"
             :style="props.fillButtonStyle"
           >
             {{ $t("Form.Done") }}
