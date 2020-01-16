@@ -45,6 +45,9 @@
               }"
               class="mt-5 w-full"
             />
+            <span v-show="errors[0]" class="text-danger text-sm">
+              {{ errors[0] }}
+            </span>
           </ValidationProvider>
         </div>
       </div>
@@ -338,8 +341,8 @@ export default {
           this.$vs.notify({
             title: "Failed to get exercises",
             text: err.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
         });

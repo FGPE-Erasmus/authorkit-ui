@@ -92,6 +92,9 @@
                         </div>
                       </template>
                     </fgpe-select>
+                    <span v-show="errors[0]" class="text-danger text-sm">
+                      {{ errors[0] }}
+                    </span>
                   </ValidationProvider>
                 </div>
                 <div v-if="line.type === 'GIVE'" class="w-full mb-1">
@@ -124,6 +127,9 @@
                         </div>
                       </template>
                     </fgpe-select>
+                    <span v-show="errors[0]" class="text-danger text-sm">
+                      {{ errors[0] }}
+                    </span>
                   </ValidationProvider>
                 </div>
                 <div class="w-full">
@@ -308,8 +314,8 @@ export default {
           this.$vs.notify({
             title: "Failed to get rewards",
             text: err.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
         });

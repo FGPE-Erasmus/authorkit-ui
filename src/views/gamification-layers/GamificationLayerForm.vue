@@ -208,8 +208,8 @@ export default {
           this.$vs.notify({
             title: "Failed to get gamification layers",
             text: err.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
         });
@@ -229,13 +229,13 @@ export default {
     },
 
     handleTabChange(prevIndex, nextIndex) {
-      if (nextIndex === 1) {
+      if (nextIndex === 1 && this.$refs["rewards-step"]) {
         this.$refs["rewards-step"].refreshRewards();
-      } else if (nextIndex === 2) {
+      } else if (nextIndex === 2 && this.$refs["rules-step"]) {
         this.$refs["rules-step"].refreshRules();
-      } else if (nextIndex === 3) {
+      } else if (nextIndex === 3 && this.$refs["leaderboards-step"]) {
         this.$refs["leaderboards-step"].refreshLeaderboards();
-      } else if (nextIndex === 4) {
+      } else if (nextIndex === 4 && this.$refs["challenges-step"]) {
         this.$refs["challenges-step"].refreshChallenges();
       }
     },
@@ -294,8 +294,8 @@ export default {
             this.$vs.notify({
               title: "Failed to create gamification layer",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -326,8 +326,8 @@ export default {
             this.$vs.notify({
               title: "Failed to update gamification layer",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);

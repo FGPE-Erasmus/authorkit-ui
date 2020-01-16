@@ -185,6 +185,15 @@ const router = new Router({
           meta: {
             rule: ["admin"]
           }
+        },
+        {
+          path: "/pages/reset-password",
+          name: "pageResettPassword",
+          component: () => import("@/views/pages/ResetPassword.vue"),
+          props: route => ({ ...route.params, ...route.query }),
+          meta: {
+            rule: ["admin"]
+          }
         }
       ]
     },
@@ -203,6 +212,7 @@ router.beforeEach((to, from, next) => {
   if (
     to.path === "/pages/login" ||
     to.path === "/pages/forgot-password" ||
+    to.path === "/pages/reset-password" ||
     to.path === "/401" ||
     to.path === "/403" ||
     to.path === "/404" ||

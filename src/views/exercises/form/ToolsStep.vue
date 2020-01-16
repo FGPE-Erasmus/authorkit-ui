@@ -183,8 +183,8 @@ export default {
             this.$vs.notify({
               title: `Failed to create ${type} file`,
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -208,8 +208,8 @@ export default {
             this.$vs.notify({
               title: `Failed to update ${type} file`,
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -248,8 +248,8 @@ export default {
             this.$vs.notify({
               title: `Failed to delete ${type} file`,
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);

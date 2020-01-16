@@ -213,7 +213,7 @@ export default {
           this.$vs.notify({
             title: "Account Created",
             text: "You are successfully registered!",
-            iconPack: "feather",
+            iconPack: "mi",
             icon: "icon-check",
             color: "success"
           });
@@ -225,8 +225,8 @@ export default {
           this.$vs.notify({
             title: "Registration Failed",
             text: error.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
         });
@@ -236,8 +236,8 @@ export default {
       this.$vs.notify({
         title: "Login Attempt",
         text: "You are already logged in!",
-        iconPack: "feather",
-        icon: "icon-alert-circle",
+        iconPack: "mi",
+        icon: "warning",
         color: "warning"
       });
     }

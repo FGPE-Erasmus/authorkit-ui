@@ -35,13 +35,13 @@ class AuthService extends HttpService {
     });
   }
 
-  requestPasswordReset(email) {
+  resetPassword(email) {
     return this.client.post("auth/password/reset", {
       email
     });
   }
 
-  resetPassword(reset_token, password) {
+  setPassword(reset_token, password) {
     return this.client.post("auth/password/new", {
       resetToken: reset_token,
       password

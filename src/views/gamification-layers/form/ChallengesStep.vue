@@ -212,8 +212,8 @@ export default {
           this.$vs.notify({
             title: "Failed to get challenges",
             text: err.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
         });
@@ -456,8 +456,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Create Exercise",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -486,8 +486,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Update Challenge",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -513,8 +513,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Delete Challenge",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -558,8 +558,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Create Leaderboard",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -589,8 +589,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Update Leaderboard",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -616,8 +616,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Delete Leaderboard",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -658,8 +658,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Create Reward",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -689,8 +689,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Update Reward",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -716,8 +716,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Delete Reward",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -758,8 +758,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Create Rule",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -789,8 +789,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Update Rule",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -816,8 +816,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Delete Rule",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);

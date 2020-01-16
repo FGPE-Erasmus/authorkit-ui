@@ -77,8 +77,8 @@ export default {
           this.$vs.notify({
             title: "Email Verified",
             text: "You will be automatically redirected to your dashboard.",
-            iconPack: "feather",
-            icon: "icon-check-circle",
+            iconPack: "mi",
+            icon: "check_circle",
             color: "success"
           });
         })
@@ -86,8 +86,8 @@ export default {
           this.$vs.notify({
             title: "Email Verification Failed",
             text: err.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
         });
@@ -97,8 +97,8 @@ export default {
       this.$vs.notify({
         title: "Login Attempt",
         text: "You are already logged in!",
-        iconPack: "feather",
-        icon: "icon-alert-circle",
+        iconPack: "mi",
+        icon: "warning",
         color: "warning"
       });
     }

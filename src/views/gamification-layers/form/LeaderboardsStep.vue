@@ -96,8 +96,8 @@ export default {
           this.$vs.notify({
             title: "Failed to get leaderboards",
             text: err.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
         });
@@ -200,8 +200,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Create Leaderboard",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -231,8 +231,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Update Leaderboard",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -258,8 +258,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Delete Leaderboard",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);

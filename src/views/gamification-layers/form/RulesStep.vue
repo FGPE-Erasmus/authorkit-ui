@@ -96,8 +96,8 @@ export default {
           this.$vs.notify({
             title: "Failed to get rules",
             text: err.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
         });
@@ -197,8 +197,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Create Rule",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -228,8 +228,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Update Rule",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);
@@ -255,8 +255,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Delete Rule",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
             reject(err);

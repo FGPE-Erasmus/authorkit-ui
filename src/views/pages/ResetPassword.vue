@@ -16,60 +16,71 @@
             <div
               class="vx-col flex sm:w-full md:w-full lg:w-1/2 mx-auto d-theme-dark-bg"
             >
-              <div class="vx-col flex flex-col w-full content-between p-8">
+              <ValidationObserver
+                v-slot="{ invalid }"
+                tag="form"
+                class="vx-col flex flex-col w-full justify-between p-8"
+              >
                 <div class="fgpe-card__title mb-8">
                   <h4 class="mb-4">{{ $t("ResetPassword.Title") }}</h4>
                   <p>{{ $t("ResetPassword.Message") }}</p>
                 </div>
 
-                <ValidationProvider
-                  rules="required|min:8|max:100|password:confirmation"
-                  name="password"
-                  mode="eager"
-                  :persist="true"
-                  v-slot="{ errors }"
-                >
-                  <vs-input
-                    ref="password"
-                    type="password"
+                <div class="w-full">
+                  <ValidationProvider
+                    rules="required|min:8|max:100|password:confirmation"
                     name="password"
-                    :label-placeholder="$t('ResetPassword.Password')"
-                    v-model="password"
-                    class="w-full mt-6"
-                  />
-                  <span class="text-danger text-sm">{{ errors[0] }}</span>
-                </ValidationProvider>
+                    mode="eager"
+                    :persist="true"
+                    v-slot="{ errors }"
+                  >
+                    <vs-input
+                      ref="password"
+                      type="password"
+                      name="password"
+                      :label-placeholder="$t('ResetPassword.Password')"
+                      v-model="password"
+                      class="w-full mt-6"
+                    />
+                    <span class="text-danger text-sm">{{ errors[0] }}</span>
+                  </ValidationProvider>
 
-                <ValidationProvider
-                  rules="required"
-                  vid="confirmation"
-                  name="password_confirmation"
-                  mode="eager"
-                  :persist="true"
-                  v-slot="{ errors }"
-                >
-                  <vs-input
-                    type="password"
+                  <ValidationProvider
+                    rules="required"
+                    vid="confirmation"
                     name="password_confirmation"
-                    :label-placeholder="$t('ResetPassword.ConfirmPassword')"
-                    v-model="confirm_password"
-                    class="w-full mt-6"
-                  />
-                  <span class="text-danger text-sm">{{ errors[0] }}</span>
-                </ValidationProvider>
+                    mode="eager"
+                    :persist="true"
+                    v-slot="{ errors }"
+                  >
+                    <vs-input
+                      type="password"
+                      name="password_confirmation"
+                      :label-placeholder="$t('ResetPassword.ConfirmPassword')"
+                      v-model="confirm_password"
+                      class="w-full mt-6"
+                    />
+                    <span class="text-danger text-sm">{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </div>
 
                 <div
-                  class="flex flex-wrap justify-between flex-col-reverse sm:flex-row"
+                  class="flex flex-wrap justify-between flex-col-reverse sm:flex-row mt-6 "
                 >
                   <vs-button
                     type="border"
                     to="/pages/login"
-                    class="w-full sm:w-auto mb-8 sm:mb-auto mt-3 sm:mt-auto"
-                    >{{ $t("Password.BackToLogin")}}</vs-button
+                    class="w-full md:w-auto mt-6"
+                    >{{ $t("ResetPassword.BackToLogin") }}</vs-button
                   >
-                  <vs-button class="w-full sm:w-auto">{{ $t("Password.Reset") }}</vs-button>
+                  <vs-button
+                    class="w-full md:w-auto mt-6"
+                    @click="reset"
+                    :disabled="invalid"
+                    >{{ $t("ResetPassword.Reset") }}</vs-button
+                  >
                 </div>
-              </div>
+              </ValidationObserver>
             </div>
           </div>
         </div>
@@ -79,7 +90,7 @@
 </template>
 
 <script>
-/* import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 import { MODULE_BASE, AUTH_SET_PASSWORD } from "@/store/auth/auth.constants";
@@ -89,43 +100,58 @@ export default {
     ValidationObserver,
     ValidationProvider
   },
+  props: {
+    token: {
+      type: String
+    }
+  },
+  computed: {
+    ...mapState({
+      lights: state => state.theme_settings.lights
+    })
+  },
   data() {
     return {
-      email: "",
       password: "",
       confirm_password: ""
     };
   },
+  mounted() {
+    if (!this.token) {
+      this.$router.push({ path: "/500" });
+    }
+  },
   methods: {
-    resetPassword() {
+    ...mapGetters({
+      isUserLoggedIn: "auth/isUserLoggedIn"
+    }),
+
+    reset() {
       if (this.isUserLoggedIn()) {
         this.notifyAlreadyLoggedIn();
-        return;
+        return false;
       }
-
       this.$store
         .dispatch(`${MODULE_BASE}/${AUTH_SET_PASSWORD}`, {
-          resetToken: this.email,
+          reset_token: this.token,
           password: this.password
         })
         .then(() => {
           this.$vs.notify({
-            title: "Account Password Reset",
-            text: "You have successfully reset your password!",
-            iconPack: "feather",
-            icon: "icon-check",
+            title: "Reset Password Succeeded",
+            text:
+              "Your password has been reset, you may now access to your dashboard.",
+            iconPack: "mi",
+            icon: "check_circle",
             color: "success"
           });
-          this.$router.push(
-            this.$router.currentRoute.query.to || "/pages/login"
-          );
         })
-        .catch(error => {
+        .catch(err => {
           this.$vs.notify({
-            title: "Account Password Reset Failed",
-            text: error.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            title: "Reset Password Failed",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
         });
@@ -135,12 +161,11 @@ export default {
       this.$vs.notify({
         title: "Login Attempt",
         text: "You are already logged in!",
-        iconPack: "feather",
-        icon: "icon-alert-circle",
+        iconPack: "mi",
+        icon: "warning",
         color: "warning"
       });
     }
   }
-  
-}; */
+};
 </script>

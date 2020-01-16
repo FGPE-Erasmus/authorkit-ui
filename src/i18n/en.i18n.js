@@ -39,11 +39,12 @@ export default {
     Verify: "Verify"
   },
   ForgotPassword: {
-    Title: "You did it again?!",
+    Title: "You forgot it again?!",
     Message:
       "Enter your email address below and we'll send you instructions on how to reset your password.",
+    Email: "Email",
     BackToLogin: "Back To Login",
-    RecoverPassword: "Recover Password"
+    Recover: "Recover Password"
   },
   ResetPassword: {
     Title: "Reset Password",

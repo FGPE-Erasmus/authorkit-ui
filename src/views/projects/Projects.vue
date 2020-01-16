@@ -106,8 +106,8 @@ export default {
           this.$vs.notify({
             title: "Failed to Retrieve Projects",
             text: err.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
           this.showSidebarForm = true;
@@ -129,8 +129,8 @@ export default {
           this.$vs.notify({
             title: "Failed to List Projects",
             text: err.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
         });
@@ -157,8 +157,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Create Project",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
           });
@@ -185,8 +185,8 @@ export default {
             this.$vs.notify({
               title: "Failed to Update Project",
               text: err.message,
-              iconPack: "feather",
-              icon: "icon-x-circle",
+              iconPack: "mi",
+              icon: "error",
               color: "danger"
             });
           });
@@ -203,8 +203,8 @@ export default {
           this.$vs.notify({
             title: "Failed to Delete Project",
             text: err.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
         });

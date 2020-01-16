@@ -93,8 +93,8 @@ export default {
           this.$vs.notify({
             title: "Failed to List Exercises",
             text: err.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
         });
@@ -115,8 +115,8 @@ export default {
           this.$vs.notify({
             title: "Failed to Delete Exercise",
             text: err.message,
-            iconPack: "feather",
-            icon: "icon-x-circle",
+            iconPack: "mi",
+            icon: "error",
             color: "danger"
           });
         });

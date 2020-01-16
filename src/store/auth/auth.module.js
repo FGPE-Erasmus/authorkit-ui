@@ -20,10 +20,10 @@ import {
   /* AUTH_FACEBOOK_LOGIN,
   AUTH_TWITTER_LOGIN,
   AUTH_GOOGLE_LOGIN,
-  AUTH_GITHUB_LOGIN,
+  AUTH_GITHUB_LOGIN, */
   AUTH_RESET_PASSWORD,
   AUTH_SET_PASSWORD,
-  AUTH_REFRESH_TOKEN, */
+  /* AUTH_REFRESH_TOKEN, */
   AUTH_LOGOUT,
   AUTH_FETCH_AUTHENTICATED_USER,
 
@@ -223,9 +223,43 @@ const actions = {
 
   }, */
 
-  /* [AUTH_RESET_PASSWORD]: ({ commit, dispatch }, payload) => {}, */
+  [AUTH_RESET_PASSWORD]: ({ commit }, email) => {
+    return new Promise((resolve, reject) => {
+      commit(AUTH_RESET_PASSWORD_REQUEST);
+      authService
+        .resetPassword(email)
+        .then(() => {
+          commit(AUTH_RESET_PASSWORD_SUCCESS);
 
-  /* [AUTH_SET_PASSWORD]: ({ commit, dispatch }, payload) => {}, */
+          router.push({ path: "login" });
+
+          resolve();
+        })
+        .catch(err => {
+          commit(AUTH_RESET_PASSWORD_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
+  },
+
+  [AUTH_SET_PASSWORD]: ({ commit }, payload) => {
+    return new Promise((resolve, reject) => {
+      commit(AUTH_SET_PASSWORD_REQUEST);
+      authService
+        .setPassword(payload.reset_token, payload.password)
+        .then(() => {
+          commit(AUTH_SET_PASSWORD_SUCCESS);
+
+          router.push({ path: "login" });
+
+          resolve();
+        })
+        .catch(err => {
+          commit(AUTH_SET_PASSWORD_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
+  },
 
   /* [AUTH_REFRESH_TOKEN]: ({ commit, dispatch }, payload) => {}, */
 
@@ -254,7 +288,7 @@ const actions = {
         })
         .catch(err => {
           commit(AUTH_LOGOUT_ERROR);
-          reject(err);
+          reject(err.response.data);
         });
     });
   },

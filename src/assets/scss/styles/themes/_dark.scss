@@ -758,6 +758,12 @@
   }
 
   .fgpe-select {
+    &--multiple {
+      .vs__selected {
+        background: $dark-card-color;
+        color: $theme-dark-text-color !important;
+      }
+    }
     .vs__dropdown-toggle {
 
       .vs__selected-options {
