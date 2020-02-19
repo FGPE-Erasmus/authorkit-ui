@@ -153,12 +153,12 @@ const actions = {
     });
   },
 
-  [EXERCISE_FILE_READ]: ({ commit, rootState }, { exerciseId, path }) => {
+  [EXERCISE_FILE_READ]: ({ commit, rootState }, { type, id }) => {
     return new Promise((resolve, reject) => {
       commit(EXERCISE_FILE_READ_REQUEST);
       exerciseService
         .authenticate(rootState.auth.token)
-        .readFile(exerciseId, path)
+        .readFile(type, id)
         .then(res => {
           commit(EXERCISE_FILE_READ_SUCCESS, res.data);
           resolve(res.data);
@@ -178,7 +178,7 @@ const actions = {
       commit(EXERCISE_FILE_CREATE_REQUEST);
       exerciseService
         .authenticate(rootState.auth.token)
-        .createFile(exerciseId, type, obj)
+        .createFile(type, { exercise_id: exerciseId, ...obj })
         .then(res => {
           commit(EXERCISE_FILE_CREATE_SUCCESS, res.data);
 
@@ -191,15 +191,12 @@ const actions = {
     });
   },
 
-  [EXERCISE_FILE_UPDATE]: (
-    { commit, rootState },
-    { exerciseId, type, id, obj }
-  ) => {
+  [EXERCISE_FILE_UPDATE]: ({ commit, rootState }, { type, id, obj }) => {
     return new Promise((resolve, reject) => {
       commit(EXERCISE_FILE_UPDATE_REQUEST);
       exerciseService
         .authenticate(rootState.auth.token)
-        .updateFile(exerciseId, type, id, obj)
+        .updateFile(type, id, obj)
         .then(res => {
           commit(EXERCISE_FILE_UPDATE_SUCCESS, res.data);
 
@@ -212,15 +209,12 @@ const actions = {
     });
   },
 
-  [EXERCISE_FILE_DELETE]: (
-    { commit, rootState },
-    { exerciseId, type, fileId }
-  ) => {
+  [EXERCISE_FILE_DELETE]: ({ commit, rootState }, { type, id }) => {
     return new Promise((resolve, reject) => {
       commit(EXERCISE_FILE_DELETE_REQUEST);
       exerciseService
         .authenticate(rootState.auth.token)
-        .deleteFile(exerciseId, type, fileId)
+        .deleteFile(type, id)
         .then(res => {
           commit(EXERCISE_FILE_DELETE_SUCCESS, res.data);
 

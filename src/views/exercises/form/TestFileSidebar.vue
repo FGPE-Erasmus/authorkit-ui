@@ -1,6 +1,6 @@
 <template>
   <add-update-file-sidebar
-    :type="$t('Exercise._Test')"
+    :name="name"
     :existing="!!test.id"
     :is-sidebar-active="isSidebarActive"
     @submit="$emit('submit', fullTest)"
@@ -20,7 +20,7 @@
               name="inputFile"
               ref="inputFileUpload"
               class-name="fgpe-pond"
-              :server="server"
+              :server="inputServer"
               :label-idle="$t('Exercise.Test.File.UploadInputFile')"
               allow-multiple="false"
               max-files="1"
@@ -55,7 +55,7 @@
               name="outputFile"
               ref="outputFileUpload"
               class-name="fgpe-pond"
-              :server="server"
+              :server="outputServer"
               :label-idle="$t('Exercise.Test.File.UploadOutputFile')"
               allow-multiple="false"
               max-files="1"
@@ -175,7 +175,8 @@ export default {
     "add-update-file-sidebar": AddUpdateFileSidebar
   },
   props: {
-    exerciseId: String,
+    name: String,
+    type: String,
     testsetId: String,
     isSidebarActive: {
       type: Boolean,
@@ -188,13 +189,13 @@ export default {
   },
   data() {
     return {
-      server: {
+      outputServer: {
         process: null,
         load: (source, load, error, progress, abort) => {
           this.$store
             .dispatch(`${MODULE_BASE}/${EXERCISE_FILE_READ}`, {
-              exerciseId: this.exerciseId || this.$route.params.id,
-              path: source
+              id: this.item.id + "/output",
+              type: this.type
             })
             .then(res => {
               load(base64toBlob(res));
@@ -203,10 +204,30 @@ export default {
               error(err.message);
             });
 
-          // Should expose an abort method so the request can be cancelled
           return {
             abort: () => {
-              // User tapped cancel, abort our ongoing actions here
+              abort();
+            }
+          };
+        }
+      },
+      inputServer: {
+        process: null,
+        load: (source, load, error, progress, abort) => {
+          this.$store
+            .dispatch(`${MODULE_BASE}/${EXERCISE_FILE_READ}`, {
+              id: this.item.id + "/input",
+              type: this.type
+            })
+            .then(res => {
+              load(base64toBlob(res));
+            })
+            .catch(err => {
+              error(err.message);
+            });
+
+          return {
+            abort: () => {
               abort();
             }
           };

@@ -13,8 +13,8 @@
       <h4>
         {{
           existing
-            ? $t("Form.Title.Update", { type: type }).toUpperCase()
-            : $t("Form.Title.Create", { type: type }).toUpperCase()
+            ? $t("Form.Title.Update", { type: name }).toUpperCase()
+            : $t("Form.Title.Create", { type: name }).toUpperCase()
         }}
       </h4>
       <feather-icon
@@ -65,7 +65,7 @@ export default {
     VuePerfectScrollbar
   },
   props: {
-    type: String,
+    name: String,
     existing: {
       type: Boolean,
       default: false

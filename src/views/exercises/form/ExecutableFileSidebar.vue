@@ -1,6 +1,6 @@
 <template>
   <add-update-file-sidebar
-    :type="type"
+    :name="name"
     :existing="!!fileItem.id"
     :is-sidebar-active="isSidebarActive"
     @submit="$emit('submit', fileItem)"
@@ -84,7 +84,7 @@ export default {
     "add-update-file-sidebar": AddUpdateFileSidebar
   },
   props: {
-    exerciseId: String,
+    name: String,
     type: String,
     isSidebarActive: {
       type: Boolean,
@@ -102,8 +102,8 @@ export default {
         load: (source, load, error, progress, abort) => {
           this.$store
             .dispatch(`${MODULE_BASE}/${EXERCISE_FILE_READ}`, {
-              exerciseId: this.exerciseId || this.$route.params.id,
-              path: source
+              id: this.item.id,
+              type: this.type
             })
             .then(res => {
               load(base64toBlob(res));

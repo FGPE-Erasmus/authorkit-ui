@@ -43,39 +43,36 @@ class ExercisesService extends HttpService {
     });
   }
 
-  readFile(id, path) {
-    return this.client.get(`exercises/${id}/files/read`, {
-      headers: this.headers,
-      params: {
-        pathname: path
-      }
+  readFile(type, id) {
+    return this.client.get(`${type}/${id}/contents`, {
+      headers: this.headers
     });
   }
 
-  createFile(id, type, obj) {
+  createFile(type, obj) {
     const fd = this.buildFormData(obj);
     const headers = Object.assign(
       { "Content-Type": "multipart/form-data" },
       this.headers
     );
-    return this.client.post(`exercises/${id}/${type}`, fd, {
+    return this.client.post(`${type}`, fd, {
       headers
     });
   }
 
-  updateFile(id, type, file_id, obj) {
+  updateFile(type, id, obj) {
     const fd = this.buildFormData(obj);
     const headers = Object.assign(
       { "Content-Type": "multipart/form-data" },
       this.headers
     );
-    return this.client.patch(`exercises/${id}/${type}/${file_id}`, fd, {
+    return this.client.patch(`${type}/${id}`, fd, {
       headers
     });
   }
 
-  deleteFile(id, type, file_id) {
-    return this.client.delete(`exercises/${id}/${type}/${file_id}`, {
+  deleteFile(type, id) {
+    return this.client.delete(`${type}/${id}`, {
       headers: this.headers
     });
   }

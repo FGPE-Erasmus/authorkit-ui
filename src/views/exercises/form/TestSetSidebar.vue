@@ -1,6 +1,6 @@
 <template>
   <add-update-file-sidebar
-    :type="$t('Exercise._TestSet')"
+    :name="$t('Exercise._TestSet')"
     :existing="!!testset.id"
     :is-sidebar-active="isSidebarActive"
     @submit="$emit('submit', testset)"
@@ -83,7 +83,6 @@ export default {
     "add-update-file-sidebar": AddUpdateFileSidebar
   },
   props: {
-    exerciseId: String,
     isSidebarActive: {
       type: Boolean,
       required: true
