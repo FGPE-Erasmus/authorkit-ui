@@ -105,6 +105,14 @@ export default {
     }
   },
 
+  Card: {
+    Actions: {
+      Edit: "Edit",
+      Delete: "Delete",
+      Export: "Export"
+    }
+  },
+
   // dialogs
   Dialogs: {
     ConfirmDelete: {

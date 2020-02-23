@@ -312,7 +312,9 @@ export default {
         locked: this.challenge.locked,
         hidden: this.challenge.hidden,
         difficulty: this.challenge.difficulty,
-        exercises: this.challenge.exercises.map(id => ({ id }))
+        exercises: this.challenge.exercises
+          ? this.challenge.exercises.map(id => ({ id }))
+          : []
       };
     }
   },

@@ -214,7 +214,7 @@ export default {
             title: "Account Created",
             text: "You are successfully registered!",
             iconPack: "mi",
-            icon: "icon-check",
+            icon: "check_circle",
             color: "success"
           });
           this.$router.push(

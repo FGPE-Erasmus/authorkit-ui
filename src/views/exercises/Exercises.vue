@@ -23,6 +23,7 @@
         :role="'owner'"
         @edit="update(item)"
         @delete="remove"
+        @export="exportAndDownload"
       />
     </template>
   </card-list>
@@ -31,10 +32,12 @@
 <script>
 import { mapState } from "vuex";
 
+import * as downloads from "@/utils/downloads";
 import {
   MODULE_BASE,
   EXERCISE_LIST,
-  EXERCISE_DELETE
+  EXERCISE_DELETE,
+  EXERCISE_EXPORT
 } from "@/store/exercises/exercise.constants";
 
 import CardList from "@/components/card-list/CardList";
@@ -104,6 +107,22 @@ export default {
     },
     update(exercise) {
       this.$router.push(`/projects/${this.projectId}/exercises/${exercise.id}`);
+    },
+    exportAndDownload(id) {
+      this.$store
+        .dispatch(`${MODULE_BASE}/${EXERCISE_EXPORT}`, id)
+        .then(data => {
+          downloads.download(data, id + ".zip");
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to Export Exercise",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
     },
     remove(id) {
       this.$store

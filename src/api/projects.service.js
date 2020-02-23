@@ -37,6 +37,16 @@ class ProjectsService extends HttpService {
     });
   }
 
+  export(id, format = "zip") {
+    return this.client.get(`projects/${id}/export`, {
+      responseType: "arraybuffer",
+      headers: this.headers,
+      params: {
+        format
+      }
+    });
+  }
+
   delete(id) {
     return this.client.delete(`projects/${id}`, {
       headers: this.headers

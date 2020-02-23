@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import config from "../../api.config.json";
+import router from "../router";
 
 export default class HttpService {
   constructor(language = "en") {
@@ -26,6 +27,9 @@ export default class HttpService {
           return res;
         },
         err => {
+          if (err.response && err.response.status === 401) {
+            router.push("/pages/login");
+          }
           console.log(
             "%c Request Error:",
             "color: #EC6060; font-weight: bold",

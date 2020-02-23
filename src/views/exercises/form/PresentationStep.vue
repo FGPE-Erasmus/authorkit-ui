@@ -362,9 +362,8 @@ export default {
       return new Promise((resolve, reject) => {
         this.$store
           .dispatch(`${MODULE_BASE}/${EXERCISE_FILE_DELETE}`, {
-            exerciseId: this.exerciseId,
             type,
-            fileId: id
+            id
           })
           .then(res => {
             resolve(res);

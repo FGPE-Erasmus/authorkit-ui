@@ -6,6 +6,7 @@ export const EXERCISE_CREATE = "exercise-create";
 export const EXERCISE_UPDATE = "exercise-update";
 export const EXERCISE_LIST = "exercise-list";
 export const EXERCISE_DELETE = "exercise-delete";
+export const EXERCISE_EXPORT = "exercise-export";
 
 export const EXERCISE_FILE_READ = "exercise-file-read";
 export const EXERCISE_FILE_CREATE = "exercise-file-create";
@@ -32,6 +33,9 @@ export const EXERCISE_LIST_ERROR = "EXERCISE_LIST_ERROR";
 export const EXERCISE_DELETE_REQUEST = "EXERCISE_DELETE_REQUEST";
 export const EXERCISE_DELETE_SUCCESS = "EXERCISE_DELETE_SUCCESS";
 export const EXERCISE_DELETE_ERROR = "EXERCISE_DELETE_ERROR";
+export const EXERCISE_EXPORT_REQUEST = "EXERCISE_EXPORT_REQUEST";
+export const EXERCISE_EXPORT_SUCCESS = "EXERCISE_EXPORT_SUCCESS";
+export const EXERCISE_EXPORT_ERROR = "EXERCISE_EXPORT_ERROR";
 
 export const EXERCISE_FILE_CREATE_REQUEST = "EXERCISE_FILE_CREATE_REQUEST";
 export const EXERCISE_FILE_CREATE_SUCCESS = "EXERCISE_FILE_CREATE_SUCCESS";

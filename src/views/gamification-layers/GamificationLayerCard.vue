@@ -29,7 +29,17 @@
               icon="EditIcon"
               class="inline-block mr-2"
               svgClasses="w-4 h-4"
-            /><span>Edit</span>
+            /><span>{{ $t("Card.Actions.Edit") }}</span>
+          </vs-dropdown-item>
+          <vs-dropdown-item
+            v-if="role === 'admin' || role === 'owner' || role === 'manager'"
+            @click="$emit('export', id)"
+          >
+            <feather-icon
+              icon="ArrowDownCircleIcon"
+              class="inline-block mr-2"
+              svgClasses="w-4 h-4"
+            /><span>{{ $t("Card.Actions.Export") }}</span>
           </vs-dropdown-item>
           <vs-dropdown-item
             v-if="role === 'admin' || role === 'owner'"
@@ -39,7 +49,7 @@
               icon="TrashIcon"
               class="inline-block mr-2"
               svgClasses="w-4 h-4"
-            /><span>Delete</span>
+            /><span>{{ $t("Card.Actions.Delete") }}</span>
           </vs-dropdown-item>
         </vs-dropdown-menu>
       </vs-dropdown>

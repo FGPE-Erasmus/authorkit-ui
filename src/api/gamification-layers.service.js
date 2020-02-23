@@ -42,6 +42,16 @@ class GamificationLayerService extends HttpService {
       headers: this.headers
     });
   }
+
+  export(id, format = "zip") {
+    return this.client.get(`gamification-layers/${id}/export`, {
+      responseType: "arraybuffer",
+      headers: this.headers,
+      params: {
+        format
+      }
+    });
+  }
 }
 
 export default new GamificationLayerService();

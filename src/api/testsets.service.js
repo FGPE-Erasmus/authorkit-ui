@@ -11,34 +11,34 @@ class TestsetsService extends HttpService {
     return this;
   }
 
-  list(exercise_id, query) {
-    return this.client.get(`exercises/${exercise_id}/testsets`, {
+  list(query) {
+    return this.client.get(`testsets`, {
       headers: this.headers,
       params: query && this.buildQuery(query)
     });
   }
 
-  getOne(exercise_id, id, query) {
-    return this.client.get(`exercises/${exercise_id}/testsets/${id}`, {
+  getOne(id, query) {
+    return this.client.get(`testsets/${id}`, {
       headers: this.headers,
       params: query && this.buildQuery(query)
     });
   }
 
-  create(exercise_id, obj) {
-    return this.client.post(`exercises/${exercise_id}/testsets`, obj, {
+  create(obj) {
+    return this.client.post(`testsets`, obj, {
       headers: this.headers
     });
   }
 
-  update(exercise_id, id, obj) {
-    return this.client.patch(`exercises/${exercise_id}/testsets/${id}`, obj, {
+  update(id, obj) {
+    return this.client.patch(`testsets/${id}`, obj, {
       headers: this.headers
     });
   }
 
-  delete(exercise_id, id) {
-    return this.client.delete(`exercises/${exercise_id}/testsets/${id}`, {
+  delete(id) {
+    return this.client.delete(`testsets/${id}`, {
       headers: this.headers
     });
   }

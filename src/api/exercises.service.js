@@ -43,6 +43,16 @@ class ExercisesService extends HttpService {
     });
   }
 
+  export(id, format = "zip") {
+    return this.client.get(`exercises/${id}/export`, {
+      responseType: "arraybuffer",
+      headers: this.headers,
+      params: {
+        format
+      }
+    });
+  }
+
   readFile(type, id) {
     return this.client.get(`${type}/${id}/contents`, {
       headers: this.headers

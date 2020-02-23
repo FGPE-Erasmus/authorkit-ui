@@ -7,6 +7,7 @@ import {
   EXERCISE_UPDATE,
   EXERCISE_LIST,
   EXERCISE_DELETE,
+  EXERCISE_EXPORT,
   EXERCISE_FILE_CREATE,
   EXERCISE_FILE_READ,
   EXERCISE_FILE_UPDATE,
@@ -31,6 +32,9 @@ import {
   EXERCISE_DELETE_REQUEST,
   EXERCISE_DELETE_SUCCESS,
   EXERCISE_DELETE_ERROR,
+  EXERCISE_EXPORT_REQUEST,
+  EXERCISE_EXPORT_SUCCESS,
+  EXERCISE_EXPORT_ERROR,
   EXERCISE_FILE_READ_REQUEST,
   EXERCISE_FILE_READ_SUCCESS,
   EXERCISE_FILE_READ_ERROR,
@@ -153,6 +157,24 @@ const actions = {
     });
   },
 
+  [EXERCISE_EXPORT]: ({ commit, rootState }, id) => {
+    return new Promise((resolve, reject) => {
+      commit(EXERCISE_EXPORT_REQUEST);
+      exerciseService
+        .authenticate(rootState.auth.token)
+        .export(id)
+        .then(res => {
+          commit(EXERCISE_EXPORT_SUCCESS, res.data);
+
+          resolve(res.data);
+        })
+        .catch(err => {
+          commit(EXERCISE_EXPORT_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
+  },
+
   [EXERCISE_FILE_READ]: ({ commit, rootState }, { type, id }) => {
     return new Promise((resolve, reject) => {
       commit(EXERCISE_FILE_READ_REQUEST);
@@ -235,7 +257,7 @@ const actions = {
       commit(EXERCISE_TESTSET_CREATE_REQUEST);
       testsetService
         .authenticate(rootState.auth.token)
-        .create(exerciseId, testset)
+        .create({ exercise_id: exerciseId, ...testset })
         .then(res => {
           commit(EXERCISE_TESTSET_CREATE_SUCCESS, res.data);
 
@@ -256,7 +278,7 @@ const actions = {
       commit(EXERCISE_TESTSET_UPDATE_REQUEST);
       testsetService
         .authenticate(rootState.auth.token)
-        .update(exerciseId, id, testset)
+        .update(id, { exercise_id: exerciseId, ...testset })
         .then(res => {
           commit(EXERCISE_TESTSET_UPDATE_SUCCESS, res.data);
 
@@ -269,12 +291,12 @@ const actions = {
     });
   },
 
-  [EXERCISE_TESTSET_DELETE]: ({ commit, rootState }, { exerciseId, id }) => {
+  [EXERCISE_TESTSET_DELETE]: ({ commit, rootState }, { id }) => {
     return new Promise((resolve, reject) => {
       commit(EXERCISE_TESTSET_DELETE_REQUEST);
       testsetService
         .authenticate(rootState.auth.token)
-        .delete(exerciseId, id)
+        .delete(id)
         .then(res => {
           commit(EXERCISE_TESTSET_DELETE_SUCCESS, res.data);
 
@@ -336,6 +358,16 @@ const mutations = {
     state.loading = Math.max(state.loading - 1, 0);
   },
   [EXERCISE_DELETE_ERROR]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+
+  [EXERCISE_EXPORT_REQUEST]: state => {
+    state.loading++;
+  },
+  [EXERCISE_EXPORT_SUCCESS]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+  [EXERCISE_EXPORT_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
   },
 

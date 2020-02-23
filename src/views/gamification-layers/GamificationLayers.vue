@@ -19,6 +19,7 @@
         :role="'owner'"
         @edit="update(item)"
         @delete="remove"
+        @export="exportAndDownload"
       />
     </template>
   </card-list>
@@ -27,10 +28,12 @@
 <script>
 import { mapState } from "vuex";
 
+import * as downloads from "@/utils/downloads";
 import {
   MODULE_BASE,
   GAMIFICATION_LAYER_LIST,
-  GAMIFICATION_LAYER_DELETE
+  GAMIFICATION_LAYER_DELETE,
+  GAMIFICATION_LAYER_EXPORT
 } from "@/store/gamification-layers/gamification-layer.constants";
 
 import CardList from "@/components/card-list/CardList";
@@ -102,6 +105,22 @@ export default {
       this.$router.push(
         `/projects/${this.projectId}/gamification-layers/${gamificationLayer.id}`
       );
+    },
+    exportAndDownload(id) {
+      this.$store
+        .dispatch(`${MODULE_BASE}/${GAMIFICATION_LAYER_EXPORT}`, id)
+        .then(data => {
+          downloads.download(data, id + ".zip");
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to export gamification layer",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
     },
     remove(id) {
       this.$store

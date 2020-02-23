@@ -5,6 +5,7 @@ import {
   PROJECT_CREATE,
   PROJECT_UPDATE,
   PROJECT_LIST,
+  PROJECT_EXPORT,
   PROJECT_DELETE,
 
   // mutations
@@ -20,6 +21,9 @@ import {
   PROJECT_LIST_REQUEST,
   PROJECT_LIST_SUCCESS,
   PROJECT_LIST_ERROR,
+  PROJECT_EXPORT_REQUEST,
+  PROJECT_EXPORT_SUCCESS,
+  PROJECT_EXPORT_ERROR,
   PROJECT_DELETE_REQUEST,
   PROJECT_DELETE_SUCCESS,
   PROJECT_DELETE_ERROR,
@@ -105,6 +109,24 @@ const actions = {
     });
   },
 
+  [PROJECT_EXPORT]: ({ commit, rootState }, id) => {
+    return new Promise((resolve, reject) => {
+      commit(PROJECT_EXPORT_REQUEST);
+      projectService
+        .authenticate(rootState.auth.token)
+        .export(id)
+        .then(res => {
+          commit(PROJECT_EXPORT_SUCCESS, res.data);
+
+          resolve(res.data);
+        })
+        .catch(err => {
+          commit(PROJECT_EXPORT_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
+  },
+
   [PROJECT_DELETE]: ({ commit, rootState }, id) => {
     return new Promise((resolve, reject) => {
       commit(PROJECT_DELETE_REQUEST);
@@ -162,6 +184,16 @@ const mutations = {
     state.loading = Math.max(state.loading - 1, 0);
   },
   [PROJECT_LIST_ERROR]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+
+  [PROJECT_EXPORT_REQUEST]: state => {
+    state.loading++;
+  },
+  [PROJECT_EXPORT_SUCCESS]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+  [PROJECT_EXPORT_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
   },
 

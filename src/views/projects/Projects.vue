@@ -30,6 +30,7 @@
           @edit="editProject"
           @open="openProject"
           @delete="deleteProject"
+          @export="exportAndDownload"
         />
       </div>
     </div>
@@ -43,12 +44,14 @@
 </template>
 
 <script>
+import * as downloads from "@/utils/downloads";
 import {
   MODULE_BASE,
   PROJECT_LIST,
   PROJECT_GET,
   PROJECT_CREATE,
   PROJECT_UPDATE,
+  PROJECT_EXPORT,
   PROJECT_DELETE
 } from "@/store/projects/project.constants";
 
@@ -191,6 +194,23 @@ export default {
             });
           });
       }
+    },
+
+    exportAndDownload(id) {
+      this.$store
+        .dispatch(`${MODULE_BASE}/${PROJECT_EXPORT}`, id)
+        .then(data => {
+          downloads.download(data, id + ".zip");
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to export project",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
     },
 
     deleteProject(id) {

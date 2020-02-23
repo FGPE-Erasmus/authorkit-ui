@@ -6,6 +6,7 @@ import {
   GAMIFICATION_LAYER_UPDATE,
   GAMIFICATION_LAYER_LIST,
   GAMIFICATION_LAYER_DELETE,
+  GAMIFICATION_LAYER_EXPORT,
 
   // mutations
   GAMIFICATION_LAYER_GET_REQUEST,
@@ -22,7 +23,10 @@ import {
   GAMIFICATION_LAYER_LIST_ERROR,
   GAMIFICATION_LAYER_DELETE_REQUEST,
   GAMIFICATION_LAYER_DELETE_SUCCESS,
-  GAMIFICATION_LAYER_DELETE_ERROR
+  GAMIFICATION_LAYER_DELETE_ERROR,
+  GAMIFICATION_LAYER_EXPORT_REQUEST,
+  GAMIFICATION_LAYER_EXPORT_SUCCESS,
+  GAMIFICATION_LAYER_EXPORT_ERROR
 } from "./gamification-layer.constants";
 
 const state = {
@@ -122,6 +126,24 @@ const actions = {
           reject(err.response.data);
         });
     });
+  },
+
+  [GAMIFICATION_LAYER_EXPORT]: ({ commit, rootState }, id) => {
+    return new Promise((resolve, reject) => {
+      commit(GAMIFICATION_LAYER_EXPORT_REQUEST);
+      gamificationlayerService
+        .authenticate(rootState.auth.token)
+        .export(id)
+        .then(res => {
+          commit(GAMIFICATION_LAYER_EXPORT_SUCCESS, res.data);
+
+          resolve(res.data);
+        })
+        .catch(err => {
+          commit(GAMIFICATION_LAYER_EXPORT_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
   }
 };
 
@@ -173,6 +195,16 @@ const mutations = {
     state.loading = Math.max(state.loading - 1, 0);
   },
   [GAMIFICATION_LAYER_DELETE_ERROR]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+
+  [GAMIFICATION_LAYER_EXPORT_REQUEST]: state => {
+    state.loading++;
+  },
+  [GAMIFICATION_LAYER_EXPORT_SUCCESS]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+  [GAMIFICATION_LAYER_EXPORT_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
   }
 };
