@@ -2,6 +2,14 @@ import axios from "axios";
 
 import config from "../../api.config.json";
 import router from "../router";
+import {
+  STORAGE_ACCESS_TOKEN,
+  STORAGE_ACCESS_TOKEN_EXPIRY_TIME,
+  STORAGE_REFRESH_TOKEN,
+  STORAGE_REFRESH_TOKEN_EXPIRY_TIME,
+  STORAGE_REMEMBER_ME,
+  STORAGE_USER_PROFILE
+} from "../store/constants";
 
 export default class HttpService {
   constructor(language = "en") {
@@ -28,7 +36,19 @@ export default class HttpService {
         },
         err => {
           if (err.response && err.response.status === 401) {
-            router.push("/pages/login");
+            localStorage.removeItem(STORAGE_REMEMBER_ME);
+            localStorage.removeItem(STORAGE_ACCESS_TOKEN);
+            localStorage.removeItem(STORAGE_ACCESS_TOKEN_EXPIRY_TIME);
+            localStorage.removeItem(STORAGE_REFRESH_TOKEN);
+            localStorage.removeItem(STORAGE_REFRESH_TOKEN_EXPIRY_TIME);
+            localStorage.removeItem(STORAGE_USER_PROFILE);
+            sessionStorage.removeItem(STORAGE_ACCESS_TOKEN);
+            sessionStorage.removeItem(STORAGE_ACCESS_TOKEN_EXPIRY_TIME);
+            sessionStorage.removeItem(STORAGE_REFRESH_TOKEN);
+            sessionStorage.removeItem(STORAGE_REFRESH_TOKEN_EXPIRY_TIME);
+            sessionStorage.removeItem(STORAGE_USER_PROFILE);
+
+            router.go();
           }
           console.log(
             "%c Request Error:",

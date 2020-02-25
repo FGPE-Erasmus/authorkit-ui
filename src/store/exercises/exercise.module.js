@@ -8,6 +8,7 @@ import {
   EXERCISE_LIST,
   EXERCISE_DELETE,
   EXERCISE_EXPORT,
+  EXERCISE_IMPORT,
   EXERCISE_FILE_CREATE,
   EXERCISE_FILE_READ,
   EXERCISE_FILE_UPDATE,
@@ -35,6 +36,9 @@ import {
   EXERCISE_EXPORT_REQUEST,
   EXERCISE_EXPORT_SUCCESS,
   EXERCISE_EXPORT_ERROR,
+  EXERCISE_IMPORT_REQUEST,
+  EXERCISE_IMPORT_SUCCESS,
+  EXERCISE_IMPORT_ERROR,
   EXERCISE_FILE_READ_REQUEST,
   EXERCISE_FILE_READ_SUCCESS,
   EXERCISE_FILE_READ_ERROR,
@@ -152,6 +156,23 @@ const actions = {
         })
         .catch(err => {
           commit(EXERCISE_DELETE_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
+  },
+
+  [EXERCISE_IMPORT]: ({ commit, rootState }, { project_id, file }) => {
+    return new Promise((resolve, reject) => {
+      commit(EXERCISE_IMPORT_REQUEST);
+      exerciseService
+        .authenticate(rootState.auth.token)
+        .import({ project_id, file })
+        .then(res => {
+          commit(EXERCISE_IMPORT_SUCCESS, res.data);
+          resolve(res.data);
+        })
+        .catch(err => {
+          commit(EXERCISE_IMPORT_ERROR, err.response.data);
           reject(err.response.data);
         });
     });
@@ -368,6 +389,16 @@ const mutations = {
     state.loading = Math.max(state.loading - 1, 0);
   },
   [EXERCISE_EXPORT_ERROR]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+
+  [EXERCISE_IMPORT_REQUEST]: state => {
+    state.loading++;
+  },
+  [EXERCISE_IMPORT_SUCCESS]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+  [EXERCISE_IMPORT_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
   },
 

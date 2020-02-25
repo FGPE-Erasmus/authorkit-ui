@@ -112,7 +112,7 @@
           :default-category="$t('Exercise.Solutions')"
           :items="solutions"
           item-title-prop="filename"
-          item-subtitle-prop="language"
+          item-subtitle-prop="lang"
           @create="activateSolutionsSidebar"
           @edit="activateSolutionsSidebar"
           @delete="removeSolution"

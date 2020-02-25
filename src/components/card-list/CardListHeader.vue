@@ -5,12 +5,21 @@
   >
     <div class="flex flex-wrap-reverse items-center">
       <div
-        class="py-2 px-6 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-between text-lg text-base text-primary border border-solid border-primary"
+        v-if="allowCreate"
+        class="py-2 px-6 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-between text-lg text-base text-white bg-primary"
         @click="$emit('create')"
       >
         <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
+        <span class="ml-2 text-base">{{ $t("CardList.Header.Create") }}</span>
+      </div>
+      <div
+        v-if="allowImport"
+        class="py-2 px-6 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-between text-lg text-base text-primary border border-solid border-primary"
+        @click="chooseArchive"
+      >
+        <feather-icon icon="ArrowUpCircleIcon" svgClasses="h-4 w-4" />
         <span class="ml-2 text-base text-primary">{{
-          $t("CardList.Header.Create")
+          $t("CardList.Header.Import")
         }}</span>
       </div>
     </div>
@@ -41,6 +50,15 @@
         </vs-dropdown-item>
       </vs-dropdown-menu>
     </vs-dropdown>
+    <input
+      v-if="allowImport"
+      id="archiveImport"
+      type="file"
+      hidden
+      style="display:none"
+      accept="application/zip,application/octet-stream,application/x-zip-compressed,multipart/x-zip"
+      @change="importArchive($event.target.files[0])"
+    />
   </div>
 </template>
 
@@ -54,6 +72,14 @@ export default {
     pageSizes: {
       type: Array,
       default: () => [6, 12, 18, 24]
+    },
+    allowCreate: {
+      type: Boolean,
+      default: true
+    },
+    allowImport: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -67,6 +93,17 @@ export default {
       return this.size - this.currentPage * this.itemsPerPage > 0
         ? this.currentPage * this.itemsPerPage
         : this.size;
+    }
+  },
+  methods: {
+    chooseArchive() {
+      document.getElementById("archiveImport").click();
+    },
+    importArchive(file) {
+      if (file) {
+        this.$emit("import", file);
+      }
+      document.getElementById("archiveImport").value = "";
     }
   }
 };

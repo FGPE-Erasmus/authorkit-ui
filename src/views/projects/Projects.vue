@@ -11,6 +11,7 @@
       :current-page="currentPage"
       :items-per-page="itemsPerPage"
       @create="showSidebarForm = true"
+      @import="uploadAndImport"
       @itemsperpagechange="setItemsPerPage"
     />
     <div class="vx-row">
@@ -51,6 +52,7 @@ import {
   PROJECT_GET,
   PROJECT_CREATE,
   PROJECT_UPDATE,
+  PROJECT_IMPORT,
   PROJECT_EXPORT,
   PROJECT_DELETE
 } from "@/store/projects/project.constants";
@@ -194,6 +196,26 @@ export default {
             });
           });
       }
+    },
+
+    uploadAndImport(file) {
+      this.$store
+        .dispatch(`${MODULE_BASE}/${PROJECT_IMPORT}`, {
+          project_id: this.projectId,
+          file
+        })
+        .then(() => {
+          this.fetchProjects();
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to import project",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
     },
 
     exportAndDownload(id) {

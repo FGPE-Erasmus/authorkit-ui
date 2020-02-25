@@ -7,6 +7,7 @@
     @itemsperpagechange="itemsPerPage = $event"
     @currentpagechange="currentPage = $event"
     @create="create"
+    @import="uploadAndImport"
   >
     <template v-slot:card="{ item }">
       <exercise-card
@@ -37,7 +38,8 @@ import {
   MODULE_BASE,
   EXERCISE_LIST,
   EXERCISE_DELETE,
-  EXERCISE_EXPORT
+  EXERCISE_EXPORT,
+  EXERCISE_IMPORT
 } from "@/store/exercises/exercise.constants";
 
 import CardList from "@/components/card-list/CardList";
@@ -116,7 +118,26 @@ export default {
         })
         .catch(err => {
           this.$vs.notify({
-            title: "Failed to Export Exercise",
+            title: "Failed to export exercise",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
+    },
+    uploadAndImport(file) {
+      this.$store
+        .dispatch(`${MODULE_BASE}/${EXERCISE_IMPORT}`, {
+          project_id: this.projectId,
+          file
+        })
+        .then(() => {
+          this.fetchExercises();
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to import exercise",
             text: err.message,
             iconPack: "mi",
             icon: "error",
@@ -132,7 +153,7 @@ export default {
         })
         .catch(err => {
           this.$vs.notify({
-            title: "Failed to Delete Exercise",
+            title: "Failed to delete exercise",
             text: err.message,
             iconPack: "mi",
             icon: "error",

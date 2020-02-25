@@ -7,6 +7,7 @@
           :current-page="currentPage"
           :items-per-page="itemsPerPage"
           @create="$emit('create')"
+          @import="$emit('import', $event)"
           @itemsperpagechange="$emit('itemsperpagechange', $event)"
         />
       </slot>

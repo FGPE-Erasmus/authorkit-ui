@@ -101,6 +101,7 @@ export default {
   CardList: {
     Header: {
       Create: "Create",
+      Import: "Import",
       ItemsPerPage: "{start}-{end} of {size}"
     }
   },

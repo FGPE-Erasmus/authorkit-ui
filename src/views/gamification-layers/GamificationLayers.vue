@@ -7,6 +7,7 @@
     @itemsperpagechange="itemsPerPage = $event"
     @currentpagechange="currentPage = $event"
     @create="create"
+    @import="uploadAndImport"
   >
     <template v-slot:card="{ item }">
       <gamification-layer-card
@@ -33,6 +34,7 @@ import {
   MODULE_BASE,
   GAMIFICATION_LAYER_LIST,
   GAMIFICATION_LAYER_DELETE,
+  GAMIFICATION_LAYER_IMPORT,
   GAMIFICATION_LAYER_EXPORT
 } from "@/store/gamification-layers/gamification-layer.constants";
 
@@ -105,6 +107,25 @@ export default {
       this.$router.push(
         `/projects/${this.projectId}/gamification-layers/${gamificationLayer.id}`
       );
+    },
+    uploadAndImport(file) {
+      this.$store
+        .dispatch(`${MODULE_BASE}/${GAMIFICATION_LAYER_IMPORT}`, {
+          project_id: this.projectId,
+          file
+        })
+        .then(() => {
+          this.fetchGamificationLayers();
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to import gamification layer",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
     },
     exportAndDownload(id) {
       this.$store
