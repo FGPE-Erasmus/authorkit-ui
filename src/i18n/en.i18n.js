@@ -137,8 +137,16 @@ export default {
       Update: "UPDATE {type}"
     },
     File: {
-      MaxFileSizeLabel: "Maximum file size is {filesize}"
+      MaxFileSizeLabel: "Maximum file size is {filesize}",
+      OpenEditor: "Open editor"
     }
+  },
+
+  // code editor
+  CodeEditor: {
+    Title: "Code Editor",
+    Name: "File Name",
+    ProgLang: "Programming Language"
   },
 
   _Project: "Project",

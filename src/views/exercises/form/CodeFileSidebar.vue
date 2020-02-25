@@ -61,12 +61,31 @@
               :files="files"
               @updatefiles="updateFiles($event) || validate($event)"
             />
+            <div v-if="canEditCode" class="flex flex-wrap">
+              <span
+                class="text-primary cursor-pointer ml-auto"
+                @click="openEditor"
+              >
+                {{ $t("Form.File.OpenEditor") }}
+              </span>
+            </div>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
           </ValidationProvider>
         </div>
       </div>
+      <fgpe-code-editor-popup
+        :active="editorOpen"
+        @close-popup="closeEditor"
+        :filename="filename"
+        @change-filename="onChangeFilename"
+        :allowChangeProgrammingLanguage="true"
+        :programming-language="fileItem.lang"
+        @change-programming-language="onChangeProgrammingLanguage"
+        :code="code"
+        @change-code="onChangeCode"
+      />
     </template>
   </add-update-file-sidebar>
 </template>
@@ -83,6 +102,7 @@ import {
 } from "@/store/exercises/exercise.constants";
 
 import FgpeSelect from "@/components/FgpeSelect";
+import FgpeCodeEditorPopup from "@/components/FgpeCodeEditorPopup";
 import AddUpdateFileSidebar from "@/components/sidebar-form/AddUpdateFileSidebar";
 
 export default {
@@ -90,6 +110,7 @@ export default {
   components: {
     ValidationProvider,
     "fgpe-select": FgpeSelect,
+    "fgpe-code-editor-popup": FgpeCodeEditorPopup,
     "add-update-file-sidebar": AddUpdateFileSidebar
   },
   props: {
@@ -115,6 +136,7 @@ export default {
               type: this.type
             })
             .then(res => {
+              this.code = atob(res);
               load(base64toBlob(res));
             })
             .catch(err => {
@@ -134,7 +156,11 @@ export default {
         pathname: "",
         lang: ""
       },
-      fileItem: undefined
+      fileItem: undefined,
+      canEditCode: true,
+      editorOpen: false,
+      filename: "",
+      code: ""
     };
   },
   watch: {
@@ -144,6 +170,7 @@ export default {
         this.fileItem.file = undefined;
       } else {
         this.fileItem = Object.assign({}, val);
+        this.filename = this.fileItem.pathname;
       }
     }
   },
@@ -167,7 +194,41 @@ export default {
     }
   },
   methods: {
+    openEditor() {
+      this.editorOpen = true;
+    },
+    closeEditor() {
+      this.editorOpen = false;
+    },
+
+    onChangeFilename(filename) {
+      this.$refs.fileUpload.removeFile();
+      const file = new File([new Blob([this.code])], filename || "file", {
+        type: "text/plain"
+      });
+      this.$refs.fileUpload.addFile(file);
+      this.fileItem.file = file;
+      this.filename = filename;
+    },
+
+    onChangeProgrammingLanguage(lang) {
+      this.fileItem.lang = lang;
+    },
+
+    onChangeCode(code) {
+      this.$refs.fileUpload.removeFile();
+      const file = new File([new Blob([code])], this.filename, {
+        type: "text/plain"
+      });
+      this.$refs.fileUpload.addFile(file);
+      this.fileItem.file = file;
+      this.code = code;
+    },
+
     updateFiles(files) {
+      if (this.editorOpen) {
+        return;
+      }
       if (files.length) {
         if (!(files[0].file instanceof File)) {
           this.fileItem.file = new File(
@@ -177,10 +238,24 @@ export default {
           );
         } else {
           this.fileItem.file = files[0].file;
+          this.readFile(this.fileItem.file);
         }
       } else {
         this.fileItem.file = undefined;
+        this.filename = "";
+        this.code = "";
       }
+    },
+
+    readFile(file) {
+      this.canEditCode = false;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.filename = file.name;
+        this.code = reader.result;
+        this.canEditCode = true;
+      };
+      reader.readAsText(file, "UTF-8");
     }
   }
 };
