@@ -60,6 +60,7 @@
         v-model="codeLocal"
         :language="programmingLanguageLocal"
         :options="editorOptions"
+        :theme="lights ? 'vs-light' : 'vs-dark'"
       />
     </div>
   </vs-popup>
@@ -68,6 +69,7 @@
 <script>
 import MonacoEditor from "vue-monaco";
 import { ValidationProvider } from "vee-validate";
+import { mapState } from "vuex";
 
 import languages from "@/assets/data/programming-languages.json";
 
@@ -111,6 +113,10 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      lights: state => state.theme_settings.lights
+    }),
+
     languages() {
       return languages.map(l => ({ id: l, label: l }));
     },
