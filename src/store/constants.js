@@ -20,6 +20,11 @@ export const UPDATE_WINDOW_BREAKPOINT = "update-window-breakpoint";
 export const UPDATE_I18N_LOCALE = "update-i18n-locale";
 export const UPDATE_ACTIVE_PROJECT = "update-active-project";
 
+export const UPDATE_LAST_USED_NATURAL_LANGUAGE =
+  "update-last-used-natural-language";
+export const UPDATE_LAST_USED_PROGRAMMING_LANGUAGE =
+  "update-last-used-programming-language";
+
 // mutations
 export const THEME_TOGGLE_LIGHTS = "THEME_TOGGLE_LIGHTS";
 export const THEME_UPDATE_SIDEBAR_WIDTH = "THEME_UPDATE_SIDEBAR_WIDTH";
@@ -31,5 +36,3 @@ export const THEME_TOGGLE_CONTENT_OVERLAY = "THEME_TOGGLE_CONTENT_OVERLAY";
 export const THEME_TOGGLE_IS_SIDEBAR_ACTIVE = "THEME_TOGGLE_IS_SIDEBAR_ACTIVE";
 export const SETTINGS_UPDATE_I18N_LOCALE = "SETTINGS_UPDATE_I18N_LOCALE";
 export const SESSION_UPDATE_ACTIVE_PROJECT = "SESSION_UPDATE_ACTIVE_PROJECT";
-
-export const USER_UPDATE_ROLE = "USER_UPDATE_ROLE";

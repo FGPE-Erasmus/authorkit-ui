@@ -2,10 +2,12 @@ export default {
   Dashboard: "Dashboard",
   Projects: "Projects",
   Exercises: "Exercises",
+  GamificationLayers: "Gamification Layers",
   Contributors: "Contributors",
   Support: "Support",
   Documentation: "Documentation",
   RaiseSupport: "Raise Support",
+  ExitToDashboard: "Exit To Dashboard",
 
   ReturnHome: "Return Home",
 
@@ -147,6 +149,21 @@ export default {
     Title: "Code Editor",
     Name: "File Name",
     ProgLang: "Programming Language"
+  },
+
+  SharePopup: {
+    Title: "Share Access",
+    Email: "Email",
+    User: "User",
+    AccessLevel: "Access Level",
+    AccessLevels: {
+      Viewer: "Viewer",
+      Contributor: "Contributor",
+      Admin: "Administrator",
+      Owner: "Owner"
+    },
+    Save: "Save",
+    Cancel: "Cancel"
   },
 
   _Project: "Project",

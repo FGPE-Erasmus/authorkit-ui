@@ -14,7 +14,7 @@
         ref="input"
         class="w-full fgpe-select--input"
         :class="{
-          hasValue: !!value && (value instanceof Number || value.length > 0)
+          hasValue: !!value && (typeof value === 'number' || value.length > 0)
         }"
         :placeholder="!value ? placeholder : null"
         :options="options"
@@ -35,7 +35,6 @@
           ref="spanplaceholder"
           :style="styleLabel"
           :class="[
-            labelPlaceholder,
             {
               'vs-placeholder-label': labelPlaceholder,
               normal: !isFocus && isValue && (labelPlaceholder || placeholder)

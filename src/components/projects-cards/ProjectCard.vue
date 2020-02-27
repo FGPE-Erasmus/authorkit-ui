@@ -12,56 +12,56 @@
         ></feather-icon>
 
         <vs-dropdown-menu class="w-32">
-          <vs-dropdown-item
-            v-if="role === 'admin' || role === 'owner' || role === 'manager'"
-            @click="editProject()"
-          >
-            <feather-icon
-              icon="EditIcon"
-              class="inline-block mr-2"
-              svgClasses="w-4 h-4"
-            /><span>{{ $t("Card.Actions.Edit") }}</span>
+          <vs-dropdown-item v-if="permissions[id] >= 2" @click="editProject()">
+            <div class="flex flex-row">
+              <feather-icon
+                icon="EditIcon"
+                class="flex items-center mr-2"
+                svgClasses="w-4 h-4"
+              /><span>{{ $t("Card.Actions.Edit") }}</span>
+            </div>
           </vs-dropdown-item>
           <vs-dropdown-item
-            v-if="role === 'admin' || role === 'owner'"
-            @click="shareProject()"
+            v-if="permissions[id] >= 3"
+            @click="$emit('share', id)"
           >
-            <feather-icon
-              icon="Share2Icon"
-              class="inline-block mr-2"
-              svgClasses="w-4 h-4"
-            /><span>{{ $t("Share") }}</span>
+            <div class="flex flex-row">
+              <feather-icon
+                icon="Share2Icon"
+                class="flex items-center mr-2"
+                svgClasses="w-4 h-4"
+              /><span>{{ $t("Share") }}</span>
+            </div>
           </vs-dropdown-item>
           <vs-dropdown-item
-            v-if="role === 'admin' || role === 'owner' || role === 'manager'"
+            v-if="permissions[id] >= 1"
             @click="$emit('export', id)"
           >
-            <feather-icon
-              icon="ArrowDownCircleIcon"
-              class="inline-block mr-2"
-              svgClasses="w-4 h-4"
-            /><span>{{ $t("Card.Actions.Export") }}</span>
+            <div class="flex flex-row">
+              <feather-icon
+                icon="ArrowDownCircleIcon"
+                class="flex items-center mr-2"
+                svgClasses="w-4 h-4"
+              /><span>{{ $t("Card.Actions.Export") }}</span>
+            </div>
           </vs-dropdown-item>
-          <vs-divider class="m-1"></vs-divider>
+          <vs-divider v-if="permissions[id] >= 4" class="my-1 p-1"></vs-divider>
           <vs-dropdown-item
-            v-if="role === 'admin' || role === 'owner'"
+            v-if="permissions[id] >= 4"
             @click="confirmDelete()"
           >
-            <feather-icon
-              icon="TrashIcon"
-              class="inline-block mr-2"
-              svgClasses="w-4 h-4"
-            /><span>{{ $t("Card.Actions.Delete") }}</span>
+            <div class="flex flex-row">
+              <feather-icon
+                icon="TrashIcon"
+                class="flex items-center mr-2"
+                svgClasses="w-4 h-4"
+              /><span>{{ $t("Card.Actions.Delete") }}</span>
+            </div>
           </vs-dropdown-item>
         </vs-dropdown-menu>
       </vs-dropdown>
     </template>
 
-    <!-- <img
-      :src="require(`@/assets/images/pages/${project.img}`)"
-      alt="content-img"
-      class="responsive rounded-lg"
-    /> -->
     <p>{{ description }}</p>
 
     <div class="flex mt-6 flex-wrap items-end" vs-align="end">
@@ -87,6 +87,17 @@
         ></feather-icon
         ><span class="ml-2">{{ exercises }}</span></span
       >
+      <span
+        v-if="gamificationLayers !== undefined"
+        :title="$t('GamificationLayers')"
+        class="flex mr-6"
+        ><feather-icon
+          class="cursor-pointer"
+          icon="LayersIcon"
+          svgClasses="text-primary stroke-current h-6 w-6"
+        ></feather-icon
+        ><span class="ml-2">{{ gamificationLayers }}</span></span
+      >
       <div class="vs-spacer"></div>
       <span
         :title="$t('Enter')"
@@ -103,10 +114,15 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import FgpeCard from "@/components/fgpe-card/FgpeCard.vue";
 
 export default {
   name: "project-card",
+  components: {
+    FgpeCard
+  },
   props: {
     id: String,
     name: String,
@@ -114,21 +130,24 @@ export default {
     status: String,
     role: String,
     contributors: Number,
-    exercises: Number
+    exercises: Number,
+    gamificationLayers: Number
   },
   data() {
     return {};
   },
-  computed: {},
+  mounted() {},
+  computed: {
+    ...mapState({
+      permissions: state => state.permission.permissions
+    })
+  },
   methods: {
     enterProject() {
       this.$emit("open", this.id);
     },
     editProject() {
       this.$emit("edit", this.id);
-    },
-    shareProject() {
-      this.$emit("share", this.id);
     },
     confirmDelete() {
       this.$vs.dialog({
@@ -145,9 +164,6 @@ export default {
         accept: () => this.$emit("delete", this.id)
       });
     }
-  },
-  components: {
-    FgpeCard
   }
 };
 </script>

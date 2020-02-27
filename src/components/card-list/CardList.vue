@@ -6,6 +6,8 @@
           :size="total"
           :current-page="currentPage"
           :items-per-page="itemsPerPage"
+          :allow-create="allowCreate"
+          :allow-import="allowImport"
           @create="$emit('create')"
           @import="$emit('import', $event)"
           @itemsperpagechange="$emit('itemsperpagechange', $event)"
@@ -59,6 +61,14 @@ export default {
     total: {
       type: Number,
       default: 0
+    },
+    allowCreate: {
+      type: Boolean,
+      default: true
+    },
+    allowImport: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => ({

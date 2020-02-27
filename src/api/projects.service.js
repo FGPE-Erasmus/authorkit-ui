@@ -25,6 +25,12 @@ class ProjectsService extends HttpService {
     });
   }
 
+  getProjectShares(id) {
+    return this.client.get(`projects/${id}/users`, {
+      headers: this.headers
+    });
+  }
+
   create(obj) {
     return this.client.post(`projects`, obj, {
       headers: this.headers
@@ -60,6 +66,24 @@ class ProjectsService extends HttpService {
 
   delete(id) {
     return this.client.delete(`projects/${id}`, {
+      headers: this.headers
+    });
+  }
+
+  share(obj) {
+    return this.client.post("permissions/share", obj, {
+      headers: this.headers
+    });
+  }
+
+  shareByEmail(obj) {
+    return this.client.post("permissions/share-by-email", obj, {
+      headers: this.headers
+    });
+  }
+
+  revoke(obj) {
+    return this.client.post("permissions/revoke", obj, {
       headers: this.headers
     });
   }

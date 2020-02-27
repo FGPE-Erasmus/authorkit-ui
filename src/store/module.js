@@ -14,8 +14,7 @@ import {
   THEME_TOGGLE_CONTENT_OVERLAY,
   THEME_TOGGLE_IS_SIDEBAR_ACTIVE,
   THEME_UPDATE_WINDOW_BREAKPOINT,
-  SETTINGS_UPDATE_I18N_LOCALE,
-  USER_UPDATE_ROLE
+  SETTINGS_UPDATE_I18N_LOCALE
 } from "./constants";
 
 const state = {
@@ -64,20 +63,12 @@ const actions = {
   [UPDATE_I18N_LOCALE]: ({ commit }, locale) => {
     commit(SETTINGS_UPDATE_I18N_LOCALE, locale);
     localStorage.setItem(STORAGE_I18N_LOCALE, locale);
-  },
-
-  // active user
-  updateUserRole({ commit }, val) {
-    commit("UPDATE_USER_ROLE", val);
   }
+
+  // update last used options for natural language
 };
 
 const mutations = {
-  [USER_UPDATE_ROLE]: (state, val) => {
-    state.userRole = val;
-    localStorage.setItem("userRole", val);
-  },
-
   // theme
   [THEME_TOGGLE_LIGHTS]: (state, toggle) => {
     state.theme_settings.lights = toggle;

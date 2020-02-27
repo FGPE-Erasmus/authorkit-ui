@@ -4,6 +4,8 @@
     :itemsPerPage="itemsPerPage"
     :total="totalItems"
     :items="gamificationLayers"
+    :allow-create="permissions[projectId] >= 2"
+    :allow-import="permissions[projectId] >= 2"
     @itemsperpagechange="itemsPerPage = $event"
     @currentpagechange="currentPage = $event"
     @create="create"
@@ -14,10 +16,9 @@
         :id="item.id"
         :name="item.name"
         :description="item.description"
-        :owner_id="item.owner_id"
+        :owner-id="item.owner_id"
         :keywords="item.keywords"
         :status="item.status"
-        :role="'owner'"
         @edit="update(item)"
         @delete="remove"
         @export="exportAndDownload"
@@ -66,6 +67,9 @@ export default {
     },
     ...mapState("project", {
       project: "activeProject"
+    }),
+    ...mapState("permission", {
+      permissions: "permissions"
     })
   },
   created() {

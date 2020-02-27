@@ -26,10 +26,12 @@
           :description="project.description"
           :status="project.status"
           :role="project.role || 'owner'"
-          :contributors="Math.round(Math.random() * 5)"
-          :exercises="Math.round(Math.random() * 10)"
+          :contributors="project.countContributors"
+          :exercises="project.countExercises"
+          :gamification-layers="project.countGamificationLayers"
           @edit="editProject"
           @open="openProject"
+          @share="openSharePopup"
           @delete="deleteProject"
           @export="exportAndDownload"
         />
@@ -41,6 +43,14 @@
       icon-pack="mi"
       class="vs-lg-12"
     ></vs-pagination>
+    <fgpe-share-popup
+      :active="sharePopupOpen"
+      @close-popup="closeSharePopup"
+      :shares="shares"
+      @create="onShareProject"
+      @edit="onEditShareProject"
+      @remove="onRevokePermissionProject"
+    />
   </div>
 </template>
 
@@ -49,21 +59,31 @@ import * as downloads from "@/utils/downloads";
 import {
   MODULE_BASE,
   PROJECT_LIST,
+  PROJECT_SHARES,
   PROJECT_GET,
   PROJECT_CREATE,
   PROJECT_UPDATE,
+  PROJECT_CREATE_PERMISSION,
+  PROJECT_UPDATE_PERMISSION,
+  PROJECT_DELETE_PERMISSION,
   PROJECT_IMPORT,
   PROJECT_EXPORT,
   PROJECT_DELETE
 } from "@/store/projects/project.constants";
+import {
+  MODULE_BASE as PERMISSION_MODULE_BASE,
+  PERMISSION_GET_ALL
+} from "@/store/permissions/permission.constants";
 
 import ProjectCard from "@/components/projects-cards/ProjectCard";
 import CardListHeader from "@/components/card-list/CardListHeader";
+import FgpeSharePopup from "@/components/FgpeSharePopup.vue";
 import ProjectFormSidebar from "@/views/projects/ProjectFormSidebar";
 
 export default {
   components: {
     ProjectCard,
+    FgpeSharePopup,
     CardListHeader,
     ProjectFormSidebar
   },
@@ -74,7 +94,10 @@ export default {
     visible: 0,
     total: 0,
     showSidebarForm: false,
-    sidebarProject: undefined
+    sidebarProject: undefined,
+    sharePopupOpen: false,
+    projectSelected: null,
+    shares: []
   }),
   watch: {
     itemsPerPage: function() {
@@ -87,10 +110,94 @@ export default {
   created() {
     this.fetchProjects();
   },
-  mounted() {},
+  mounted() {
+    this.$store.dispatch(`${PERMISSION_MODULE_BASE}/${PERMISSION_GET_ALL}`);
+  },
   methods: {
     setItemsPerPage(itemsPerPage) {
       this.itemsPerPage = itemsPerPage;
+    },
+
+    openSharePopup(id) {
+      this.projectSelected = id;
+      this.getShares();
+      this.sharePopupOpen = true;
+    },
+    closeSharePopup() {
+      this.sharePopupOpen = false;
+    },
+    getShares() {
+      this.$store
+        .dispatch(`${MODULE_BASE}/${PROJECT_SHARES}`, this.projectSelected)
+        .then(res => {
+          this.shares = res;
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to get shares",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
+    },
+    onShareProject(share) {
+      this.$store
+        .dispatch(`${MODULE_BASE}/${PROJECT_CREATE_PERMISSION}`, {
+          project_id: this.projectSelected,
+          ...share
+        })
+        .then(() => {
+          this.getShares();
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to share project",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
+    },
+    onEditShareProject(share) {
+      this.$store
+        .dispatch(`${MODULE_BASE}/${PROJECT_UPDATE_PERMISSION}`, {
+          project_id: this.projectSelected,
+          ...share
+        })
+        .then(() => {
+          this.getShares();
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to share project",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
+    },
+    onRevokePermissionProject(user_id) {
+      this.$store
+        .dispatch(`${MODULE_BASE}/${PROJECT_DELETE_PERMISSION}`, {
+          project_id: this.projectSelected,
+          user_id
+        })
+        .then(() => {
+          this.getShares();
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to revoke access project",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
     },
 
     openProject(id) {

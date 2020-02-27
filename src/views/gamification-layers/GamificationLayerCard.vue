@@ -7,12 +7,7 @@
     class="cursor-pointer"
   >
     <template slot="actions">
-      <vs-dropdown
-        v-if="role === 'admin' || role === 'owner' || role === 'contributor'"
-        class="cursor-pointer"
-        vs-custom-content
-        vs-trigger-click
-      >
+      <vs-dropdown class="cursor-pointer" vs-custom-content vs-trigger-click>
         <feather-icon
           icon="MoreVerticalIcon"
           svgClasses="w-6 h-6 text-grey"
@@ -20,9 +15,7 @@
 
         <vs-dropdown-menu class="w-32">
           <vs-dropdown-item
-            v-if="
-              role === 'admin' || role === 'owner' || role === 'contributor'
-            "
+            v-if="permissions[project.id] >= 2"
             @click="$emit('edit')"
           >
             <feather-icon
@@ -31,10 +24,7 @@
               svgClasses="w-4 h-4"
             /><span>{{ $t("Card.Actions.Edit") }}</span>
           </vs-dropdown-item>
-          <vs-dropdown-item
-            v-if="role === 'admin' || role === 'owner' || role === 'manager'"
-            @click="$emit('export', id)"
-          >
+          <vs-dropdown-item @click="$emit('export', id)">
             <feather-icon
               icon="ArrowDownCircleIcon"
               class="inline-block mr-2"
@@ -42,7 +32,7 @@
             /><span>{{ $t("Card.Actions.Export") }}</span>
           </vs-dropdown-item>
           <vs-dropdown-item
-            v-if="role === 'admin' || role === 'owner'"
+            v-if="permissions[project.id] >= 3"
             @click="confirmDelete()"
           >
             <feather-icon
@@ -73,6 +63,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import FgpeCard from "@/components/fgpe-card/FgpeCard.vue";
 
 export default {
@@ -81,14 +73,21 @@ export default {
     id: String,
     name: String,
     description: String,
-    owner_id: String,
+    ownerId: String,
     keywords: Array,
     role: String
   },
   data() {
     return {};
   },
-  computed: {},
+  computed: {
+    ...mapState("project", {
+      project: "activeProject"
+    }),
+    ...mapState("permission", {
+      permissions: "permissions"
+    })
+  },
   methods: {
     onGamificationLayerSelect() {
       this.$emit("select");
