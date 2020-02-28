@@ -24,32 +24,74 @@
       </div>
     </div>
 
-    <vs-dropdown vs-trigger-click class="cursor-pointer mb-4 ml-4">
-      <div
-        class="px-6 py-2 border border-solid border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between"
+    <div class="mb-4 ml-4">
+      <vs-dropdown
+        v-if="sortingOptions.length > 0"
+        vs-trigger-click
+        class="cursor-pointer ml-4"
       >
-        <span class="mr-2">
-          {{
-            $t("CardList.Header.ItemsPerPage", {
-              start,
-              end,
-              size
-            })
-          }}
-        </span>
-        <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
-      </div>
-
-      <vs-dropdown-menu class="w-16">
-        <vs-dropdown-item
-          v-for="size in pageSizes"
-          :key="size"
-          @click="$emit('itemsperpagechange', size)"
+        <div
+          class="px-6 py-2 border border-solid border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between"
         >
-          <span>{{ size }}</span>
-        </vs-dropdown-item>
-      </vs-dropdown-menu>
-    </vs-dropdown>
+          <span class="mr-2">{{ $t("fields." + sortingOrder.field) }}</span>
+          <feather-icon
+            v-if="sortingOrder.order === 'ASC'"
+            icon="ArrowUpIcon"
+            svgClasses="h-4 w-4"
+          />
+          <feather-icon
+            v-if="sortingOrder.order === 'DESC'"
+            icon="ArrowDownIcon"
+            svgClasses="h-4 w-4"
+          />
+        </div>
+
+        <vs-dropdown-menu class="w-48 sorting-order">
+          <template v-for="option in sortingOptions">
+            <vs-dropdown-item
+              :key="option + '.ASC'"
+              @click="onSortingOrderChanged(option, 'ASC')"
+            >
+              <span>{{ $t("fields." + option) }}</span>
+              <feather-icon icon="ArrowUpIcon" svgClasses="h-4 w-4" />
+            </vs-dropdown-item>
+            <vs-dropdown-item
+              :key="option + '.DESC'"
+              @click="onSortingOrderChanged(option, 'DESC')"
+            >
+              <span>{{ $t("fields." + option) }}</span>
+              <feather-icon icon="ArrowDownIcon" svgClasses="h-4 w-4" />
+            </vs-dropdown-item>
+          </template>
+        </vs-dropdown-menu>
+      </vs-dropdown>
+      <vs-dropdown vs-trigger-click class="cursor-pointer ml-4">
+        <div
+          class="px-6 py-2 border border-solid border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between"
+        >
+          <span class="mr-2">
+            {{
+              $t("CardList.Header.ItemsPerPage", {
+                start,
+                end,
+                size
+              })
+            }}
+          </span>
+          <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
+        </div>
+
+        <vs-dropdown-menu class="w-24">
+          <vs-dropdown-item
+            v-for="size in pageSizes"
+            :key="size"
+            @click="$emit('itemsperpagechange', size)"
+          >
+            <span>{{ size }}</span>
+          </vs-dropdown-item>
+        </vs-dropdown-menu>
+      </vs-dropdown>
+    </div>
     <input
       v-if="allowImport"
       id="archiveImport"
@@ -69,9 +111,14 @@ export default {
     size: Number,
     currentPage: Number,
     itemsPerPage: Number,
+    sortingOrder: Object,
     pageSizes: {
       type: Array,
       default: () => [6, 12, 18, 24]
+    },
+    sortingOptions: {
+      type: Array,
+      default: () => []
     },
     allowCreate: {
       type: Boolean,
@@ -96,6 +143,9 @@ export default {
     }
   },
   methods: {
+    onSortingOrderChanged(field, order) {
+      this.$emit("sortchange", { field, order });
+    },
     chooseArchive() {
       document.getElementById("archiveImport").click();
     },

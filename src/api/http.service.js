@@ -74,6 +74,7 @@ export default class HttpService {
     limit,
     filter,
     or,
+    search,
     sort,
     fields,
     select,
@@ -87,6 +88,9 @@ export default class HttpService {
     }
     if (limit) {
       searchParams.append("limit", limit);
+    }
+    if (search) {
+      searchParams.append("s", JSON.stringify(search));
     }
     if (filter) {
       filter.forEach(c => {

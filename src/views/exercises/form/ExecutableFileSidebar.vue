@@ -53,7 +53,7 @@
                 $t('Form.File.MaxFileSizeLabel', { filesize: '1MB' })
               "
               :files="files"
-              @updatefiles="updateFiles($event) || validate($event)"
+              @updatefiles="validate($event) && updateFiles()"
             />
             <div v-if="canEditCode" class="flex flex-wrap">
               <span
@@ -210,10 +210,11 @@ export default {
       this.code = code;
     },
 
-    updateFiles(files) {
+    updateFiles() {
       if (this.editorOpen) {
         return;
       }
+      const files = this.$refs.fileUpload.getFiles();
       if (files.length) {
         if (!(files[0].file instanceof File)) {
           this.fileItem.file = new File(
@@ -223,7 +224,9 @@ export default {
           );
         } else {
           this.fileItem.file = files[0].file;
-          this.readFile(this.fileItem.file);
+          if (files[0].status !== 8) {
+            this.readFile(this.fileItem.file);
+          }
         }
       } else {
         this.fileItem.file = undefined;

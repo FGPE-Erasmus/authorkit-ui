@@ -45,6 +45,9 @@ const actions = {
       commit(GAMIFICATION_LAYER_GET_REQUEST);
       gamificationlayerService
         .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
         .getOne(id)
         .then(res => {
           commit(GAMIFICATION_LAYER_GET_SUCCESS, res.data);
@@ -63,6 +66,9 @@ const actions = {
       commit(GAMIFICATION_LAYER_LIST_REQUEST);
       gamificationlayerService
         .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
         .list(query)
         .then(res => {
           commit(GAMIFICATION_LAYER_LIST_SUCCESS, res.data);
@@ -81,6 +87,9 @@ const actions = {
       commit(GAMIFICATION_LAYER_CREATE_REQUEST);
       gamificationlayerService
         .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
         .create(gamification_layer)
         .then(res => {
           commit(GAMIFICATION_LAYER_CREATE_SUCCESS, res.data);
@@ -102,6 +111,9 @@ const actions = {
       commit(GAMIFICATION_LAYER_UPDATE_REQUEST);
       gamificationlayerService
         .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
         .update(id, gamification_layer)
         .then(res => {
           commit(GAMIFICATION_LAYER_UPDATE_SUCCESS, res.data);
@@ -119,6 +131,9 @@ const actions = {
       commit(GAMIFICATION_LAYER_DELETE_REQUEST);
       gamificationlayerService
         .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
         .delete(id)
         .then(res => {
           commit(GAMIFICATION_LAYER_DELETE_SUCCESS, res.data);
@@ -140,6 +155,9 @@ const actions = {
       commit(GAMIFICATION_LAYER_IMPORT_REQUEST);
       gamificationlayerService
         .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
         .import({ project_id, file })
         .then(res => {
           commit(GAMIFICATION_LAYER_IMPORT_SUCCESS, res.data);
@@ -157,6 +175,9 @@ const actions = {
       commit(GAMIFICATION_LAYER_EXPORT_REQUEST);
       gamificationlayerService
         .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
         .export(id)
         .then(res => {
           commit(GAMIFICATION_LAYER_EXPORT_SUCCESS, res.data);

@@ -11,6 +11,11 @@ class GamificationLayerService extends HttpService {
     return this;
   }
 
+  onProject(project) {
+    this.headers.project = project;
+    return this;
+  }
+
   list(query) {
     return this.client.get(`gamification-layers`, {
       headers: this.headers,

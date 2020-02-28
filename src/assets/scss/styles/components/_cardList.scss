@@ -1,0 +1,11 @@
+.card-list {
+
+    &__header {}
+}
+
+.vs-dropdown-menu {
+    &.sorting-order a {
+        display: flex;
+        justify-content: space-between;
+    }
+}

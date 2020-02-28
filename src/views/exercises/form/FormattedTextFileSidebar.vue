@@ -103,7 +103,7 @@
                 $t('Form.File.MaxFileSizeLabel', { filesize: '1MB' })
               "
               :files="files"
-              @updatefiles="updateFiles($event) || validate($event)"
+              @updatefiles="validate($event) && updateFiles()"
             />
             <div
               v-if="canEditCode && fileItem.format !== 'pdf'"
@@ -136,6 +136,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { ValidationProvider } from "vee-validate";
 
 import { base64toBlob } from "@/assets/utils/file.js";
@@ -197,11 +198,6 @@ export default {
           };
         }
       },
-      empty: {
-        pathname: "",
-        format: "",
-        nat_lang: ""
-      },
       textFormats: {
         pdf: "PDF",
         markdown: "MARKDOWN",
@@ -217,17 +213,27 @@ export default {
     };
   },
   watch: {
-    item(val) {
-      if (!val) {
+    isSidebarActive() {
+      if (this.item) {
+        this.fileItem = Object.assign({}, this.item);
+        this.filename = this.fileItem.pathname;
+      } else {
         this.fileItem = Object.assign({}, this.empty);
         this.fileItem.file = undefined;
-      } else {
-        this.fileItem = Object.assign({}, val);
-        this.filename = this.fileItem.pathname;
       }
     }
   },
   computed: {
+    ...mapState({
+      last_used: "last_used_values"
+    }),
+    empty() {
+      return {
+        pathname: "",
+        format: this.last_used.format,
+        nat_lang: this.last_used.nat_lang
+      };
+    },
     files() {
       if (this.fileItem && this.fileItem.pathname) {
         return [
@@ -271,10 +277,11 @@ export default {
       this.code = code;
     },
 
-    updateFiles(files) {
+    updateFiles() {
       if (this.editorOpen) {
         return;
       }
+      const files = this.$refs.fileUpload.getFiles();
       if (files.length) {
         if (!(files[0].file instanceof File)) {
           this.fileItem.file = new File(
@@ -284,7 +291,9 @@ export default {
           );
         } else {
           this.fileItem.file = files[0].file;
-          this.readFile(this.fileItem.file);
+          if (files[0].status !== 8) {
+            this.readFile(this.fileItem.file);
+          }
         }
       } else {
         this.fileItem.file = undefined;

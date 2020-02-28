@@ -11,6 +11,12 @@ export default {
 
   ReturnHome: "Return Home",
 
+  Navbar: {
+    Search: {
+      Placeholder: "Search"
+    }
+  },
+
   // auth pages
   Login: {
     Title: "Login",
@@ -104,8 +110,13 @@ export default {
     Header: {
       Create: "Create",
       Import: "Import",
-      ItemsPerPage: "{start}-{end} of {size}"
-    }
+      ItemsPerPage: "{start}-{end} of {size}",
+      Order: {
+        ASC: "&uarr;",
+        DESC: "&darr;"
+      }
+    },
+    NoData: "No data available"
   },
 
   Card: {
@@ -438,20 +449,20 @@ export default {
     criteria: "The {_field_} is not a valid conditional"
   },
   fields: {
-    firstname: "first name",
-    lastname: "last name",
-    email: "email",
-    password: "password",
-    password_confirmation: "password confirmation",
-    terms: "terms and conditions",
-    title: "title",
-    module: "module",
-    keywords: "keywords",
-    type: "type",
-    event: "event",
-    platform: "platform",
-    difficulty: "difficulty",
-    status: "status",
+    firstname: "First Name",
+    lastname: "Last Name",
+    email: "Email",
+    password: "Password",
+    password_confirmation: "Password Confirmation",
+    terms: "Terms and Conditions",
+    title: "Title",
+    module: "Module",
+    keywords: "Keywords",
+    type: "Type",
+    event: "Event",
+    platform: "Platform",
+    difficulty: "Difficulty",
+    status: "Status",
     Instructions: "Instructions",
     Statements: "Statements",
     Embeddables: "Embeddables",
@@ -465,25 +476,27 @@ export default {
     Templates: "Templates",
     Tests: "Tests",
     TestSets: "Test Sets",
-    format: "format",
-    nat_lang: "natural language",
-    prog_lang: "programming language",
-    file: "file",
-    command_line: "command line",
-    name: "name",
-    description: "description",
-    metrics: "metrics",
-    kind: "kind",
-    mode: "mode",
-    unlockable_exercises: "unlockable exercises",
-    unlockable_challenges: "unlockable challenges",
-    revealable_exercises: "revealable exercises",
-    revealable_challenges: "revealable challenges",
-    hints: "hints",
-    congratulations: "congratulations",
-    criteria: "criteria",
-    action_types: "action types",
-    parameters: "parameters",
-    reward_parameters: "reward parameters"
+    format: "Format",
+    nat_lang: "Natural Language",
+    prog_lang: "Programming Language",
+    file: "File",
+    command_line: "Command Line",
+    name: "Name",
+    description: "Description",
+    metrics: "Metrics",
+    kind: "Kind",
+    mode: "Mode",
+    unlockable_exercises: "Unlockable Exercises",
+    unlockable_challenges: "Unlockable Challenges",
+    revealable_exercises: "Revealable Exercises",
+    revealable_challenges: "Revealable Challenges",
+    hints: "Hints",
+    congratulations: "Congratulations",
+    criteria: "Criteria",
+    action_types: "Action Types",
+    parameters: "Parameters",
+    reward_parameters: "Reward Parameters",
+    updated_at: "Last Modified Date",
+    created_at: "Created Date"
   }
 };

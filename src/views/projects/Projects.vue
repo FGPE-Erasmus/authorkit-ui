@@ -1,48 +1,43 @@
 <template>
-  <div id="projects-list">
+  <div id="project-list">
     <project-form-sidebar
       :isSidebarActive="showSidebarForm"
       :data="sidebarProject"
       @closeSidebar="showSidebarForm = false"
       @submit="createOrUpdateProject"
     />
-    <card-list-header
-      :size="total"
+    <card-list
+      :sorting-options="sortingOptions"
       :current-page="currentPage"
       :items-per-page="itemsPerPage"
+      :sorting-order="sortingOrder"
+      :total="totalItems"
+      :items="projects"
+      :allow-create="true"
+      :allow-import="true"
+      @itemsperpagechange="itemsPerPage = $event"
+      @currentpagechange="currentPage = $event"
+      @sortchange="sortingOrder = $event"
       @create="showSidebarForm = true"
       @import="uploadAndImport"
-      @itemsperpagechange="setItemsPerPage"
-    />
-    <div class="vx-row">
-      <div
-        class="vx-col w-full md:w-1/3 sm:w-1/2 mb-base"
-        v-for="project in projects"
-        :key="project.id"
-      >
+    >
+      <template v-slot:card="{ item }">
         <project-card
-          :id="project.id"
-          :name="project.name"
-          :description="project.description"
-          :status="project.status"
-          :role="project.role || 'owner'"
-          :contributors="project.countContributors"
-          :exercises="project.countExercises"
-          :gamification-layers="project.countGamificationLayers"
+          :id="item.id"
+          :name="item.name"
+          :description="item.description"
+          :status="item.status"
+          :contributors="item.countContributors"
+          :exercises="item.countExercises"
+          :gamification-layers="item.countGamificationLayers"
           @edit="editProject"
           @open="openProject"
           @share="openSharePopup"
           @delete="deleteProject"
           @export="exportAndDownload"
         />
-      </div>
-    </div>
-    <vs-pagination
-      :total="Math.ceil(total / itemsPerPage)"
-      v-model="currentPage"
-      icon-pack="mi"
-      class="vs-lg-12"
-    ></vs-pagination>
+      </template>
+    </card-list>
     <fgpe-share-popup
       :active="sharePopupOpen"
       @close-popup="closeSharePopup"
@@ -55,7 +50,10 @@
 </template>
 
 <script>
-import * as downloads from "@/utils/downloads";
+import { mapState } from "vuex";
+
+import * as downloads from "@/assets/utils/downloads";
+import * as search from "@/assets/utils/search";
 import {
   MODULE_BASE,
   PROJECT_LIST,
@@ -75,36 +73,66 @@ import {
   PERMISSION_GET_ALL
 } from "@/store/permissions/permission.constants";
 
-import ProjectCard from "@/components/projects-cards/ProjectCard";
-import CardListHeader from "@/components/card-list/CardListHeader";
+import CardList from "@/components/card-list/CardList";
 import FgpeSharePopup from "@/components/FgpeSharePopup.vue";
+import ProjectCard from "@/views/projects/ProjectCard";
 import ProjectFormSidebar from "@/views/projects/ProjectFormSidebar";
 
 export default {
   components: {
-    ProjectCard,
+    CardList,
     FgpeSharePopup,
-    CardListHeader,
+    ProjectCard,
     ProjectFormSidebar
   },
   data: () => ({
+    sortingOptions: ["name", "updated_at", "created_at"],
     projects: [],
     currentPage: 1,
     itemsPerPage: 6,
     visible: 0,
-    total: 0,
+    totalItems: 0,
+    sortingOrder: {
+      field: "updated_at",
+      order: "DESC"
+    },
     showSidebarForm: false,
     sidebarProject: undefined,
     sharePopupOpen: false,
     projectSelected: null,
-    shares: []
+    shares: [],
+    searchObj: undefined
   }),
+  computed: {
+    ...mapState({
+      searchQuery: "searchQuery"
+    })
+  },
   watch: {
     itemsPerPage: function() {
       this.fetchProjects();
     },
     currentPage: function() {
       this.fetchProjects();
+    },
+    sortingOrder: function() {
+      this.fetchProjects();
+    },
+    searchQuery: {
+      handler: function() {
+        if (!this.searchQuery) {
+          this.searchObj = undefined;
+        } else {
+          this.searchObj = search.searchQueryToSearch(
+            this.searchQuery,
+            ["name"],
+            ["status"]
+          );
+        }
+        this.currentPage = 1;
+        this.fetchProjects();
+      },
+      deep: true
     }
   },
   created() {
@@ -114,10 +142,6 @@ export default {
     this.$store.dispatch(`${PERMISSION_MODULE_BASE}/${PERMISSION_GET_ALL}`);
   },
   methods: {
-    setItemsPerPage(itemsPerPage) {
-      this.itemsPerPage = itemsPerPage;
-    },
-
     openSharePopup(id) {
       this.projectSelected = id;
       this.getShares();
@@ -216,7 +240,7 @@ export default {
         })
         .catch(err => {
           this.$vs.notify({
-            title: "Failed to Retrieve Projects",
+            title: "Failed to retrieve projects",
             text: err.message,
             iconPack: "mi",
             icon: "error",
@@ -230,16 +254,18 @@ export default {
       this.$store
         .dispatch(`${MODULE_BASE}/${PROJECT_LIST}`, {
           page: this.currentPage,
-          limit: this.itemsPerPage
+          limit: this.itemsPerPage,
+          search: this.searchObj,
+          sort: [`${this.sortingOrder.field},${this.sortingOrder.order}`]
         })
         .then(res => {
           this.projects = res.data;
           this.visible = res.data.length;
-          this.total = res.total;
+          this.totalItems = res.total;
         })
         .catch(err => {
           this.$vs.notify({
-            title: "Failed to List Projects",
+            title: "Failed to list projects",
             text: err.message,
             iconPack: "mi",
             icon: "error",
@@ -267,7 +293,7 @@ export default {
           })
           .catch(err => {
             this.$vs.notify({
-              title: "Failed to Create Project",
+              title: "Failed to create project",
               text: err.message,
               iconPack: "mi",
               icon: "error",
@@ -295,7 +321,7 @@ export default {
           })
           .catch(err => {
             this.$vs.notify({
-              title: "Failed to Update Project",
+              title: "Failed to update project",
               text: err.message,
               iconPack: "mi",
               icon: "error",
@@ -350,7 +376,7 @@ export default {
         })
         .catch(err => {
           this.$vs.notify({
-            title: "Failed to Delete Project",
+            title: "Failed to delete project",
             text: err.message,
             iconPack: "mi",
             icon: "error",

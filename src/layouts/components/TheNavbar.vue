@@ -14,25 +14,26 @@
 
         <vs-spacer></vs-spacer>
 
-        <i18n-select />
+        <i18n-select class="sm:mr-6 mr-2" />
 
         <div
           class="search-full-container w-full h-full absolute pin-l rounded-lg"
           :class="{ flex: showFullSearch }"
           v-show="showFullSearch"
         >
-          <fgpe-auto-suggest
-            :autoFocus="showFullSearch"
-            :data="searchableItems"
-            @selected="selected"
+          <vs-input
             ref="navbarSearch"
+            v-model="searchQuery"
             @closeSearchbar="showFullSearch = false"
-            placeholder="Search..."
-            class="w-full"
-            inputClassses="w-full vs-input-no-border vs-input-no-shdow-focus no-icon-border"
-            icon="SearchIcon"
+            :placeholder="$t('Navbar.Search.Placeholder')"
+            class="w-full searchbox vs-input-no-shdow-focus no-icon-border"
+            inputClassses="w-full"
+            icon-pack="feather"
+            icon="icon-search"
             background-overlay
-          ></fgpe-auto-suggest>
+            @keyup.enter.native="onSearch"
+            @blur="onSearchBlur"
+          ></vs-input>
           <div class="absolute pin-r h-full z-50">
             <feather-icon
               icon="XIcon"
@@ -42,16 +43,17 @@
           </div>
         </div>
         <feather-icon
+          v-if="showSearchIcon"
           icon="SearchIcon"
           @click="showFullSearch = true"
-          class="cursor-pointer navbar-fuzzy-search mx-4"
+          class="cursor-pointer navbar-fuzzy-search sm:mr-6 mr-2"
         ></feather-icon>
 
         <!-- LIGHT TOGGLER -->
         <feather-icon
           :icon="lights ? 'SunIcon' : 'MoonIcon'"
           @click="toggleLights"
-          class="cursor-pointer mr-4"
+          class="cursor-pointer sm:mr-6 mr-2"
         ></feather-icon>
 
         <!-- NOTIFICATIONS -->
@@ -193,12 +195,12 @@ import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
 import {
   TOGGLE_LIGHTS,
+  UPDATE_SEARCH_QUERY,
   THEME_TOGGLE_IS_SIDEBAR_ACTIVE
 } from "@/store/constants";
 import { MODULE_BASE, AUTH_LOGOUT } from "@/store/auth/auth.constants";
 import I18nSelect from "@/components/I18nSelect.vue";
 import GravatarImg from "@/components/GravatarImg.vue";
-import FgpeAutoSuggest from "@/components/FgpeAutoSuggest";
 
 export default {
   name: "the-navbar",
@@ -210,7 +212,6 @@ export default {
   },
   data() {
     return {
-      searchableItems: this.$store.state.searchableItems,
       searchQuery: "",
       showFullSearch: false,
       unreadNotifications: [
@@ -232,14 +233,21 @@ export default {
     };
   },
   watch: {
-    $route() {
-      if (this.showBookmarkPagesDropdown)
-        this.showBookmarkPagesDropdown = false;
+    $route() {},
+    showFullSearch(val) {
+      if (!val) {
+        this.clearSearch();
+      } else {
+        this.$nextTick(() =>
+          this.$refs.navbarSearch.$el.querySelector("input").focus()
+        );
+      }
     }
   },
   computed: {
     ...mapState({
       lights: state => state.theme_settings.lights,
+      showSearchIcon: state => state.theme_settings.showSearchIcon,
       user: state => state.auth.profile
     }),
 
@@ -268,12 +276,6 @@ export default {
     selected(item) {
       this.$router.push(item.url);
       this.showFullSearch = false;
-    },
-    showNavbarSearch() {
-      this.showFullSearch = true;
-    },
-    showSearchbar() {
-      this.showFullSearch = true;
     },
     elapsedTime(startTime) {
       let x = new Date(startTime);
@@ -312,6 +314,22 @@ export default {
     toggleLights() {
       this.$store.dispatch(TOGGLE_LIGHTS);
     },
+
+    onSearch() {
+      this.$store.dispatch(UPDATE_SEARCH_QUERY, this.searchQuery);
+    },
+
+    onSearchBlur() {
+      if (!this.searchQuery) {
+        this.showFullSearch = false;
+      }
+    },
+
+    clearSearch() {
+      this.searchQuery = "";
+      this.onSearch();
+    },
+
     logout() {
       this.$store.dispatch(`${MODULE_BASE}/${AUTH_LOGOUT}`);
     }
@@ -337,7 +355,6 @@ export default {
   },
   components: {
     VuePerfectScrollbar,
-    FgpeAutoSuggest,
     I18nSelect,
     GravatarImg
   }

@@ -135,7 +135,9 @@ export default {
         return this.filename;
       },
       set(val) {
-        this.$emit("change-filename", val);
+        if (this.filename !== val) {
+          this.$emit("change-filename", val);
+        }
       }
     },
     programmingLanguageLocal: {
@@ -151,7 +153,9 @@ export default {
         return this.code;
       },
       set(val) {
-        this.$emit("change-code", val);
+        if (this.code !== val) {
+          this.$emit("change-code", val);
+        }
       }
     }
   }

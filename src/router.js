@@ -15,6 +15,7 @@ import Vue from "vue";
 import Router from "vue-router";
 
 import store from "@/store/store";
+import { SHOW_SEARCH_ICON, HIDE_SEARCH_ICON } from "@/store/constants";
 import {
   MODULE_BASE as PROJECT_MODULE_BASE,
   PROJECT_GET,
@@ -226,6 +227,13 @@ router.beforeEach((to, from, next) => {
     to.path === "/maintenance" ||
     store.getters["auth/isAuthenticated"]
   ) {
+    if (
+      to.path.match(/\/(dashboard|projects|exercises|gamification-layers)\/?$/i)
+    ) {
+      store.dispatch(SHOW_SEARCH_ICON);
+    } else {
+      store.dispatch(HIDE_SEARCH_ICON);
+    }
     const projectsPathMatch = to.path.match(/\/projects\/([^/]+)/i);
     if (projectsPathMatch) {
       if (

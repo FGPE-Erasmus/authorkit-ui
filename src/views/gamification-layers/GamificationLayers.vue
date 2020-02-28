@@ -1,13 +1,16 @@
 <template>
   <card-list
-    :currentPage="currentPage"
-    :itemsPerPage="itemsPerPage"
+    :sorting-options="sortingOptions"
+    :current-page="currentPage"
+    :items-per-page="itemsPerPage"
+    :sorting-order="sortingOrder"
     :total="totalItems"
     :items="gamificationLayers"
     :allow-create="permissions[projectId] >= 2"
     :allow-import="permissions[projectId] >= 2"
     @itemsperpagechange="itemsPerPage = $event"
     @currentpagechange="currentPage = $event"
+    @sortchange="sortingOrder = $event"
     @create="create"
     @import="uploadAndImport"
   >
@@ -30,7 +33,8 @@
 <script>
 import { mapState } from "vuex";
 
-import * as downloads from "@/utils/downloads";
+import * as downloads from "@/assets/utils/downloads";
+import * as search from "@/assets/utils/search";
 import {
   MODULE_BASE,
   GAMIFICATION_LAYER_LIST,
@@ -48,10 +52,16 @@ export default {
     GamificationLayerCard
   },
   data: () => ({
+    sortingOptions: ["name", "updated_at", "created_at"],
     gamificationLayers: [],
     currentPage: 1,
     itemsPerPage: 6,
-    totalItems: 0
+    totalItems: 0,
+    sortingOrder: {
+      field: "updated_at",
+      order: "DESC"
+    },
+    searchObj: undefined
   }),
   watch: {
     itemsPerPage: function() {
@@ -59,6 +69,25 @@ export default {
     },
     currentPage: function() {
       this.fetchGamificationLayers();
+    },
+    sortingOrder: function() {
+      this.fetchGamificationLayers();
+    },
+    searchQuery: {
+      handler: function() {
+        if (!this.searchQuery) {
+          this.searchObj = undefined;
+        } else {
+          this.searchObj = search.searchQueryToSearch(
+            this.searchQuery,
+            ["name", "keywords"],
+            ["status"]
+          );
+        }
+        this.currentPage = 1;
+        this.fetchGamificationLayers();
+      },
+      deep: true
     }
   },
   computed: {
@@ -70,6 +99,9 @@ export default {
     }),
     ...mapState("permission", {
       permissions: "permissions"
+    }),
+    ...mapState({
+      searchQuery: "searchQuery"
     })
   },
   created() {
@@ -77,18 +109,13 @@ export default {
   },
   mounted() {},
   methods: {
-    setItemsPerPage(itemsPerPage) {
-      this.itemsPerPage = itemsPerPage;
-    },
-    setCurrentPage(currentPage) {
-      this.currentPage = currentPage;
-    },
     fetchGamificationLayers() {
       this.$store
         .dispatch(`${MODULE_BASE}/${GAMIFICATION_LAYER_LIST}`, {
           page: this.currentPage,
           limit: this.itemsPerPage,
-          filter: [`project_id||eq||${this.projectId}`]
+          search: this.searchObj,
+          sort: [`${this.sortingOrder.field},${this.sortingOrder.order}`]
         })
         .then(res => {
           this.gamificationLayers = res.data;

@@ -214,6 +214,11 @@ export default {
       lights: state => state.theme_settings.lights
     })
   },
+  mounted() {
+    if (this.isUserLoggedIn()) {
+      this.$router.push(this.$router.currentRoute.query.to || "/");
+    }
+  },
   methods: {
     ...mapGetters({
       isUserLoggedIn: "auth/isUserLoggedIn"

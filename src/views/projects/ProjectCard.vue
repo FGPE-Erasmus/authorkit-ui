@@ -2,7 +2,7 @@
   <fgpe-card :title="name" ref="card">
     <template slot="actions">
       <vs-dropdown
-        v-if="role === 'admin' || role === 'owner' || role === 'manager'"
+        v-if="permissions[id] >= 2"
         class="cursor-pointer"
         vs-trigger-click
       >

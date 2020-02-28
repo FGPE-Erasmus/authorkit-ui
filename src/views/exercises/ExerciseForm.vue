@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { ValidationObserver } from "vee-validate";
 import { FormWizard, TabContent, WizardButton } from "vue-form-wizard";
 import "vue-form-wizard/dist/vue-form-wizard.min.css";
@@ -110,16 +111,6 @@ export default {
         ...this.emptyEvaluation,
         ...this.emptyTools
       },
-      emptyMetadata: {
-        title: "",
-        module: "",
-        keywords: [],
-        type: "",
-        event: "",
-        platform: "",
-        difficulty: "",
-        status: ""
-      },
       emptyPresentation: {
         instructions: [],
         statements: [],
@@ -148,6 +139,21 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      last_used: "last_used_values"
+    }),
+    emptyMetadata() {
+      return {
+        title: "",
+        module: this.last_used.module,
+        keywords: [],
+        type: this.last_used.type,
+        event: "",
+        platform: "",
+        difficulty: this.last_used.difficulty,
+        status: ""
+      };
+    },
     exerciseId() {
       return this.id || this.$route.params.id;
     },

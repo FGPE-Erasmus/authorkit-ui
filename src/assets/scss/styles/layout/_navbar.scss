@@ -120,14 +120,18 @@
 
 .search-full-container {
     z-index: 50000;
-    .fgpe-auto-suggest {
+    .searchbox {
+        border: 0;
+        height: 100%;
         >div {
             height: 100%;
         }
 
         input[type="text"],
         .input-span-placeholder {
-            padding: 1.25rem 3rem;
+            padding: 1.25rem 3.5rem !important;
+            border: 0 !important;
+            background: transparent;
         }
 
         .vs-input--icon.feather {
@@ -139,11 +143,6 @@
     >div.feather-icon {
         position: absolute !important;
     }
-}
-
-// Bookmark Dropdown
-.bookmark-dropdown {
-    z-index: 41001;
 }
 
 // navbar update fixes

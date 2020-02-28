@@ -110,7 +110,9 @@ const actions = {
         .then(res => {
           commit(PROJECT_CREATE_SUCCESS, res.data);
 
-          dispatch(`${PERMISSION_MODULE_BASE}/${PERMISSION_GET}`, res.data.id);
+          dispatch(`${PERMISSION_MODULE_BASE}/${PERMISSION_GET}`, res.data.id, {
+            root: true
+          });
 
           resolve(res.data);
         })
@@ -122,7 +124,7 @@ const actions = {
     });
   },
 
-  [PROJECT_UPDATE]: ({ commit, rootState }, { id, project }) => {
+  [PROJECT_UPDATE]: ({ dispatch, commit, rootState }, { id, project }) => {
     return new Promise((resolve, reject) => {
       commit(PROJECT_UPDATE_REQUEST);
       projectService
@@ -130,6 +132,11 @@ const actions = {
         .update(id, project)
         .then(res => {
           commit(PROJECT_UPDATE_SUCCESS, res.data);
+
+          dispatch(`${PERMISSION_MODULE_BASE}/${PERMISSION_GET}`, res.data.id, {
+            root: true
+          });
+
           resolve(res.data);
         })
         .catch(err => {
@@ -139,7 +146,7 @@ const actions = {
     });
   },
 
-  [PROJECT_IMPORT]: ({ commit, rootState }, { file }) => {
+  [PROJECT_IMPORT]: ({ dispatch, commit, rootState }, { file }) => {
     return new Promise((resolve, reject) => {
       commit(PROJECT_IMPORT_REQUEST);
       projectService
@@ -147,6 +154,11 @@ const actions = {
         .import({ file })
         .then(res => {
           commit(PROJECT_IMPORT_SUCCESS, res.data);
+
+          dispatch(`${PERMISSION_MODULE_BASE}/${PERMISSION_GET}`, res.data.id, {
+            root: true
+          });
+
           resolve(res.data);
         })
         .catch(err => {
