@@ -128,7 +128,6 @@ export default {
     name: String,
     description: String,
     status: String,
-    role: String,
     contributors: Number,
     exercises: Number,
     gamificationLayers: Number
