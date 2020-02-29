@@ -1,6 +1,6 @@
 <template>
   <add-update-file-sidebar
-    :type="$t('Exercise._Test')"
+    :name="name"
     :existing="!!test.id"
     :is-sidebar-active="isSidebarActive"
     @submit="$emit('submit', fullTest)"
@@ -20,7 +20,7 @@
               name="inputFile"
               ref="inputFileUpload"
               class-name="fgpe-pond"
-              :server="server"
+              :server="inputServer"
               :label-idle="$t('Exercise.Test.File.UploadInputFile')"
               allow-multiple="false"
               max-files="1"
@@ -35,6 +35,14 @@
               :files="inputFiles"
               @updatefiles="updateInputFiles($event) || validate($event)"
             />
+            <div v-if="canEditInput" class="flex flex-wrap">
+              <span
+                class="text-primary cursor-pointer ml-auto"
+                @click="openEditor('input')"
+              >
+                {{ $t("Form.File.OpenEditor") }}
+              </span>
+            </div>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
@@ -55,7 +63,7 @@
               name="outputFile"
               ref="outputFileUpload"
               class-name="fgpe-pond"
-              :server="server"
+              :server="outputServer"
               :label-idle="$t('Exercise.Test.File.UploadOutputFile')"
               allow-multiple="false"
               max-files="1"
@@ -70,6 +78,14 @@
               :files="outputFiles"
               @updatefiles="updateOutputFiles($event) || validate($event)"
             />
+            <div v-if="canEditOutput" class="flex flex-wrap">
+              <span
+                class="text-primary cursor-pointer ml-auto"
+                @click="openEditor('output')"
+              >
+                {{ $t("Form.File.OpenEditor") }}
+              </span>
+            </div>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
@@ -150,6 +166,15 @@
           </vs-checkbox>
         </div>
       </div>
+      <fgpe-code-editor-popup
+        :active="editorOpen"
+        @close-popup="closeEditor"
+        :programming-language="'text'"
+        :filename="filename"
+        @change-filename="onChangeFilename"
+        :code="code"
+        @change-code="onChangeCode"
+      />
     </template>
   </add-update-file-sidebar>
 </template>
@@ -165,6 +190,7 @@ import {
 } from "@/store/exercises/exercise.constants";
 
 import FgpeChips from "@/components/FgpeChips";
+import FgpeCodeEditorPopup from "@/components/FgpeCodeEditorPopup";
 import AddUpdateFileSidebar from "@/components/sidebar-form/AddUpdateFileSidebar";
 
 export default {
@@ -172,10 +198,12 @@ export default {
   components: {
     ValidationProvider,
     "fgpe-chips": FgpeChips,
+    "fgpe-code-editor-popup": FgpeCodeEditorPopup,
     "add-update-file-sidebar": AddUpdateFileSidebar
   },
   props: {
-    exerciseId: String,
+    name: String,
+    type: String,
     testsetId: String,
     isSidebarActive: {
       type: Boolean,
@@ -188,25 +216,47 @@ export default {
   },
   data() {
     return {
-      server: {
+      inputServer: {
         process: null,
         load: (source, load, error, progress, abort) => {
           this.$store
             .dispatch(`${MODULE_BASE}/${EXERCISE_FILE_READ}`, {
-              exerciseId: this.exerciseId || this.$route.params.id,
-              path: source
+              id: this.item.id + "/input",
+              type: this.type
             })
             .then(res => {
+              this.inputCode = atob(res);
               load(base64toBlob(res));
             })
             .catch(err => {
               error(err.message);
             });
 
-          // Should expose an abort method so the request can be cancelled
           return {
             abort: () => {
-              // User tapped cancel, abort our ongoing actions here
+              abort();
+            }
+          };
+        }
+      },
+      outputServer: {
+        process: null,
+        load: (source, load, error, progress, abort) => {
+          this.$store
+            .dispatch(`${MODULE_BASE}/${EXERCISE_FILE_READ}`, {
+              id: this.item.id + "/output",
+              type: this.type
+            })
+            .then(res => {
+              this.outputCode = atob(res);
+              load(base64toBlob(res));
+            })
+            .catch(err => {
+              error(err.message);
+            });
+
+          return {
+            abort: () => {
               abort();
             }
           };
@@ -225,7 +275,21 @@ export default {
       },
       test: undefined,
       inputFile: undefined,
-      outputFile: undefined
+      outputFile: undefined,
+
+      canEditInput: true,
+      canEditOutput: true,
+      editorOpen: false,
+      editorType: null,
+
+      inputFilename: "",
+      inputCode: "",
+
+      outputFilename: "",
+      outputCode: "",
+
+      filename: "",
+      code: ""
     };
   },
   watch: {
@@ -236,6 +300,8 @@ export default {
         this.outputFile = undefined;
       } else {
         this.test = Object.assign({}, val);
+        this.inputFilename = this.test.input.pathname;
+        this.outputFilename = this.test.output.pathname;
       }
     }
   },
@@ -286,7 +352,65 @@ export default {
     }
   },
   methods: {
+    openEditor(type) {
+      this.editorOpen = true;
+      this.editorType = type;
+      if (type === "input") {
+        this.filename = this.inputFilename;
+        this.code = this.inputCode;
+      } else {
+        this.filename = this.outputFilename;
+        this.code = this.outputCode;
+      }
+    },
+    closeEditor() {
+      this.editorOpen = false;
+      if (this.editorType === "input") {
+        this.inputFilename = this.filename;
+        this.inputCode = this.code;
+      } else {
+        this.outputFilename = this.filename;
+        this.outputCode = this.code;
+      }
+      this.editorType = null;
+    },
+
+    onChangeFilename(filename) {
+      const file = new File([new Blob([this.code])], filename || "file", {
+        type: "text/plain"
+      });
+      if (this.editorType === "input") {
+        this.$refs.inputFileUpload.removeFile();
+        this.$refs.inputFileUpload.addFile(file);
+        this.inputFile = file;
+      } else {
+        this.$refs.outputFileUpload.removeFile();
+        this.$refs.outputFileUpload.addFile(file);
+        this.outputFile = file;
+      }
+      this.filename = filename;
+    },
+
+    onChangeCode(code) {
+      const file = new File([new Blob([code])], this.filename, {
+        type: "text/plain"
+      });
+      if (this.editorType === "input") {
+        this.$refs.inputFileUpload.removeFile();
+        this.$refs.inputFileUpload.addFile(file);
+        this.inputFile = file;
+      } else {
+        this.$refs.outputFileUpload.removeFile();
+        this.$refs.outputFileUpload.addFile(file);
+        this.outputFile = file;
+      }
+      this.code = code;
+    },
+
     updateInputFiles(files) {
+      if (this.editorOpen) {
+        return;
+      }
       if (files.length) {
         if (!(files[0].file instanceof File)) {
           this.inputFile = new File([files[0].file], this.test.input.filename, {
@@ -294,12 +418,18 @@ export default {
           });
         } else {
           this.inputFile = files[0].file;
+          this.readFile(this.inputFile, "input");
         }
       } else {
         this.inputFile = undefined;
+        this.inputFilename = "";
+        this.inputCode = "";
       }
     },
     updateOutputFiles(files) {
+      if (this.editorOpen) {
+        return;
+      }
       if (files.length) {
         if (!(files[0].file instanceof File)) {
           this.outputFile = new File(
@@ -309,14 +439,38 @@ export default {
           );
         } else {
           this.outputFile = files[0].file;
+          this.readFile(this.outputFile, "output");
         }
       } else {
         this.outputFile = undefined;
+        this.outputFilename = "";
+        this.outputCode = "";
       }
     },
     removeArg(arg) {
       this.test.arguments.splice(this.test.arguments.indexOf(arg), 1);
       return false;
+    },
+
+    readFile(file, type) {
+      if (type === "input") {
+        this.canEditInput = false;
+      } else {
+        this.canEditOutput = false;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (type === "input") {
+          this.inputFilename = file.name;
+          this.inputCode = reader.result;
+          this.canEditInput = true;
+        } else {
+          this.outputFilename = file.name;
+          this.outputCode = reader.result;
+          this.canEditOutput = true;
+        }
+      };
+      reader.readAsText(file, "UTF-8");
     }
   }
 };

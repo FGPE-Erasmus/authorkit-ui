@@ -1,0 +1,49 @@
+
+.fgpe-share-popup {
+    .vs-popup--content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .label {
+        font-size: 0.7em;
+        display: block;
+    }
+
+    .share-list {
+        min-height: 240px;
+        display: flex;
+        align-items: center;
+
+        ul {
+            display: block;
+            width: 100%;
+        }
+
+        li {
+            display: flex;
+            padding: 8px;
+
+            .user {
+                display: flex;
+                flex: 1;
+            }
+            .level {
+                display: flex;
+                flex: 0 0 120px;
+            }
+            .actions {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                flex: 0 0 60px;
+
+                span {
+                    margin-left: 5px;
+                }
+            }
+        }
+    }
+}
+

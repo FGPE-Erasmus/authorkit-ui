@@ -1,47 +1,48 @@
 <template>
   <form>
     <executable-file-sidebar
-      :exercise-id="exerciseId"
-      :type="$t('Exercise.DynamicCorrector')"
+      type="dynamic-correctors"
+      :name="$t('Exercise.DynamicCorrector')"
       :is-sidebar-active="isDynamicCorrectorsSidebarActive"
       :item="dynamic_corrector"
       @submit="saveDynamicCorrector"
       @close-sidebar="isDynamicCorrectorsSidebarActive = false"
     />
     <executable-file-sidebar
-      :exercise-id="exerciseId"
-      :type="$t('Exercise.StaticCorrector')"
+      type="static-correctors"
+      :name="$t('Exercise.StaticCorrector')"
       :is-sidebar-active="isStaticCorrectorsSidebarActive"
       :item="static_corrector"
       @submit="saveStaticCorrector"
       @close-sidebar="isStaticCorrectorsSidebarActive = false"
     />
     <resource-file-sidebar
-      :exercise-id="exerciseId"
-      :type="$t('Exercise.Library')"
+      type="libraries"
+      :name="$t('Exercise.Library')"
       :is-sidebar-active="isLibrariesSidebarActive"
       :item="library"
       @submit="saveLibrary"
       @close-sidebar="isLibrariesSidebarActive = false"
     />
     <code-file-sidebar
-      :exercise-id="exerciseId"
-      :type="$t('Exercise.Template')"
+      type="templates"
+      :name="$t('Exercise.Template')"
       :is-sidebar-active="isTemplatesSidebarActive"
       :item="template"
       @submit="saveTemplate"
       @close-sidebar="isTemplatesSidebarActive = false"
     />
     <code-file-sidebar
-      :exercise-id="exerciseId"
-      :type="$t('Exercise.Solution')"
+      type="solutions"
+      :name="$t('Exercise.Solution')"
       :is-sidebar-active="isSolutionsSidebarActive"
       :item="solution"
       @submit="saveSolution"
       @close-sidebar="isSolutionsSidebarActive = false"
     />
     <test-file-sidebar
-      :exercise-id="exerciseId"
+      type="tests"
+      :name="$t('Exercise._Test')"
       :is-sidebar-active="isTestsSidebarActive"
       :testset-id="testset ? testset.id : undefined"
       :item="test"
@@ -49,7 +50,6 @@
       @close-sidebar="isTestsSidebarActive = false"
     />
     <testset-sidebar
-      :exercise-id="exerciseId"
       :is-sidebar-active="isTestSetsSidebarActive"
       :item="testset"
       @submit="saveTestset"
@@ -112,7 +112,7 @@
           :default-category="$t('Exercise.Solutions')"
           :items="solutions"
           item-title-prop="filename"
-          item-subtitle-prop="language"
+          item-subtitle-prop="lang"
           @create="activateSolutionsSidebar"
           @edit="activateSolutionsSidebar"
           @delete="removeSolution"
@@ -652,9 +652,8 @@ export default {
       return new Promise((resolve, reject) => {
         this.$store
           .dispatch(`${MODULE_BASE}/${EXERCISE_FILE_DELETE}`, {
-            exerciseId: this.exerciseId,
             type,
-            fileId: id
+            id
           })
           .then(res => {
             resolve(res);

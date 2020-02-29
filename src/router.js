@@ -15,11 +15,16 @@ import Vue from "vue";
 import Router from "vue-router";
 
 import store from "@/store/store";
+import { SHOW_SEARCH_ICON, HIDE_SEARCH_ICON } from "@/store/constants";
 import {
-  MODULE_BASE,
+  MODULE_BASE as PROJECT_MODULE_BASE,
   PROJECT_GET,
   PROJECT_SET_ACTIVE
 } from "@/store/projects/project.constants";
+import {
+  MODULE_BASE as PERMISSION_MODULE_BASE,
+  PERMISSION_GET
+} from "@/store/permissions/permission.constants";
 
 Vue.use(Router);
 
@@ -222,6 +227,13 @@ router.beforeEach((to, from, next) => {
     to.path === "/maintenance" ||
     store.getters["auth/isAuthenticated"]
   ) {
+    if (
+      to.path.match(/\/(dashboard|projects|exercises|gamification-layers)\/?$/i)
+    ) {
+      store.dispatch(SHOW_SEARCH_ICON);
+    } else {
+      store.dispatch(HIDE_SEARCH_ICON);
+    }
     const projectsPathMatch = to.path.match(/\/projects\/([^/]+)/i);
     if (projectsPathMatch) {
       if (
@@ -229,9 +241,16 @@ router.beforeEach((to, from, next) => {
         store.state.project.activeProject.id !== projectsPathMatch[1]
       ) {
         return store
-          .dispatch(`${MODULE_BASE}/${PROJECT_GET}`, to.params.project_id)
+          .dispatch(
+            `${PROJECT_MODULE_BASE}/${PROJECT_GET}`,
+            to.params.project_id
+          )
           .then(res => {
-            store.commit(`${MODULE_BASE}/${PROJECT_SET_ACTIVE}`, res);
+            store.commit(`${PROJECT_MODULE_BASE}/${PROJECT_SET_ACTIVE}`, res);
+            store.dispatch(
+              `${PERMISSION_MODULE_BASE}/${PERMISSION_GET}`,
+              res.id
+            );
             next();
           });
       } else {

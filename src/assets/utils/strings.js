@@ -4,3 +4,10 @@ export function truncateWithEllipses(text, max) {
   }
   return text.substr(0, max - 1) + (text.length > max ? "..." : "");
 }
+
+export function toSnakeCase(str) {
+  return str
+    .trim()
+    .replace(/ /g, "_")
+    .toLowerCase();
+}

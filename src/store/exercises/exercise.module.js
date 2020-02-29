@@ -1,5 +1,6 @@
 import exerciseService from "@/api/exercises.service";
 import testsetService from "@/api/testsets.service";
+import { UPDATE_LAST_USED_FIELD_VALUES } from "../constants";
 import {
   // actions
   EXERCISE_GET,
@@ -7,6 +8,8 @@ import {
   EXERCISE_UPDATE,
   EXERCISE_LIST,
   EXERCISE_DELETE,
+  EXERCISE_EXPORT,
+  EXERCISE_IMPORT,
   EXERCISE_FILE_CREATE,
   EXERCISE_FILE_READ,
   EXERCISE_FILE_UPDATE,
@@ -31,6 +34,12 @@ import {
   EXERCISE_DELETE_REQUEST,
   EXERCISE_DELETE_SUCCESS,
   EXERCISE_DELETE_ERROR,
+  EXERCISE_EXPORT_REQUEST,
+  EXERCISE_EXPORT_SUCCESS,
+  EXERCISE_EXPORT_ERROR,
+  EXERCISE_IMPORT_REQUEST,
+  EXERCISE_IMPORT_SUCCESS,
+  EXERCISE_IMPORT_ERROR,
   EXERCISE_FILE_READ_REQUEST,
   EXERCISE_FILE_READ_SUCCESS,
   EXERCISE_FILE_READ_ERROR,
@@ -68,6 +77,9 @@ const actions = {
       commit(EXERCISE_GET_REQUEST);
       exerciseService
         .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
         .getOne(id, query)
         .then(res => {
           commit(EXERCISE_GET_SUCCESS, res.data);
@@ -86,6 +98,9 @@ const actions = {
       commit(EXERCISE_LIST_REQUEST);
       exerciseService
         .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
         .list(query)
         .then(res => {
           commit(EXERCISE_LIST_SUCCESS, res.data);
@@ -99,14 +114,27 @@ const actions = {
     });
   },
 
-  [EXERCISE_CREATE]: ({ commit, rootState }, exercise) => {
+  [EXERCISE_CREATE]: ({ commit, dispatch, rootState }, exercise) => {
     return new Promise((resolve, reject) => {
       commit(EXERCISE_CREATE_REQUEST);
       exerciseService
         .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
         .create(exercise)
         .then(res => {
           commit(EXERCISE_CREATE_SUCCESS, res.data);
+
+          dispatch(
+            UPDATE_LAST_USED_FIELD_VALUES,
+            {
+              difficulty: exercise.difficulty,
+              type: exercise.type,
+              module: exercise.module
+            },
+            { root: true }
+          );
 
           resolve(res.data);
         })
@@ -117,14 +145,27 @@ const actions = {
     });
   },
 
-  [EXERCISE_UPDATE]: ({ commit, rootState }, { id, exercise }) => {
+  [EXERCISE_UPDATE]: ({ commit, dispatch, rootState }, { id, exercise }) => {
     return new Promise((resolve, reject) => {
       commit(EXERCISE_UPDATE_REQUEST);
       exerciseService
         .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
         .update(id, exercise)
         .then(res => {
           commit(EXERCISE_UPDATE_SUCCESS, res.data);
+
+          dispatch(
+            UPDATE_LAST_USED_FIELD_VALUES,
+            {
+              difficulty: exercise.difficulty,
+              type: exercise.type,
+              module: exercise.module
+            },
+            { root: true }
+          );
 
           resolve(res.data);
         })
@@ -140,6 +181,9 @@ const actions = {
       commit(EXERCISE_DELETE_REQUEST);
       exerciseService
         .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
         .delete(id)
         .then(res => {
           commit(EXERCISE_DELETE_SUCCESS, res.data);
@@ -153,12 +197,56 @@ const actions = {
     });
   },
 
-  [EXERCISE_FILE_READ]: ({ commit, rootState }, { exerciseId, path }) => {
+  [EXERCISE_IMPORT]: ({ commit, rootState }, { project_id, file }) => {
+    return new Promise((resolve, reject) => {
+      commit(EXERCISE_IMPORT_REQUEST);
+      exerciseService
+        .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
+        .import({ project_id, file })
+        .then(res => {
+          commit(EXERCISE_IMPORT_SUCCESS, res.data);
+          resolve(res.data);
+        })
+        .catch(err => {
+          commit(EXERCISE_IMPORT_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
+  },
+
+  [EXERCISE_EXPORT]: ({ commit, rootState }, id) => {
+    return new Promise((resolve, reject) => {
+      commit(EXERCISE_EXPORT_REQUEST);
+      exerciseService
+        .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
+        .export(id)
+        .then(res => {
+          commit(EXERCISE_EXPORT_SUCCESS, res.data);
+
+          resolve(res.data);
+        })
+        .catch(err => {
+          commit(EXERCISE_EXPORT_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
+  },
+
+  [EXERCISE_FILE_READ]: ({ commit, rootState }, { type, id }) => {
     return new Promise((resolve, reject) => {
       commit(EXERCISE_FILE_READ_REQUEST);
       exerciseService
         .authenticate(rootState.auth.token)
-        .readFile(exerciseId, path)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
+        .readFile(type, id)
         .then(res => {
           commit(EXERCISE_FILE_READ_SUCCESS, res.data);
           resolve(res.data);
@@ -171,16 +259,31 @@ const actions = {
   },
 
   [EXERCISE_FILE_CREATE]: (
-    { commit, rootState },
+    { commit, dispatch, rootState },
     { exerciseId, type, obj }
   ) => {
     return new Promise((resolve, reject) => {
       commit(EXERCISE_FILE_CREATE_REQUEST);
       exerciseService
         .authenticate(rootState.auth.token)
-        .createFile(exerciseId, type, obj)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
+        .createFile(type, { exercise_id: exerciseId, ...obj })
         .then(res => {
           commit(EXERCISE_FILE_CREATE_SUCCESS, res.data);
+
+          const last_used = {};
+          if (obj.format) {
+            last_used.format = obj.format;
+          }
+          if (obj.lang) {
+            last_used.lang = obj.lang;
+          }
+          if (obj.nat_lang) {
+            last_used.nat_lang = obj.nat_lang;
+          }
+          dispatch(UPDATE_LAST_USED_FIELD_VALUES, last_used, { root: true });
 
           resolve(res.data);
         })
@@ -192,16 +295,31 @@ const actions = {
   },
 
   [EXERCISE_FILE_UPDATE]: (
-    { commit, rootState },
-    { exerciseId, type, id, obj }
+    { commit, dispatch, rootState },
+    { type, id, obj }
   ) => {
     return new Promise((resolve, reject) => {
       commit(EXERCISE_FILE_UPDATE_REQUEST);
       exerciseService
         .authenticate(rootState.auth.token)
-        .updateFile(exerciseId, type, id, obj)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
+        .updateFile(type, id, obj)
         .then(res => {
           commit(EXERCISE_FILE_UPDATE_SUCCESS, res.data);
+
+          const last_used = {};
+          if (obj.format) {
+            last_used.format = obj.format;
+          }
+          if (obj.lang) {
+            last_used.lang = obj.lang;
+          }
+          if (obj.nat_lang) {
+            last_used.nat_lang = obj.nat_lang;
+          }
+          dispatch(UPDATE_LAST_USED_FIELD_VALUES, last_used, { root: true });
 
           resolve(res.data);
         })
@@ -212,15 +330,15 @@ const actions = {
     });
   },
 
-  [EXERCISE_FILE_DELETE]: (
-    { commit, rootState },
-    { exerciseId, type, fileId }
-  ) => {
+  [EXERCISE_FILE_DELETE]: ({ commit, rootState }, { type, id }) => {
     return new Promise((resolve, reject) => {
       commit(EXERCISE_FILE_DELETE_REQUEST);
       exerciseService
         .authenticate(rootState.auth.token)
-        .deleteFile(exerciseId, type, fileId)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
+        .deleteFile(type, id)
         .then(res => {
           commit(EXERCISE_FILE_DELETE_SUCCESS, res.data);
 
@@ -241,7 +359,10 @@ const actions = {
       commit(EXERCISE_TESTSET_CREATE_REQUEST);
       testsetService
         .authenticate(rootState.auth.token)
-        .create(exerciseId, testset)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
+        .create({ exercise_id: exerciseId, ...testset })
         .then(res => {
           commit(EXERCISE_TESTSET_CREATE_SUCCESS, res.data);
 
@@ -262,7 +383,10 @@ const actions = {
       commit(EXERCISE_TESTSET_UPDATE_REQUEST);
       testsetService
         .authenticate(rootState.auth.token)
-        .update(exerciseId, id, testset)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
+        .update(id, { exercise_id: exerciseId, ...testset })
         .then(res => {
           commit(EXERCISE_TESTSET_UPDATE_SUCCESS, res.data);
 
@@ -275,12 +399,15 @@ const actions = {
     });
   },
 
-  [EXERCISE_TESTSET_DELETE]: ({ commit, rootState }, { exerciseId, id }) => {
+  [EXERCISE_TESTSET_DELETE]: ({ commit, rootState }, { id }) => {
     return new Promise((resolve, reject) => {
       commit(EXERCISE_TESTSET_DELETE_REQUEST);
       testsetService
         .authenticate(rootState.auth.token)
-        .delete(exerciseId, id)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
+        .delete(id)
         .then(res => {
           commit(EXERCISE_TESTSET_DELETE_SUCCESS, res.data);
 
@@ -342,6 +469,26 @@ const mutations = {
     state.loading = Math.max(state.loading - 1, 0);
   },
   [EXERCISE_DELETE_ERROR]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+
+  [EXERCISE_EXPORT_REQUEST]: state => {
+    state.loading++;
+  },
+  [EXERCISE_EXPORT_SUCCESS]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+  [EXERCISE_EXPORT_ERROR]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+
+  [EXERCISE_IMPORT_REQUEST]: state => {
+    state.loading++;
+  },
+  [EXERCISE_IMPORT_SUCCESS]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+  [EXERCISE_IMPORT_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
   },
 

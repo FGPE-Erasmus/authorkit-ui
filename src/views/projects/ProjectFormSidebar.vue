@@ -45,6 +45,7 @@
                   v-model="project.name"
                   class="mt-5 w-full"
                 />
+                <span class="text-danger text-sm">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
           </div>
@@ -66,11 +67,12 @@
                   }"
                   class="mt-5 w-full"
                 />
+                <span class="text-danger text-sm">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
           </div>
 
-          <div class="vx-row">
+          <div class="vx-row" v-if="isNew || permissions[project.id] >= 4">
             <div class="vx-col w-full mb-2">
               <vs-checkbox
                 name="public"
@@ -83,7 +85,7 @@
             </div>
           </div>
 
-          <div class="vx-row">
+          <div class="vx-row" v-if="isNew || permissions[project.id] >= 3">
             <div class="vx-col w-full mb-2">
               <ValidationProvider
                 name="status"
@@ -117,9 +119,6 @@
               </ValidationProvider>
             </div>
           </div>
-
-          <!-- IMAGE -->
-          <!-- <vs-upload text="Upload Image" class="img-upload" ref="fileUpload" /> -->
         </div>
       </VuePerfectScrollbar>
 
@@ -143,6 +142,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
@@ -190,6 +190,10 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      permissions: state => state.permission.permissions
+    }),
+
     isNew: {
       get() {
         return this.project.id === undefined;

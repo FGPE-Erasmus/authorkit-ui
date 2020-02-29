@@ -187,7 +187,7 @@ export default {
             name: "Dashboard",
             slug: "dashboard",
             icon: "ArrowLeftIcon",
-            i18n: "Exit to Dashboard"
+            i18n: "ExitToDashboard"
           },
           {
             header: this.activeProject.name
@@ -204,7 +204,7 @@ export default {
             name: "Gamification Layers",
             slug: "gamification-layers",
             icon: "LayersIcon",
-            i18n: "Gamification Layers"
+            i18n: "GamificationLayers"
           }
         ];
       } else {

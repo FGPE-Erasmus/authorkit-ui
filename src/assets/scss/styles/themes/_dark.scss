@@ -456,6 +456,7 @@
 
         .vs-popup--close {
           background: $content-dark-bg !important;
+          color: $theme-dark-text-color !important;
         }
       }
     }
@@ -999,6 +1000,17 @@
       &:last-child {
         border-bottom: 0;
       }
+    }
+  }
+
+  .fgpe-share-popup {
+
+    li {
+      background-color: $grid-dark-color;
+    }
+
+    li.header {
+      background-color: $theme-light-dark-bg;
     }
   }
 

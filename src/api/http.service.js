@@ -1,6 +1,15 @@
 import axios from "axios";
 
 import config from "../../api.config.json";
+import router from "../router";
+import {
+  STORAGE_ACCESS_TOKEN,
+  STORAGE_ACCESS_TOKEN_EXPIRY_TIME,
+  STORAGE_REFRESH_TOKEN,
+  STORAGE_REFRESH_TOKEN_EXPIRY_TIME,
+  STORAGE_REMEMBER_ME,
+  STORAGE_USER_PROFILE
+} from "../store/constants";
 
 export default class HttpService {
   constructor(language = "en") {
@@ -26,6 +35,21 @@ export default class HttpService {
           return res;
         },
         err => {
+          if (err.response && err.response.status === 401) {
+            localStorage.removeItem(STORAGE_REMEMBER_ME);
+            localStorage.removeItem(STORAGE_ACCESS_TOKEN);
+            localStorage.removeItem(STORAGE_ACCESS_TOKEN_EXPIRY_TIME);
+            localStorage.removeItem(STORAGE_REFRESH_TOKEN);
+            localStorage.removeItem(STORAGE_REFRESH_TOKEN_EXPIRY_TIME);
+            localStorage.removeItem(STORAGE_USER_PROFILE);
+            sessionStorage.removeItem(STORAGE_ACCESS_TOKEN);
+            sessionStorage.removeItem(STORAGE_ACCESS_TOKEN_EXPIRY_TIME);
+            sessionStorage.removeItem(STORAGE_REFRESH_TOKEN);
+            sessionStorage.removeItem(STORAGE_REFRESH_TOKEN_EXPIRY_TIME);
+            sessionStorage.removeItem(STORAGE_USER_PROFILE);
+
+            router.go();
+          }
           console.log(
             "%c Request Error:",
             "color: #EC6060; font-weight: bold",
@@ -50,6 +74,7 @@ export default class HttpService {
     limit,
     filter,
     or,
+    search,
     sort,
     fields,
     select,
@@ -63,6 +88,9 @@ export default class HttpService {
     }
     if (limit) {
       searchParams.append("limit", limit);
+    }
+    if (search) {
+      searchParams.append("s", JSON.stringify(search));
     }
     if (filter) {
       filter.forEach(c => {

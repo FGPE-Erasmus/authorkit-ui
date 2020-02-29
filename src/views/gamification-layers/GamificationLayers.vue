@@ -1,24 +1,30 @@
 <template>
   <card-list
-    :currentPage="currentPage"
-    :itemsPerPage="itemsPerPage"
+    :sorting-options="sortingOptions"
+    :current-page="currentPage"
+    :items-per-page="itemsPerPage"
+    :sorting-order="sortingOrder"
     :total="totalItems"
     :items="gamificationLayers"
+    :allow-create="permissions[projectId] >= 2"
+    :allow-import="permissions[projectId] >= 2"
     @itemsperpagechange="itemsPerPage = $event"
     @currentpagechange="currentPage = $event"
+    @sortchange="sortingOrder = $event"
     @create="create"
+    @import="uploadAndImport"
   >
     <template v-slot:card="{ item }">
       <gamification-layer-card
         :id="item.id"
         :name="item.name"
         :description="item.description"
-        :owner_id="item.owner_id"
+        :owner-id="item.owner_id"
         :keywords="item.keywords"
         :status="item.status"
-        :role="'owner'"
         @edit="update(item)"
         @delete="remove"
+        @export="exportAndDownload"
       />
     </template>
   </card-list>
@@ -27,10 +33,14 @@
 <script>
 import { mapState } from "vuex";
 
+import * as downloads from "@/assets/utils/downloads";
+import * as search from "@/assets/utils/search";
 import {
   MODULE_BASE,
   GAMIFICATION_LAYER_LIST,
-  GAMIFICATION_LAYER_DELETE
+  GAMIFICATION_LAYER_DELETE,
+  GAMIFICATION_LAYER_IMPORT,
+  GAMIFICATION_LAYER_EXPORT
 } from "@/store/gamification-layers/gamification-layer.constants";
 
 import CardList from "@/components/card-list/CardList";
@@ -42,10 +52,16 @@ export default {
     GamificationLayerCard
   },
   data: () => ({
+    sortingOptions: ["name", "updated_at", "created_at"],
     gamificationLayers: [],
     currentPage: 1,
     itemsPerPage: 6,
-    totalItems: 0
+    totalItems: 0,
+    sortingOrder: {
+      field: "updated_at",
+      order: "DESC"
+    },
+    searchObj: undefined
   }),
   watch: {
     itemsPerPage: function() {
@@ -53,6 +69,25 @@ export default {
     },
     currentPage: function() {
       this.fetchGamificationLayers();
+    },
+    sortingOrder: function() {
+      this.fetchGamificationLayers();
+    },
+    searchQuery: {
+      handler: function() {
+        if (!this.searchQuery) {
+          this.searchObj = undefined;
+        } else {
+          this.searchObj = search.searchQueryToSearch(
+            this.searchQuery,
+            ["name", "keywords"],
+            ["status"]
+          );
+        }
+        this.currentPage = 1;
+        this.fetchGamificationLayers();
+      },
+      deep: true
     }
   },
   computed: {
@@ -61,6 +96,12 @@ export default {
     },
     ...mapState("project", {
       project: "activeProject"
+    }),
+    ...mapState("permission", {
+      permissions: "permissions"
+    }),
+    ...mapState({
+      searchQuery: "searchQuery"
     })
   },
   created() {
@@ -68,18 +109,13 @@ export default {
   },
   mounted() {},
   methods: {
-    setItemsPerPage(itemsPerPage) {
-      this.itemsPerPage = itemsPerPage;
-    },
-    setCurrentPage(currentPage) {
-      this.currentPage = currentPage;
-    },
     fetchGamificationLayers() {
       this.$store
         .dispatch(`${MODULE_BASE}/${GAMIFICATION_LAYER_LIST}`, {
           page: this.currentPage,
           limit: this.itemsPerPage,
-          filter: [`project_id||eq||${this.projectId}`]
+          search: this.searchObj,
+          sort: [`${this.sortingOrder.field},${this.sortingOrder.order}`]
         })
         .then(res => {
           this.gamificationLayers = res.data;
@@ -102,6 +138,41 @@ export default {
       this.$router.push(
         `/projects/${this.projectId}/gamification-layers/${gamificationLayer.id}`
       );
+    },
+    uploadAndImport(file) {
+      this.$store
+        .dispatch(`${MODULE_BASE}/${GAMIFICATION_LAYER_IMPORT}`, {
+          project_id: this.projectId,
+          file
+        })
+        .then(() => {
+          this.fetchGamificationLayers();
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to import gamification layer",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
+    },
+    exportAndDownload(id) {
+      this.$store
+        .dispatch(`${MODULE_BASE}/${GAMIFICATION_LAYER_EXPORT}`, id)
+        .then(data => {
+          downloads.download(data, id + ".zip");
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to export gamification layer",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
     },
     remove(id) {
       this.$store

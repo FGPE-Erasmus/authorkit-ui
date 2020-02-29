@@ -1,16 +1,16 @@
 <template>
   <form>
     <executable-file-sidebar
-      :exercise-id="exerciseId"
-      :type="$t('Exercise.FeedbackGenerator')"
+      type="feedback-generators"
+      :name="$t('Exercise.FeedbackGenerator')"
       :is-sidebar-active="isFeedbackGeneratorsSidebarActive"
       :item="feedbackGenerator"
       @submit="saveFeedbackGenerator"
       @close-sidebar="isFeedbackGeneratorsSidebarActive = false"
     />
     <executable-file-sidebar
-      :exercise-id="exerciseId"
-      :type="$t('Exercise.TestGenerator')"
+      type="test-generators"
+      :name="$t('Exercise.TestGenerator')"
       :is-sidebar-active="isTestGeneratorsSidebarActive"
       :item="testGenerator"
       @submit="saveTestGenerator"
@@ -237,9 +237,8 @@ export default {
       return new Promise((resolve, reject) => {
         this.$store
           .dispatch(`${MODULE_BASE}/${EXERCISE_FILE_DELETE}`, {
-            exerciseId: this.exerciseId,
             type,
-            fileId: id
+            id
           })
           .then(res => {
             resolve(res);

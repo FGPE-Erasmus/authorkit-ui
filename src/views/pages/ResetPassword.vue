@@ -1,5 +1,9 @@
 <template>
-  <div class="h-screen flex w-full">
+  <div
+    id="page-reset-password"
+    class="h-screen flex w-full"
+    v-bind:class="{ 'theme-dark': !lights, 'theme-light': lights }"
+  >
     <div class="vx-col sm:w-3/5 md:w-3/5 lg:w-3/4 xl:w-3/5 mx-auto self-center">
       <fgpe-card>
         <div slot="no-body" class="full-page-bg-color">

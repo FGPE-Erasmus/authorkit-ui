@@ -188,9 +188,9 @@ const actions = {
             );
           }
 
-          dispatch(AUTH_FETCH_AUTHENTICATED_USER).then(() =>
-            router.push(router.currentRoute.query.to || "/")
-          );
+          dispatch(AUTH_FETCH_AUTHENTICATED_USER).then(() => {
+            router.push(router.currentRoute.query.to || "/");
+          });
 
           resolve(res.data);
         })

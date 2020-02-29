@@ -11,6 +11,11 @@ class ExercisesService extends HttpService {
     return this;
   }
 
+  onProject(project) {
+    this.headers.project = project;
+    return this;
+  }
+
   list(query) {
     return this.client.get(`exercises`, {
       headers: this.headers,
@@ -43,39 +48,57 @@ class ExercisesService extends HttpService {
     });
   }
 
-  readFile(id, path) {
-    return this.client.get(`exercises/${id}/files/read`, {
+  import(obj) {
+    const fd = this.buildFormData(obj);
+    const headers = Object.assign(
+      { "Content-Type": "multipart/form-data" },
+      this.headers
+    );
+    return this.client.post("exercises/import", fd, {
+      headers
+    });
+  }
+
+  export(id, format = "zip") {
+    return this.client.get(`exercises/${id}/export`, {
+      responseType: "arraybuffer",
       headers: this.headers,
       params: {
-        pathname: path
+        format
       }
     });
   }
 
-  createFile(id, type, obj) {
+  readFile(type, id) {
+    return this.client.get(`${type}/${id}/contents`, {
+      headers: this.headers
+    });
+  }
+
+  createFile(type, obj) {
     const fd = this.buildFormData(obj);
     const headers = Object.assign(
       { "Content-Type": "multipart/form-data" },
       this.headers
     );
-    return this.client.post(`exercises/${id}/${type}`, fd, {
+    return this.client.post(`${type}`, fd, {
       headers
     });
   }
 
-  updateFile(id, type, file_id, obj) {
+  updateFile(type, id, obj) {
     const fd = this.buildFormData(obj);
     const headers = Object.assign(
       { "Content-Type": "multipart/form-data" },
       this.headers
     );
-    return this.client.patch(`exercises/${id}/${type}/${file_id}`, fd, {
+    return this.client.patch(`${type}/${id}`, fd, {
       headers
     });
   }
 
-  deleteFile(id, type, file_id) {
-    return this.client.delete(`exercises/${id}/${type}/${file_id}`, {
+  deleteFile(type, id) {
+    return this.client.delete(`${type}/${id}`, {
       headers: this.headers
     });
   }

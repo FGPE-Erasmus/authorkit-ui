@@ -11,6 +11,11 @@ class GamificationLayerService extends HttpService {
     return this;
   }
 
+  onProject(project) {
+    this.headers.project = project;
+    return this;
+  }
+
   list(query) {
     return this.client.get(`gamification-layers`, {
       headers: this.headers,
@@ -40,6 +45,27 @@ class GamificationLayerService extends HttpService {
   delete(id) {
     return this.client.delete(`gamification-layers/${id}`, {
       headers: this.headers
+    });
+  }
+
+  import(obj) {
+    const fd = this.buildFormData(obj);
+    const headers = Object.assign(
+      { "Content-Type": "multipart/form-data" },
+      this.headers
+    );
+    return this.client.post("gamification-layers/import", fd, {
+      headers
+    });
+  }
+
+  export(id, format = "zip") {
+    return this.client.get(`gamification-layers/${id}/export`, {
+      responseType: "arraybuffer",
+      headers: this.headers,
+      params: {
+        format
+      }
     });
   }
 }

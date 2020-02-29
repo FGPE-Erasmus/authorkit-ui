@@ -7,6 +7,7 @@ Vue.use(Vuex);
 
 import moduleAuth from "./auth/auth.module";
 import moduleUser from "./users/user.module";
+import modulePermission from "./permissions/permission.module";
 import moduleProject from "./projects/project.module";
 import moduleExercise from "./exercises/exercise.module";
 import moduleGamificationLayer from "./gamification-layers/gamification-layer.module";
@@ -23,6 +24,7 @@ export default new Vuex.Store({
   modules: {
     auth: moduleAuth,
     user: moduleUser,
+    permission: modulePermission,
     project: moduleProject,
     exercise: moduleExercise,
     gamificationLayer: moduleGamificationLayer,

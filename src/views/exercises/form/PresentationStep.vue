@@ -1,32 +1,32 @@
 <template>
   <form>
     <formatted-text-file-sidebar
-      :exercise-id="exerciseId"
-      :type="$t('Exercise.Instruction')"
+      type="instructions"
+      :name="$t('Exercise.Instruction')"
       :is-sidebar-active="isInstructionsSidebarActive"
       :item="instruction"
       @submit="saveInstruction"
       @close-sidebar="isInstructionsSidebarActive = false"
     />
     <formatted-text-file-sidebar
-      :exercise-id="exerciseId"
-      :type="$t('Exercise.Statement')"
+      type="statements"
+      :name="$t('Exercise.Statement')"
       :is-sidebar-active="isStatementsSidebarActive"
       :item="statement"
       @submit="saveStatement"
       @close-sidebar="isStatementsSidebarActive = false"
     />
     <resource-file-sidebar
-      :exercise-id="exerciseId"
-      :type="$t('Exercise.Embeddable')"
+      type="embeddables"
+      :name="$t('Exercise.Embeddable')"
       :is-sidebar-active="isEmbeddablesSidebarActive"
       :item="embeddable"
       @submit="saveEmbeddable"
       @close-sidebar="isEmbeddablesSidebarActive = false"
     />
     <code-file-sidebar
-      :exercise-id="exerciseId"
-      :type="$t('Exercise.Skeleton')"
+      type="skeletons"
+      :name="$t('Exercise.Skeleton')"
       :is-sidebar-active="isSkeletonsSidebarActive"
       :item="skeleton"
       @submit="saveSkeleton"
@@ -362,9 +362,8 @@ export default {
       return new Promise((resolve, reject) => {
         this.$store
           .dispatch(`${MODULE_BASE}/${EXERCISE_FILE_DELETE}`, {
-            exerciseId: this.exerciseId,
             type,
-            fileId: id
+            id
           })
           .then(res => {
             resolve(res);
