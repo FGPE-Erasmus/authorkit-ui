@@ -53,7 +53,8 @@ import {
 
 import {
   MODULE_BASE as PERMISSION_MODULE_BASE,
-  PERMISSION_GET
+  PERMISSION_GET,
+  PERMISSION_GET_ALL
 } from "../permissions/permission.constants";
 
 const state = {
@@ -155,9 +156,13 @@ const actions = {
         .then(res => {
           commit(PROJECT_IMPORT_SUCCESS, res.data);
 
-          dispatch(`${PERMISSION_MODULE_BASE}/${PERMISSION_GET}`, res.data.id, {
-            root: true
-          });
+          dispatch(
+            `${PERMISSION_MODULE_BASE}/${PERMISSION_GET_ALL}`,
+            res.data.id,
+            {
+              root: true
+            }
+          );
 
           resolve(res.data);
         })
