@@ -156,13 +156,13 @@ export default {
     };
   },
   watch: {
-    item(val) {
-      if (!val) {
+    isSidebarActive(val) {
+      if (val && this.item) {
+        this.fileItem = Object.assign({}, this.item);
+        this.filename = this.fileItem.pathname;
+      } else {
         this.fileItem = Object.assign({}, this.empty);
         this.fileItem.file = undefined;
-      } else {
-        this.fileItem = Object.assign({}, val);
-        this.filename = this.fileItem.pathname;
       }
     }
   },
@@ -191,6 +191,9 @@ export default {
     },
 
     onChangeFilename(filename) {
+      if (!this.editorOpen) {
+        return;
+      }
       this.$refs.fileUpload.removeFile();
       const file = new File([new Blob([this.code])], filename || "file", {
         type: "text/plain"
@@ -201,6 +204,9 @@ export default {
     },
 
     onChangeCode(code) {
+      if (!this.editorOpen) {
+        return;
+      }
       this.$refs.fileUpload.removeFile();
       const file = new File([new Blob([code])], this.filename, {
         type: "text/plain"

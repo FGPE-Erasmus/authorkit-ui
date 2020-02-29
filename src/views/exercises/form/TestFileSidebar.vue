@@ -376,6 +376,9 @@ export default {
     },
 
     onChangeFilename(filename) {
+      if (!this.editorOpen) {
+        return;
+      }
       const file = new File([new Blob([this.code])], filename || "file", {
         type: "text/plain"
       });
@@ -392,6 +395,9 @@ export default {
     },
 
     onChangeCode(code) {
+      if (!this.editorOpen) {
+        return;
+      }
       const file = new File([new Blob([code])], this.filename, {
         type: "text/plain"
       });

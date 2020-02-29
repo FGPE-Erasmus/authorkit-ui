@@ -107,12 +107,13 @@ export default {
     };
   },
   watch: {
-    item(val) {
-      if (!val) {
+    isSidebarActive(val) {
+      if (val && this.item) {
+        this.fileItem = Object.assign({}, this.item);
+        this.filename = this.fileItem.pathname;
+      } else {
         this.fileItem = Object.assign({}, this.empty);
         this.fileItem.file = undefined;
-      } else {
-        this.fileItem = Object.assign({}, val);
       }
     }
   },

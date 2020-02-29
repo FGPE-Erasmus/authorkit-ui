@@ -161,8 +161,8 @@ export default {
     };
   },
   watch: {
-    isSidebarActive() {
-      if (this.item) {
+    isSidebarActive(val) {
+      if (val && this.item) {
         this.fileItem = Object.assign({}, this.item);
         this.filename = this.fileItem.pathname;
       } else {
@@ -208,6 +208,9 @@ export default {
     },
 
     onChangeFilename(filename) {
+      if (!this.editorOpen) {
+        return;
+      }
       this.$refs.fileUpload.removeFile();
       const file = new File([new Blob([this.code])], filename || "file", {
         type: "text/plain"
@@ -222,6 +225,9 @@ export default {
     },
 
     onChangeCode(code) {
+      if (!this.editorOpen) {
+        return;
+      }
       this.$refs.fileUpload.removeFile();
       const file = new File([new Blob([code])], this.filename, {
         type: "text/plain"

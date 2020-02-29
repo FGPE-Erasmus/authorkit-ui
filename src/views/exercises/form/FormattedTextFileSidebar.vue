@@ -182,7 +182,6 @@ export default {
               type: this.type
             })
             .then(res => {
-              this.code = atob(res);
               load(base64toBlob(res));
             })
             .catch(err => {
@@ -213,8 +212,8 @@ export default {
     };
   },
   watch: {
-    isSidebarActive() {
-      if (this.item) {
+    isSidebarActive(val) {
+      if (val && this.item) {
         this.fileItem = Object.assign({}, this.item);
         this.filename = this.fileItem.pathname;
       } else {
@@ -247,6 +246,13 @@ export default {
       } else {
         return [];
       }
+    },
+    mimetype() {
+      if (this.fileItem.format === "pdf") {
+        return "application/pdf";
+      } else {
+        return "text/plain";
+      }
     }
   },
   methods: {
@@ -258,9 +264,12 @@ export default {
     },
 
     onChangeFilename(filename) {
+      if (!this.editorOpen) {
+        return;
+      }
       this.$refs.fileUpload.removeFile();
       const file = new File([new Blob([this.code])], filename || "file", {
-        type: "text/plain"
+        type: this.mimetype
       });
       this.$refs.fileUpload.addFile(file);
       this.fileItem.file = file;
@@ -268,9 +277,12 @@ export default {
     },
 
     onChangeCode(code) {
+      if (!this.editorOpen) {
+        return;
+      }
       this.$refs.fileUpload.removeFile();
       const file = new File([new Blob([code])], this.filename, {
-        type: "text/plain"
+        type: this.mimetype
       });
       this.$refs.fileUpload.addFile(file);
       this.fileItem.file = file;
@@ -291,14 +303,15 @@ export default {
           );
         } else {
           this.fileItem.file = files[0].file;
-          if (files[0].status !== 8) {
-            this.readFile(this.fileItem.file);
-          }
+        }
+        if (files[0].status !== 8) {
+          this.readFile(this.fileItem.file);
         }
       } else {
         this.fileItem.file = undefined;
         this.filename = "";
         this.code = "";
+        this.canEditCode = true;
       }
     },
 
