@@ -149,9 +149,9 @@ export default {
         keywords: [],
         type: this.last_used.type,
         event: "",
-        platform: "",
+        platform: this.last_used.platform,
         difficulty: this.last_used.difficulty,
-        status: ""
+        status: this.last_used.status
       };
     },
     exerciseId() {

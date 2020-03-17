@@ -131,7 +131,9 @@ const actions = {
             {
               difficulty: exercise.difficulty,
               type: exercise.type,
-              module: exercise.module
+              module: exercise.module,
+              platform: exercise.platform,
+              status: exercise.status
             },
             { root: true }
           );
@@ -162,7 +164,9 @@ const actions = {
             {
               difficulty: exercise.difficulty,
               type: exercise.type,
-              module: exercise.module
+              module: exercise.module,
+              platform: exercise.platform,
+              status: exercise.status
             },
             { root: true }
           );

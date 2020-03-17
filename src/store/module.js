@@ -48,8 +48,11 @@ const state = {
     format: "txt",
     difficulty: "easy",
     type: "blank_sheet",
-    module: ""
+    module: "",
+    platform: "",
+    status: "draft"
   },
+
   locale: localStorage.getItem(STORAGE_I18N_LOCALE) || "en",
 
   searchQuery: undefined
