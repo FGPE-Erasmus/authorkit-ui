@@ -225,7 +225,7 @@ export default {
               type: this.type
             })
             .then(res => {
-              this.inputCode = atob(res);
+              // this.inputCode = atob(res);
               load(base64toBlob(res));
             })
             .catch(err => {
@@ -248,7 +248,7 @@ export default {
               type: this.type
             })
             .then(res => {
-              this.outputCode = atob(res);
+              // this.outputCode = atob(res);
               load(base64toBlob(res));
             })
             .catch(err => {
@@ -424,6 +424,8 @@ export default {
           });
         } else {
           this.inputFile = files[0].file;
+        }
+        if (files[0].status !== 8) {
           this.readFile(this.inputFile, "input");
         }
       } else {
@@ -445,6 +447,8 @@ export default {
           );
         } else {
           this.outputFile = files[0].file;
+        }
+        if (files[0].status !== 8) {
           this.readFile(this.outputFile, "output");
         }
       } else {

@@ -137,7 +137,7 @@ export default {
               type: this.type
             })
             .then(res => {
-              this.code = atob(res);
+              // this.code = atob(res);
               load(base64toBlob(res));
             })
             .catch(err => {
@@ -251,9 +251,9 @@ export default {
           );
         } else {
           this.fileItem.file = files[0].file;
-          if (files[0].status !== 8) {
-            this.readFile(this.fileItem.file);
-          }
+        }
+        if (files[0].status !== 8) {
+          this.readFile(this.fileItem.file);
         }
       } else {
         this.fileItem.file = undefined;
