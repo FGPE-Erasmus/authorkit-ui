@@ -1,37 +1,48 @@
 <template>
-  <card-list
-    :sorting-options="sortingOptions"
-    :current-page="currentPage"
-    :items-per-page="itemsPerPage"
-    :sorting-order="sortingOrder"
-    :total="totalItems"
-    :items="exercises"
-    :allow-create="permissions[projectId] >= 2"
-    :allow-import="permissions[projectId] >= 2"
-    @itemsperpagechange="itemsPerPage = $event"
-    @currentpagechange="currentPage = $event"
-    @sortchange="sortingOrder = $event"
-    @create="create"
-    @import="uploadAndImport"
-  >
-    <template v-slot:card="{ item }">
-      <exercise-card
-        :id="item.id"
-        :title="item.title"
-        :module="item.module"
-        :owner-id="item.owner_id"
-        :keywords="item.keywords"
-        :type="item.type"
-        :event="item.event"
-        :platform="item.platform"
-        :difficulty="item.difficulty"
-        :status="item.status"
-        @edit="update(item)"
-        @delete="remove"
-        @export="exportAndDownload"
-      />
-    </template>
-  </card-list>
+  <div id="exercises">
+    <card-list
+      :sorting-options="sortingOptions"
+      :current-page="currentPage"
+      :items-per-page="itemsPerPage"
+      :sorting-order="sortingOrder"
+      :total="totalItems"
+      :items="exercises"
+      :allow-create="permissions[projectId] >= 2"
+      :allow-import="permissions[projectId] >= 2"
+      @itemsperpagechange="itemsPerPage = $event"
+      @currentpagechange="currentPage = $event"
+      @sortchange="sortingOrder = $event"
+      @create="create"
+      @import="triggerImport"
+    >
+      <template v-slot:card="{ item }">
+        <exercise-card
+          :id="item.id"
+          :title="item.title"
+          :module="item.module"
+          :owner-id="item.owner_id"
+          :keywords="item.keywords"
+          :type="item.type"
+          :event="item.event"
+          :platform="item.platform"
+          :difficulty="item.difficulty"
+          :status="item.status"
+          @edit="update(item)"
+          @delete="remove"
+          @export="exportAndDownload"
+        />
+      </template>
+    </card-list>
+    <import-exercise-dialog
+      :active="importDialog.active"
+      :format="importDialog.format"
+      @import="uploadAndImport($event)"
+      @cancel="
+        importDialog.active = false;
+        importDialog.file = undefined;
+      "
+    />
+  </div>
 </template>
 
 <script>
@@ -39,22 +50,26 @@ import { mapState } from "vuex";
 
 import * as downloads from "@/assets/utils/downloads";
 import * as search from "@/assets/utils/search";
+import * as fileUtils from "@/assets/utils/file";
 
 import {
   MODULE_BASE,
   EXERCISE_LIST,
   EXERCISE_DELETE,
   EXERCISE_EXPORT,
-  EXERCISE_IMPORT
+  EXERCISE_IMPORT,
+  EXERCISE_IMPORT_SIPE
 } from "@/store/exercises/exercise.constants";
 
 import CardList from "@/components/card-list/CardList";
 import ExerciseCard from "@/views/exercises/ExerciseCard";
+import ImportExerciseDialog from "@/views/exercises/dialog/ImportExerciseDialog";
 
 export default {
   components: {
     CardList,
-    ExerciseCard
+    ExerciseCard,
+    ImportExerciseDialog
   },
   data: () => ({
     sortingOptions: ["title", "type", "difficulty", "updated_at", "created_at"],
@@ -66,7 +81,13 @@ export default {
       field: "updated_at",
       order: "DESC"
     },
-    searchObj: undefined
+    searchObj: undefined,
+
+    importDialog: {
+      active: false,
+      file: undefined,
+      format: "yapexil"
+    }
   }),
   watch: {
     itemsPerPage: function() {
@@ -158,11 +179,25 @@ export default {
           });
         });
     },
-    uploadAndImport(file) {
+    triggerImport(file) {
+      this.importDialog.file = file;
+      if (
+        fileUtils.extensionFromName(file.name) === "js" ||
+        fileUtils.extensionFromName(file.name) === "json"
+      ) {
+        this.importDialog.format = "sipe";
+      } else {
+        this.importDialog.format = "yapexil";
+      }
+      this.importDialog.active = true;
+    },
+    uploadAndImport(format) {
+      const action =
+        format === "yapexil" ? EXERCISE_IMPORT : EXERCISE_IMPORT_SIPE;
       this.$store
-        .dispatch(`${MODULE_BASE}/${EXERCISE_IMPORT}`, {
+        .dispatch(`${MODULE_BASE}/${action}`, {
           project_id: this.projectId,
-          file
+          file: this.importDialog.file
         })
         .then(() => {
           this.fetchExercises();
@@ -176,6 +211,8 @@ export default {
             color: "danger"
           });
         });
+      this.importDialog.active = false;
+      this.importDialog.file = undefined;
     },
     remove(id) {
       this.$store

@@ -8,6 +8,7 @@ export const EXERCISE_LIST = "exercise-list";
 export const EXERCISE_DELETE = "exercise-delete";
 export const EXERCISE_EXPORT = "exercise-export";
 export const EXERCISE_IMPORT = "exercise-import";
+export const EXERCISE_IMPORT_SIPE = "exercise-import-sipe";
 
 export const EXERCISE_FILE_READ = "exercise-file-read";
 export const EXERCISE_FILE_CREATE = "exercise-file-create";

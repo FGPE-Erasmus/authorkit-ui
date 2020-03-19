@@ -1,7 +1,7 @@
 import Vue from "vue";
+import vSelect from "vue-select";
 
 import FgpeCard from "./components/fgpe-card/FgpeCard.vue";
-import vSelect from "vue-select";
 import FgpeTooltip from "./layouts/components/FgpeTooltip.vue";
 import FgpeBreadcrumb from "./layouts/components/FgpeBreadcrumb.vue";
 import FeatherIcon from "./components/FeatherIcon.vue";

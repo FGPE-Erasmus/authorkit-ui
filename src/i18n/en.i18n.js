@@ -269,6 +269,17 @@ export default {
       ProgLang: "Programming Language",
       CommandLine: "Command Line",
       UploadFile: "Upload File"
+    },
+    ImportDialog: {
+      Title: "Choose importing format",
+      Format: {
+        yapexil: "YAPExIL",
+        sipe: "SIPE"
+      },
+      Action: {
+        Ok: "OK",
+        Cancel: "Cancel"
+      }
     }
   },
 

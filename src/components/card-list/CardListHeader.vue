@@ -98,7 +98,7 @@
       type="file"
       hidden
       style="display:none"
-      accept="application/zip,application/octet-stream,application/x-zip-compressed,multipart/x-zip"
+      accept="application/zip,application/octet-stream,application/x-zip-compressed,multipart/x-zip,text/javascript,application/json"
       @change="importArchive($event.target.files[0])"
     />
   </div>
