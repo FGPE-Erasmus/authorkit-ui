@@ -417,6 +417,11 @@ export default {
       },
       Actions: "Actions",
       ActionParameters: "Action Parameters"
+    },
+    OpenExercisePicker: "Open Picker",
+    PickExercisesDialog: {
+      Title: "Pick Exercises",
+      SelectAll: "Select All"
     }
   },
 
