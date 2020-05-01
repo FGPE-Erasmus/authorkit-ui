@@ -536,3 +536,10 @@ h3.vs-navbar--title {
   width: 100% !important;
   justify-content: center !important;
 }
+
+.vs-dropdown--item {
+  .vs-dropdown--item-link {
+    display: flex;
+    align-items: center;
+  }
+}

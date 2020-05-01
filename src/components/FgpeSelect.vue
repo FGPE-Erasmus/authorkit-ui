@@ -23,6 +23,7 @@
         :filterBy="filterBy"
         :reduce="reduce"
         :multiple="multiple"
+        :disabled="disabled"
         v-on="listeners"
       >
         <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
@@ -63,6 +64,10 @@ export default {
     placeholder: {
       type: String,
       default: ""
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     options: {
       type: Array,

@@ -52,4 +52,10 @@
       display: flex;
     }
   }
+
+  .tree-arrow.has-child:after {
+    border: 1.5px solid $white;
+    border-left: 0;
+    border-top: 0;
+  }
 }

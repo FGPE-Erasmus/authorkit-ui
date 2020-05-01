@@ -26,6 +26,9 @@
           @create="activateFeedbackGeneratorsSidebar"
           @edit="activateFeedbackGeneratorsSidebar"
           @delete="removeFeedbackGenerator"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
         </fgpe-file-list>
       </div>
@@ -38,6 +41,9 @@
           @create="activateTestGeneratorsSidebar"
           @edit="activateTestGeneratorsSidebar"
           @delete="removeTestGenerator"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
         </fgpe-file-list>
       </div>
@@ -46,6 +52,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { filenameFromPath } from "@/assets/utils/file";
 
 import {
@@ -72,8 +79,14 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      permissions: state => state.permission.permissions
+    }),
     exerciseId() {
       return this.id || this.$route.params.id;
+    },
+    projectId() {
+      return this.$route.params.project_id;
     },
     feedbackGenerators() {
       return this.tools.feedback_generators.map(feedbackGenerator => {

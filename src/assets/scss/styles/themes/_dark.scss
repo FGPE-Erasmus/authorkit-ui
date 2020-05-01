@@ -759,6 +759,10 @@
   }
 
   .fgpe-select {
+    .fgpe-select--input.vs--disabled {
+      background-color: transparent;
+    }
+
     &--multiple {
       .vs__selected {
         background: $dark-card-color;
@@ -1101,6 +1105,12 @@
 
     .tree-anchor {
       color: $theme-dark-heading-color;
+    }
+
+    .tree-arrow.has-child:after {
+      border: 1.5px solid $table-dark-stripe;
+      border-left: 0;
+      border-top: 0;
     }
   }
 }

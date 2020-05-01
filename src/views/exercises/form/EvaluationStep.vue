@@ -65,6 +65,9 @@
           @create="activateDynamicCorrectorsSidebar"
           @edit="activateDynamicCorrectorsSidebar"
           @delete="removeDynamicCorrector"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
         </fgpe-file-list>
       </div>
@@ -77,6 +80,9 @@
           @create="activateStaticCorrectorsSidebar"
           @edit="activateStaticCorrectorsSidebar"
           @delete="removeStaticCorrector"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
         </fgpe-file-list>
       </div>
@@ -90,6 +96,9 @@
           @create="activateLibrariesSidebar"
           @edit="activateLibrariesSidebar"
           @delete="removeLibrary"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
         </fgpe-file-list>
       </div>
@@ -102,6 +111,9 @@
           @create="activateTemplatesSidebar"
           @edit="activateTemplatesSidebar"
           @delete="removeTemplate"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
         </fgpe-file-list>
       </div>
@@ -116,6 +128,9 @@
           @create="activateSolutionsSidebar"
           @edit="activateSolutionsSidebar"
           @delete="removeSolution"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
         </fgpe-file-list>
       </div>
@@ -131,9 +146,13 @@
           category-title-prop="name"
           @edit="activateTestsSidebar(!$event.header, false, $event)"
           @delete="removeTest"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
           <template v-slot:category-actions="{ category, confirm }">
             <div
+              v-if="permissions[projectId] > 1"
               class="py-2 px-2 cursor-pointer flex items-center justify-between text-base"
               :class="{
                 'text-primary': category.is_default
@@ -143,13 +162,13 @@
               <feather-icon icon="FilePlusIcon" svgClasses="h-4 w-4" />
             </div>
             <div
-              v-if="category.is_default"
+              v-if="permissions[projectId] > 1 && category.is_default"
               class="py-2 px-2 cursor-pointer flex items-center justify-between text-base text-primary"
               @click="activateTestsSidebar(false, true)"
             >
               <feather-icon icon="FolderPlusIcon" svgClasses="h-4 w-4" />
             </div>
-            <template v-else>
+            <template v-else-if="permissions[projectId] > 1">
               <div
                 class="py-2 px-2 cursor-pointer flex items-center justify-between text-base"
                 @click="activateTestsSidebar(false, false, category)"
@@ -171,6 +190,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { filenameFromPath } from "@/assets/utils/file";
 
 import {
@@ -208,8 +228,14 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      permissions: state => state.permission.permissions
+    }),
     exerciseId() {
       return this.id || this.$route.params.id;
+    },
+    projectId() {
+      return this.$route.params.project_id;
     },
     dynamic_correctors() {
       return this.evaluation.dynamic_correctors.map(dynamic_corrector => {

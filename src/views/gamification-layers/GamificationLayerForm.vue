@@ -105,6 +105,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { ValidationObserver } from "vee-validate";
 import { FormWizard, TabContent, WizardButton } from "vue-form-wizard";
 import "vue-form-wizard/dist/vue-form-wizard.min.css";
@@ -152,6 +153,9 @@ export default {
     };
   },
   computed: {
+    ...mapState("permission", {
+      permissions: "permissions"
+    }),
     gamificationLayerId() {
       return this.id || this.$route.params.id;
     },
@@ -241,6 +245,9 @@ export default {
     },
 
     async submitMetadata() {
+      if (this.permissions[this.projectId] < 2) {
+        return true;
+      }
       if (!this.changed) {
         return true;
       }

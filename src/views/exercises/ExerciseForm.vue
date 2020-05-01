@@ -15,7 +15,11 @@
         :before-change="submitMetadata"
       >
         <ValidationObserver ref="metadata-observer">
-          <exercise-metadata-step v-model="metadata" />
+          <exercise-metadata-step
+            :id="exerciseId"
+            :project-id="projectId"
+            v-model="metadata"
+          />
         </ValidationObserver>
       </tab-content>
       <tab-content
@@ -140,7 +144,8 @@ export default {
   },
   computed: {
     ...mapState({
-      last_used: "last_used_values"
+      last_used: "last_used_values",
+      permissions: state => state.permission.permissions
     }),
     emptyMetadata() {
       return {
@@ -272,6 +277,9 @@ export default {
     },
 
     async submitMetadata() {
+      if (this.permissions[this.projectId] < 2) {
+        return true;
+      }
       if (!this.changed) {
         return true;
       }

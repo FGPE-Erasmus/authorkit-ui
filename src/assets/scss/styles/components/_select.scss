@@ -186,6 +186,24 @@
       }
     }
   }
+
+  .vs--disabled .vs__clear,
+  .vs--disabled .vs__dropdown-toggle,
+  .vs--disabled .vs__open-indicator,
+  .vs--disabled .vs__search,
+  .vs--disabled .vs__selected {
+    background-color: transparent;
+  }
+
+  .fgpe-select--input.vs--disabled, .fgpe-select--input.vs--disabled+.fgpe-select--placeholder {
+    opacity: .5;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .fgpe-select--input.vs--disabled {
+    background-color: rgb(235, 235, 228);
+  }
 }
 
 .vuesax-app-is-ltr .fgpe-select--multiple .vs__selected {

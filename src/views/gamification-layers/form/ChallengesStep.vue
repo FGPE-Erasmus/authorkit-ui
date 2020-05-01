@@ -44,6 +44,9 @@
           :value="challengeTree"
           :options="challengeTreeOpts"
           @create-node="onCreate()"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
           <template v-slot:node="{ node }">
             <fgpe-tree-node
@@ -52,19 +55,22 @@
               @update-node="onUpdate"
               @delete-node="onDelete"
               :supports-children="
-                ['challenges', 'leaderboards', 'rewards', 'rules'].includes(
-                  node.data.nodeType
-                )
+                permissions[projectId] > 1 &&
+                  ['challenges', 'leaderboards', 'rewards', 'rules'].includes(
+                    node.data.nodeType
+                  )
               "
               :editable="
-                ['challenge', 'leaderboard', 'reward', 'rule'].includes(
-                  node.data.nodeType
-                )
+                permissions[projectId] > 1 &&
+                  ['challenge', 'leaderboard', 'reward', 'rule'].includes(
+                    node.data.nodeType
+                  )
               "
               :removable="
-                ['challenge', 'leaderboard', 'reward', 'rule'].includes(
-                  node.data.nodeType
-                )
+                permissions[projectId] > 1 &&
+                  ['challenge', 'leaderboard', 'reward', 'rule'].includes(
+                    node.data.nodeType
+                  )
               "
             />
           </template>
@@ -75,6 +81,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import FgpeTree from "@/components/fgpe-tree/FgpeTree";
 import FgpeTreeNode from "@/components/fgpe-tree/FgpeTreeNode";
 
@@ -130,6 +138,9 @@ export default {
     }
   },
   computed: {
+    ...mapState("permission", {
+      permissions: "permissions"
+    }),
     challengeTree() {
       const challengesById = {};
       this.challenges.forEach(challenge => {

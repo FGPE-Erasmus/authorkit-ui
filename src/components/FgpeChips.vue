@@ -10,7 +10,8 @@
     </label>
     <div
       :class="{
-        focused: isFocus
+        focused: isFocus,
+        disabled: disabled
       }"
       class="con-chips"
     >
@@ -27,6 +28,7 @@
         }"
         @keypress.enter.prevent="addItem"
         v-on="listeners"
+        :disabled="disabled"
       />
       <transition name="placeholderx">
         <span
@@ -66,6 +68,10 @@ export default {
     placeholder: {
       type: String,
       default: ""
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     items: {
       type: Array

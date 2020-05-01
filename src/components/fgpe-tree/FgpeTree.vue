@@ -15,6 +15,9 @@
         <slot name="node" v-bind:node="node">
           <fgpe-tree-node
             :value="node"
+            :supports-children="allowCreate"
+            :editable="allowUpdate"
+            :removable="allowDelete"
             @create-node="onCreate"
             @update-node="onUpdate"
             @delete-node="onDelete"
@@ -22,7 +25,7 @@
         </slot>
       </template>
     </tree>
-    <slot name="add-root">
+    <slot name="add-root" v-if="allowCreate">
       <div class="flex items-center justify-center py-2 cursor-pointer">
         <vs-icon
           color="primary"
@@ -56,6 +59,18 @@ export default {
     },
     options: {
       type: Object
+    },
+    allowCreate: {
+      type: Boolean,
+      default: true
+    },
+    allowUpdate: {
+      type: Boolean,
+      default: true
+    },
+    allowDelete: {
+      type: Boolean,
+      default: true
     }
   },
 

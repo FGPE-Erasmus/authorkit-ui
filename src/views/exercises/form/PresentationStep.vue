@@ -42,6 +42,9 @@
           @create="activateInstructionsSidebar"
           @edit="activateInstructionsSidebar"
           @delete="removeInstruction"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
         </fgpe-file-list>
       </div>
@@ -54,6 +57,9 @@
           @create="activateStatementsSidebar"
           @edit="activateStatementsSidebar"
           @delete="removeStatement"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
         </fgpe-file-list>
       </div>
@@ -67,6 +73,9 @@
           @create="activateEmbeddablesSidebar"
           @edit="activateEmbeddablesSidebar"
           @delete="removeEmbeddable"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
         </fgpe-file-list>
       </div>
@@ -79,6 +88,9 @@
           @create="activateSkeletonsSidebar"
           @edit="activateSkeletonsSidebar"
           @delete="removeSkeleton"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
         </fgpe-file-list>
       </div>
@@ -87,6 +99,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import languages from "@/assets/data/languages.json";
 import { filenameFromPath } from "@/assets/utils/file";
 
@@ -118,8 +131,14 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      permissions: state => state.permission.permissions
+    }),
     exerciseId() {
       return this.id || this.$route.params.id;
+    },
+    projectId() {
+      return this.$route.params.project_id;
     },
     instructions() {
       return this.presentation.instructions.map(instruction => {

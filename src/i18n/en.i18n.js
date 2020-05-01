@@ -123,7 +123,8 @@ export default {
     Actions: {
       Edit: "Edit",
       Delete: "Delete",
-      Export: "Export"
+      Export: "Export",
+      View: "View"
     }
   },
 

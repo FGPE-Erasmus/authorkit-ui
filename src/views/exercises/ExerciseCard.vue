@@ -15,16 +15,24 @@
 
         <vs-dropdown-menu class="w-32">
           <vs-dropdown-item
-            v-if="permissions[project.id] >= 2"
+            v-if="permissions[projectId] >= 2"
             @click="$emit('edit')"
           >
-            <div class="flex flex-row">
-              <feather-icon
-                icon="EditIcon"
-                class="flex items-center mr-2"
-                svgClasses="w-4 h-4"
-              /><span>{{ $t("Card.Actions.Edit") }}</span>
-            </div>
+            <feather-icon
+              icon="EditIcon"
+              class="flex items-center mr-2"
+              svgClasses="w-4 h-4"
+            /><span>{{ $t("Card.Actions.Edit") }}</span>
+          </vs-dropdown-item>
+          <vs-dropdown-item
+            v-else-if="permissions[projectId] >= 1"
+            @click="$emit('edit')"
+          >
+            <feather-icon
+              icon="EyeIcon"
+              class="flex items-center mr-2"
+              svgClasses="w-4 h-4"
+            /><span>{{ $t("Card.Actions.View") }}</span>
           </vs-dropdown-item>
           <vs-dropdown-item @click="$emit('export', id)">
             <div class="flex flex-row">
@@ -36,11 +44,11 @@
             </div>
           </vs-dropdown-item>
           <vs-divider
-            v-if="permissions[project.id] >= 3"
+            v-if="permissions[projectId] >= 3"
             class="my-1 p-1"
           ></vs-divider>
           <vs-dropdown-item
-            v-if="permissions[project.id] >= 3"
+            v-if="permissions[projectId] >= 3"
             @click="confirmDelete()"
           >
             <div class="flex flex-row">
@@ -94,12 +102,12 @@ export default {
     return {};
   },
   computed: {
-    ...mapState("project", {
-      project: "activeProject"
-    }),
     ...mapState("permission", {
       permissions: "permissions"
-    })
+    }),
+    projectId() {
+      return this.$route.params.project_id;
+    }
   },
   methods: {
     onExerciseSelect() {

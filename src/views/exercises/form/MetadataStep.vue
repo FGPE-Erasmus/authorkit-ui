@@ -14,6 +14,7 @@
             :label-placeholder="$t('Exercise.Title')"
             @input="updateValue()"
             class="w-full"
+            :disabled="permissions[projectId] < 2"
           />
           <span v-show="errors[0]" class="text-danger text-sm">
             {{ errors[0] }}
@@ -33,6 +34,7 @@
             :label-placeholder="$t('Exercise.Module')"
             @input="updateValue()"
             class="w-full"
+            :disabled="permissions[projectId] < 2"
           />
           <span v-show="errors[0]" class="text-danger text-sm">
             {{ errors[0] }}
@@ -57,6 +59,7 @@
             remove-icon="delete_forever"
             @input="updateValue()"
             class="mt-5"
+            :disabled="permissions[projectId] < 2"
           >
             <vs-chip
               v-for="keyword in metadata.keywords"
@@ -90,6 +93,7 @@
             :searchable="false"
             :label-placeholder="$t('Exercise.Status')"
             @input="updateValue()"
+            :disabled="permissions[projectId] < 2"
           >
             <template slot="option" slot-scope="option">
               <div class="d-center">
@@ -125,6 +129,7 @@
             :clearable="false"
             :searchable="false"
             @input="updateValue()"
+            :disabled="permissions[projectId] < 2"
           >
             <template slot="option" slot-scope="option">
               <div class="d-center">
@@ -158,6 +163,7 @@
             :clearable="false"
             :searchable="false"
             @input="updateValue()"
+            :disabled="permissions[projectId] < 2"
           >
             <template slot="option" slot-scope="option">
               <div class="d-center">
@@ -190,6 +196,7 @@
             :label-placeholder="$t('Exercise.Event')"
             @input="updateValue()"
             class="w-full"
+            :disabled="permissions[projectId] < 2"
           />
           <span v-show="errors[0]" class="text-danger text-sm">
             {{ errors[0] }}
@@ -209,6 +216,7 @@
             :label-placeholder="$t('Exercise.Platform')"
             @input="updateValue()"
             class="w-full"
+            :disabled="permissions[projectId] < 2"
           />
           <span v-show="errors[0]" class="text-danger text-sm">
             {{ errors[0] }}
@@ -220,6 +228,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { ValidationProvider } from "vee-validate";
 
 import FgpeChips from "@/components/FgpeChips";
@@ -233,11 +242,24 @@ export default {
     "fgpe-select": FgpeSelect
   },
   props: {
+    id: {
+      type: String
+    },
     value: {
       type: Object
     }
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      permissions: state => state.permission.permissions
+    }),
+    exerciseId() {
+      return this.id || this.$route.params.id;
+    },
+    projectId() {
+      return this.$route.params.project_id;
+    }
+  },
   data() {
     return {
       types: {

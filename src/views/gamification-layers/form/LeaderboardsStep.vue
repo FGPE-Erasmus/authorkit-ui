@@ -16,6 +16,9 @@
           :value="leaderboardTree"
           :options="leaderboardTreeOpts"
           @create-node="onCreate()"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
           <template v-slot:node="{ node }">
             <fgpe-tree-node
@@ -24,6 +27,8 @@
               @update-node="onUpdate"
               @delete-node="onDelete"
               :supports-children="false"
+              :editable="permissions[projectId] > 1"
+              :removable="permissions[projectId] > 1"
             />
           </template>
         </fgpe-tree>
@@ -33,6 +38,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import FgpeTree from "@/components/fgpe-tree/FgpeTree";
 import FgpeTreeNode from "@/components/fgpe-tree/FgpeTreeNode";
 
@@ -61,8 +68,13 @@ export default {
     }
   },
   computed: {
+    ...mapState("permission", {
+      permissions: "permissions"
+    }),
     leaderboardTree() {
-      return this.leaderboards.map(this.transformLeaderboardIntoNode);
+      return this.leaderboards
+        .filter(leaderboard => !leaderboard.challenge_id)
+        .map(this.transformLeaderboardIntoNode);
     }
   },
   data() {
@@ -210,7 +222,6 @@ export default {
     },
 
     updateLeaderboard(leaderboard) {
-      console.log(leaderboard);
       return new Promise((resolve, reject) => {
         this.$store
           .dispatch(`${LEADERBOARD_MODULE_BASE}/${LEADERBOARD_UPDATE}`, {

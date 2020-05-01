@@ -16,6 +16,9 @@
           :value="rewardTree"
           :options="rewardTreeOpts"
           @create-node="onCreate()"
+          :allow-create="permissions[projectId] > 1"
+          :allow-update="permissions[projectId] > 1"
+          :allow-delete="permissions[projectId] > 1"
         >
           <template v-slot:node="{ node }">
             <fgpe-tree-node
@@ -24,6 +27,8 @@
               @update-node="onUpdate"
               @delete-node="onDelete"
               :supports-children="false"
+              :editable="permissions[projectId] > 1"
+              :removable="permissions[projectId] > 1"
             />
           </template>
         </fgpe-tree>
@@ -33,6 +38,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import FgpeTree from "@/components/fgpe-tree/FgpeTree";
 import FgpeTreeNode from "@/components/fgpe-tree/FgpeTreeNode";
 
@@ -61,8 +68,13 @@ export default {
     }
   },
   computed: {
+    ...mapState("permission", {
+      permissions: "permissions"
+    }),
     rewardTree() {
-      return this.rewards.map(this.transformRewardIntoNode);
+      return this.rewards
+        .filter(reward => !reward.challenge_id)
+        .map(this.transformRewardIntoNode);
     }
   },
   data() {

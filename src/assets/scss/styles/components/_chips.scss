@@ -91,6 +91,14 @@
       color: $primary;
     }
   }
+
+  &.disabled {
+    opacity: .5;
+    cursor: default;
+    pointer-events: none;
+
+    background-color: rgb(235,235, 228);
+  }
 }
 
 

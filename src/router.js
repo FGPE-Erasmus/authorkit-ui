@@ -238,7 +238,7 @@ router.beforeEach((to, from, next) => {
     if (projectsPathMatch) {
       if (
         !store.state.project.activeProject ||
-        store.state.project.activeProject.id !== projectsPathMatch[1]
+        store.state.project.activeProject.id !== to.params.project_id
       ) {
         return store
           .dispatch(
@@ -247,12 +247,28 @@ router.beforeEach((to, from, next) => {
           )
           .then(res => {
             store.commit(`${PROJECT_MODULE_BASE}/${PROJECT_SET_ACTIVE}`, res);
-            store.dispatch(
-              `${PERMISSION_MODULE_BASE}/${PERMISSION_GET}`,
-              res.id
-            );
-            next();
+            if (!store.state.permission.permissions[to.params.project_id]) {
+              console.log(
+                store.state.permission.permissions[to.params.project_id]
+              );
+              return store
+                .dispatch(
+                  `${PERMISSION_MODULE_BASE}/${PERMISSION_GET}`,
+                  to.params.project_id
+                )
+                .then(() => {
+                  return next();
+                });
+            }
+            return next();
           });
+      } else if (!store.state.permission.permissions[to.params.project_id]) {
+        return store
+          .dispatch(
+            `${PERMISSION_MODULE_BASE}/${PERMISSION_GET}`,
+            to.params.project_id
+          )
+          .then(() => next());
       } else {
         return next();
       }

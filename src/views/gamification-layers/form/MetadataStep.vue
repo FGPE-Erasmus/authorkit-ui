@@ -14,6 +14,7 @@
             :label-placeholder="$t('GamificationLayer.Name')"
             @input="updateValue()"
             class="w-full"
+            :disabled="permissions[projectId] < 2"
           />
           <span v-show="errors[0]" class="text-danger text-sm">
             {{ errors[0] }}
@@ -33,6 +34,7 @@
             :label-placeholder="$t('GamificationLayer.Description')"
             @input="updateValue()"
             class="w-full"
+            :disabled="permissions[projectId] < 2"
           />
           <span v-show="errors[0]" class="text-danger text-sm">
             {{ errors[0] }}
@@ -57,6 +59,7 @@
             remove-icon="delete_forever"
             @input="updateValue()"
             class="mt-5"
+            :disabled="permissions[projectId] < 2"
           >
             <vs-chip
               v-for="keyword in metadata.keywords"
@@ -90,6 +93,7 @@
             :searchable="false"
             :label-placeholder="$t('GamificationLayer.Status')"
             @input="updateValue()"
+            :disabled="permissions[projectId] < 2"
           >
             <template slot="option" slot-scope="option">
               <div class="d-center">
@@ -112,6 +116,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { ValidationProvider } from "vee-validate";
 
 import FgpeChips from "@/components/FgpeChips";
@@ -129,7 +134,14 @@ export default {
       type: Object
     }
   },
-  computed: {},
+  computed: {
+    ...mapState("permission", {
+      permissions: "permissions"
+    }),
+    projectId() {
+      return this.$route.params.project_id;
+    }
+  },
   data() {
     return {
       statuses: {
