@@ -40,7 +40,7 @@
                 persist
               >
                 <vs-input
-                  :label-placeholder="$t('Name')"
+                  :label-placeholder="$t('Project.Name')"
                   name="name"
                   v-model="project.name"
                   class="mt-5 w-full"
@@ -59,7 +59,7 @@
                 persist
               >
                 <vs-textarea
-                  :label="$t('Description')"
+                  :label="$t('Project.Description')"
                   name="description"
                   v-model="project.description"
                   :class="{
@@ -104,12 +104,12 @@
                 >
                   <template slot="option" slot-scope="option">
                     <div class="d-center">
-                      {{ $t(status_labels[option.label]) }}
+                      {{ $t("Project.Statuses." + option.label.toUpperCase()) }}
                     </div>
                   </template>
                   <template slot="selected-option" slot-scope="option">
                     <div class="selected d-center">
-                      {{ $t(status_labels[option.label]) }}
+                      {{ $t("Project.Statuses." + option.label.toUpperCase()) }}
                     </div>
                   </template>
                 </fgpe-select>
@@ -175,12 +175,6 @@ export default {
         status: "draft"
       },
       status_choices: ["draft", "announced", "open", "closed"],
-      status_labels: {
-        draft: "Draft",
-        announced: "Announced",
-        open: "Open",
-        closed: "Closed"
-      },
       project: undefined,
       settings: {
         // perfectscrollbar settings

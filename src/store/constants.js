@@ -7,11 +7,13 @@ export const STORAGE_REMEMBER_ME = "remember_me";
 export const STORAGE_USER_PROFILE = "user_profile";
 
 export const STORAGE_THEME_LIGHTS = "theme_lights";
+export const STORAGE_THEME_TABLE_VIEW = "theme_table_view";
 export const STORAGE_I18N_LOCALE = "i18n_locale";
 export const STORAGE_LAST_USED_VALUES = "last_used_values";
 
 // actions
 export const TOGGLE_LIGHTS = "toggle-lights";
+export const TOGGLE_TABLE_VIEW = "toggle-table-view";
 export const SHOW_SEARCH_ICON = "show-search-icon";
 export const HIDE_SEARCH_ICON = "hide-search-icon";
 export const UPDATE_SIDEBAR_WIDTH = "update-sidebar-width";
@@ -29,6 +31,7 @@ export const UPDATE_LAST_USED_FIELD_VALUES = "update-last-used-field-values";
 
 // mutations
 export const THEME_TOGGLE_LIGHTS = "THEME_TOGGLE_LIGHTS";
+export const THEME_TOGGLE_TABLE_VIEW = "THEME_TOGGLE_TABLE_VIEW";
 export const THEME_SEARCH_ICON = "THEME_SEARCH_ICON";
 export const THEME_UPDATE_SIDEBAR_WIDTH = "THEME_UPDATE_SIDEBAR_WIDTH";
 export const THEME_UPDATE_SIDEBAR_ICONS_ONLY =

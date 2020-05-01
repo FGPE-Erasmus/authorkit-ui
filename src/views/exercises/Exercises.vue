@@ -5,31 +5,68 @@
       :current-page="currentPage"
       :items-per-page="itemsPerPage"
       :sorting-order="sortingOrder"
+      :table-view="tableView"
       :total="totalItems"
       :items="exercises"
       :allow-create="permissions[projectId] >= 2"
       :allow-import="permissions[projectId] >= 2"
+      :columns="[
+        'Exercise.Title',
+        'Exercise.Module',
+        'Exercise.Type',
+        'Exercise.Difficulty',
+        'Exercise.Status'
+      ]"
       @itemsperpagechange="itemsPerPage = $event"
       @currentpagechange="currentPage = $event"
       @sortchange="sortingOrder = $event"
+      @viewchange="changeView($event)"
       @create="create"
       @import="triggerImport"
     >
+      <template v-slot:row="{ item }">
+        <card-list-row
+          :allow-view="permissions[projectId] === 1"
+          :allow-export="permissions[projectId] >= 1"
+          :allow-edit="permissions[projectId] >= 2"
+          :allow-remove="permissions[projectId] >= 4"
+          @view="edit(item)"
+          @edit="edit(item)"
+          @export="exportAndDownload(item)"
+          @remove="confirmDelete(item)"
+        >
+          <vs-td>
+            <p>{{ truncateWithEllipses(item.title, 20) }}</p>
+          </vs-td>
+          <vs-td>
+            <p>{{ truncateWithEllipses(item.module || "", 20) }}</p>
+          </vs-td>
+          <vs-td>
+            <p>{{ $t("Exercise.Types." + item.type.toUpperCase()) }}</p>
+          </vs-td>
+          <vs-td>
+            <p>
+              {{
+                $t("Exercise.DifficultyLevels." + item.difficulty.toUpperCase())
+              }}
+            </p>
+          </vs-td>
+          <vs-td>
+            <p>{{ $t("Exercise.Statuses." + item.status.toUpperCase()) }}</p>
+          </vs-td>
+        </card-list-row>
+      </template>
       <template v-slot:card="{ item }">
         <exercise-card
-          :id="item.id"
-          :title="item.title"
-          :module="item.module"
-          :owner-id="item.owner_id"
-          :keywords="item.keywords"
-          :type="item.type"
-          :event="item.event"
-          :platform="item.platform"
-          :difficulty="item.difficulty"
-          :status="item.status"
-          @edit="update(item)"
-          @delete="remove"
-          @export="exportAndDownload"
+          :exercise="item"
+          :allow-view="permissions[projectId] >= 1"
+          :allow-export="permissions[projectId] >= 1"
+          :allow-edit="permissions[projectId] >= 2"
+          :allow-remove="permissions[projectId] >= 4"
+          @view="edit(item)"
+          @edit="edit(item)"
+          @export="exportAndDownload(item)"
+          @remove="confirmDelete(item)"
         />
       </template>
     </card-list>
@@ -49,9 +86,11 @@
 import { mapState } from "vuex";
 
 import * as downloads from "@/assets/utils/downloads";
-import * as search from "@/assets/utils/search";
 import * as fileUtils from "@/assets/utils/file";
+import * as search from "@/assets/utils/search";
+import { truncateWithEllipses } from "@/assets/utils/strings";
 
+import { TOGGLE_TABLE_VIEW } from "@/store/constants";
 import {
   MODULE_BASE,
   EXERCISE_LIST,
@@ -62,12 +101,14 @@ import {
 } from "@/store/exercises/exercise.constants";
 
 import CardList from "@/components/card-list/CardList";
+import CardListRow from "@/components/card-list/CardListRow";
 import ExerciseCard from "@/views/exercises/ExerciseCard";
 import ImportExerciseDialog from "@/views/exercises/dialog/ImportExerciseDialog";
 
 export default {
   components: {
     CardList,
+    CardListRow,
     ExerciseCard,
     ImportExerciseDialog
   },
@@ -120,13 +161,11 @@ export default {
     projectId() {
       return this.$route.params.project_id;
     },
-    ...mapState("project", {
-      project: "activeProject"
-    }),
     ...mapState("permission", {
       permissions: "permissions"
     }),
     ...mapState({
+      tableView: state => state.theme_settings.tableView,
       searchQuery: "searchQuery"
     })
   },
@@ -135,6 +174,11 @@ export default {
   },
   mounted() {},
   methods: {
+    truncateWithEllipses,
+    changeView(tableView) {
+      this.$store.dispatch(TOGGLE_TABLE_VIEW, tableView);
+    },
+
     fetchExercises() {
       this.$store
         .dispatch(`${MODULE_BASE}/${EXERCISE_LIST}`, {
@@ -160,14 +204,14 @@ export default {
     create() {
       this.$router.push(`/projects/${this.projectId}/exercises/new`);
     },
-    update(exercise) {
+    edit(exercise) {
       this.$router.push(`/projects/${this.projectId}/exercises/${exercise.id}`);
     },
-    exportAndDownload(id) {
+    exportAndDownload(exercise) {
       this.$store
-        .dispatch(`${MODULE_BASE}/${EXERCISE_EXPORT}`, id)
+        .dispatch(`${MODULE_BASE}/${EXERCISE_EXPORT}`, exercise.id)
         .then(data => {
-          downloads.download(data, id + ".zip");
+          downloads.download(data, exercise.id + ".zip");
         })
         .catch(err => {
           this.$vs.notify({
@@ -214,7 +258,23 @@ export default {
       this.importDialog.active = false;
       this.importDialog.file = undefined;
     },
-    remove(id) {
+
+    confirmDelete(exercise) {
+      this.$vs.dialog({
+        type: "confirm",
+        color: "danger",
+        title: this.$t("Dialogs.ConfirmDelete.Title", {
+          item: exercise.title
+        }),
+        text: this.$t("Dialogs.ConfirmDelete.Message", {
+          item: exercise.title
+        }),
+        "accept-text": this.$t("Form.Delete"),
+        "cancel-text": this.$t("Form.Cancel"),
+        accept: () => this.delete(exercise.id)
+      });
+    },
+    delete(id) {
       this.$store
         .dispatch(`${MODULE_BASE}/${EXERCISE_DELETE}`, id)
         .then(() => {

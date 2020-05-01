@@ -124,8 +124,13 @@ export default {
       Edit: "Edit",
       Delete: "Delete",
       Export: "Export",
-      View: "View"
+      View: "View",
+      Share: "Share"
     }
+  },
+
+  Table: {
+    Actions: "Actions"
   },
 
   // dialogs
@@ -180,7 +185,15 @@ export default {
 
   _Project: "Project",
   Project: {
-    Status: "Status"
+    Name: "Name",
+    Description: "Description",
+    Status: "Status",
+    Statuses: {
+      DRAFT: "Draft",
+      ANNOUNCED: "Announced",
+      OPEN: "Open",
+      CLOSED: "Closed"
+    }
   },
 
   // exercises
@@ -234,26 +247,26 @@ export default {
       Name: "Name"
     },
     Types: {
-      BlankSheet: "Blank Sheet",
-      Extension: "Extension",
-      Improvement: "Improvement",
-      BugFix: "Bug Fix",
-      FillInGaps: "Fill-in the Gaps",
-      SortBlocks: "Sort Blocks",
-      SpotBug: "Spot the Bug"
+      BLANK_SHEET: "Blank Sheet",
+      EXTENSION: "Extension",
+      IMPROVEMENT: "Improvement",
+      BUG_FIX: "Bug Fix",
+      FILL_IN_GAPS: "Fill-in the Gaps",
+      SORT_BLOCKS: "Sort Blocks",
+      SPOT_BUG: "Spot the Bug"
     },
     DifficultyLevels: {
-      Beginner: "Beginner",
-      Easy: "Easy",
-      Average: "Average",
-      Hard: "Hard",
-      Master: "Master"
+      BEGINNER: "Beginner",
+      EASY: "Easy",
+      AVERAGE: "Average",
+      HARD: "Hard",
+      MASTER: "Master"
     },
     Statuses: {
-      Draft: "Draft",
-      Unpublished: "Unpublished",
-      Published: "Published",
-      Trash: "Trash"
+      DRAFT: "Draft",
+      UNPUBLISHED: "Unpublished",
+      PUBLISHED: "Published",
+      TRASH: "Trash"
     },
     Form: {
       Metadata: "Metadata",
@@ -291,10 +304,10 @@ export default {
     Keywords: "Keywords",
     Status: "Status",
     Statuses: {
-      Draft: "Draft",
-      Unpublished: "Unpublished",
-      Published: "Published",
-      Trash: "Trash"
+      DRAFT: "Draft",
+      UNPUBLISHED: "Unpublished",
+      PUBLISHED: "Published",
+      TRASH: "Trash"
     },
     Challenges: "Challenges",
     Rules: "Rules",

@@ -1,11 +1,13 @@
 import { parseQuery } from "@/assets/utils/search-query-parser";
 import {
   STORAGE_THEME_LIGHTS,
+  STORAGE_THEME_TABLE_VIEW,
   STORAGE_I18N_LOCALE,
   STORAGE_LAST_USED_VALUES,
 
   // actions
   TOGGLE_LIGHTS,
+  TOGGLE_TABLE_VIEW,
   SHOW_SEARCH_ICON,
   HIDE_SEARCH_ICON,
   UPDATE_I18N_LOCALE,
@@ -14,6 +16,7 @@ import {
 
   // mutations
   THEME_TOGGLE_LIGHTS,
+  THEME_TOGGLE_TABLE_VIEW,
   THEME_SEARCH_ICON,
   THEME_UPDATE_SIDEBAR_WIDTH,
   THEME_UPDATE_SIDEBAR_ICONS_ONLY,
@@ -39,6 +42,7 @@ const state = {
   userRole: null,
   theme_settings: {
     lights: localStorage.getItem(STORAGE_THEME_LIGHTS) !== "false",
+    tableView: localStorage.getItem(STORAGE_THEME_TABLE_VIEW) !== "false",
     showSearchIcon: false
   },
   last_used_values: (localStorage.getItem(STORAGE_LAST_USED_VALUES) &&
@@ -60,6 +64,7 @@ const state = {
 
 const getters = {
   theme: state => (state.theme_settings.lights ? "light" : "dark"),
+  listview: state => (state.theme_settings.tableView ? "table" : "card"),
   loading: state =>
     state.loading ||
     state.auth.loading ||
@@ -79,6 +84,11 @@ const actions = {
     const lights = !state.theme_settings.lights;
     commit(THEME_TOGGLE_LIGHTS, lights);
     localStorage.setItem(STORAGE_THEME_LIGHTS, lights);
+  },
+  [TOGGLE_TABLE_VIEW]: ({ commit, state }) => {
+    const tableView = !state.theme_settings.tableView;
+    commit(THEME_TOGGLE_TABLE_VIEW, tableView);
+    localStorage.setItem(STORAGE_THEME_TABLE_VIEW, tableView);
   },
   [SHOW_SEARCH_ICON]: ({ commit }) => {
     commit(THEME_SEARCH_ICON, true);
@@ -129,6 +139,9 @@ const mutations = {
   // theme
   [THEME_TOGGLE_LIGHTS]: (state, toggle) => {
     state.theme_settings.lights = toggle;
+  },
+  [THEME_TOGGLE_TABLE_VIEW]: (state, toggle) => {
+    state.theme_settings.tableView = toggle;
   },
   [THEME_SEARCH_ICON]: (state, toggle) => {
     state.theme_settings.showSearchIcon = toggle;

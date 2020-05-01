@@ -1,6 +1,61 @@
 .card-list {
 
     &__header {}
+
+    .vs-con-table {
+        .vs-table--header {
+            display: flex;
+            flex-wrap: wrap-reverse;
+            margin-left: 1.5rem;
+            margin-right: 1.5rem;
+
+            >span {
+                display: flex;
+                flex-grow: 1;
+            }
+        }
+
+        .vs-table {
+            border-collapse: separate;
+            border-spacing: 0 1rem;
+            padding: 0;
+
+            tr {
+                box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+
+                td {
+                    padding: 20px;
+
+                    &:first-child {
+                        border-top-left-radius: 0.5rem;
+                        border-bottom-left-radius: 0.5rem;
+                    }
+
+                    &:last-child {
+                        border-top-right-radius: 0.5rem;
+                        border-bottom-right-radius: 0.5rem;
+                    }
+                }
+            }
+        }
+
+        .vs-table--thead {
+            th {
+                padding-top: 0;
+                padding-bottom: 0;
+
+                .vs-table-text {
+                    text-transform: uppercase;
+                    font-weight: 600;
+                }
+            }
+
+            tr {
+                background: none;
+                box-shadow: none;
+            }
+        }
+    }
 }
 
 .vs-dropdown-menu {

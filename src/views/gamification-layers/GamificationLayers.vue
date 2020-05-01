@@ -4,27 +4,58 @@
     :current-page="currentPage"
     :items-per-page="itemsPerPage"
     :sorting-order="sortingOrder"
+    :table-view="tableView"
     :total="totalItems"
     :items="gamificationLayers"
     :allow-create="permissions[projectId] >= 2"
     :allow-import="permissions[projectId] >= 2"
+    :columns="[
+      'GamificationLayer.Name',
+      'GamificationLayer.Description',
+      'GamificationLayer.Status'
+    ]"
     @itemsperpagechange="itemsPerPage = $event"
     @currentpagechange="currentPage = $event"
     @sortchange="sortingOrder = $event"
+    @viewchange="changeView($event)"
     @create="create"
     @import="uploadAndImport"
   >
+    <template v-slot:row="{ item }">
+      <card-list-row
+        :allow-view="permissions[projectId] === 1"
+        :allow-export="permissions[projectId] >= 1"
+        :allow-edit="permissions[projectId] >= 2"
+        :allow-remove="permissions[projectId] >= 4"
+        @view="edit(item)"
+        @edit="edit(item)"
+        @export="exportAndDownload(item)"
+        @remove="confirmDelete(item)"
+      >
+        <vs-td>
+          <p>{{ truncateWithEllipses(item.name, 20) }}</p>
+        </vs-td>
+        <vs-td>
+          <p>{{ truncateWithEllipses(item.description || "", 40) }}</p>
+        </vs-td>
+        <vs-td>
+          <p>
+            {{ $t("GamificationLayer.Statuses." + item.status.toUpperCase()) }}
+          </p>
+        </vs-td>
+      </card-list-row>
+    </template>
     <template v-slot:card="{ item }">
       <gamification-layer-card
-        :id="item.id"
-        :name="item.name"
-        :description="item.description"
-        :owner-id="item.owner_id"
-        :keywords="item.keywords"
-        :status="item.status"
-        @edit="update(item)"
-        @delete="remove"
-        @export="exportAndDownload"
+        :gamificationLayer="item"
+        :allow-view="permissions[projectId] === 1"
+        :allow-export="permissions[projectId] >= 1"
+        :allow-edit="permissions[projectId] >= 2"
+        :allow-remove="permissions[projectId] >= 4"
+        @view="edit(item)"
+        @edit="edit(item)"
+        @export="exportAndDownload(item)"
+        @remove="confirmDelete(item)"
       />
     </template>
   </card-list>
@@ -35,6 +66,9 @@ import { mapState } from "vuex";
 
 import * as downloads from "@/assets/utils/downloads";
 import * as search from "@/assets/utils/search";
+import { truncateWithEllipses } from "@/assets/utils/strings";
+
+import { TOGGLE_TABLE_VIEW } from "@/store/constants";
 import {
   MODULE_BASE,
   GAMIFICATION_LAYER_LIST,
@@ -44,11 +78,13 @@ import {
 } from "@/store/gamification-layers/gamification-layer.constants";
 
 import CardList from "@/components/card-list/CardList";
+import CardListRow from "@/components/card-list/CardListRow";
 import GamificationLayerCard from "@/views/gamification-layers/GamificationLayerCard";
 
 export default {
   components: {
     CardList,
+    CardListRow,
     GamificationLayerCard
   },
   data: () => ({
@@ -94,13 +130,14 @@ export default {
     projectId() {
       return this.$route.params.project_id;
     },
-    ...mapState("project", {
-      project: "activeProject"
-    }),
     ...mapState("permission", {
       permissions: "permissions"
     }),
     ...mapState({
+      searchQuery: "searchQuery"
+    }),
+    ...mapState({
+      tableView: state => state.theme_settings.tableView,
       searchQuery: "searchQuery"
     })
   },
@@ -109,6 +146,11 @@ export default {
   },
   mounted() {},
   methods: {
+    truncateWithEllipses,
+    changeView(tableView) {
+      this.$store.dispatch(TOGGLE_TABLE_VIEW, tableView);
+    },
+
     fetchGamificationLayers() {
       this.$store
         .dispatch(`${MODULE_BASE}/${GAMIFICATION_LAYER_LIST}`, {
@@ -134,7 +176,7 @@ export default {
     create() {
       this.$router.push(`/projects/${this.projectId}/gamification-layers/new`);
     },
-    update(gamificationLayer) {
+    edit(gamificationLayer) {
       this.$router.push(
         `/projects/${this.projectId}/gamification-layers/${gamificationLayer.id}`
       );
@@ -158,11 +200,14 @@ export default {
           });
         });
     },
-    exportAndDownload(id) {
+    exportAndDownload(gamificationLayer) {
       this.$store
-        .dispatch(`${MODULE_BASE}/${GAMIFICATION_LAYER_EXPORT}`, id)
+        .dispatch(
+          `${MODULE_BASE}/${GAMIFICATION_LAYER_EXPORT}`,
+          gamificationLayer.id
+        )
         .then(data => {
-          downloads.download(data, id + ".zip");
+          downloads.download(data, gamificationLayer.id + ".zip");
         })
         .catch(err => {
           this.$vs.notify({
@@ -174,7 +219,23 @@ export default {
           });
         });
     },
-    remove(id) {
+
+    confirmDelete(gamificationLayer) {
+      this.$vs.dialog({
+        type: "confirm",
+        color: "danger",
+        title: this.$t("Dialogs.ConfirmDelete.Title", {
+          item: gamificationLayer.name
+        }),
+        text: this.$t("Dialogs.ConfirmDelete.Message", {
+          item: gamificationLayer.name
+        }),
+        "accept-text": this.$t("Form.Delete"),
+        "cancel-text": this.$t("Form.Cancel"),
+        accept: () => this.delete(gamificationLayer.id)
+      });
+    },
+    delete(id) {
       this.$store
         .dispatch(`${MODULE_BASE}/${GAMIFICATION_LAYER_DELETE}`, id)
         .then(() => {

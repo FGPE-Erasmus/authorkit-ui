@@ -8,24 +8,53 @@
           :current-page="currentPage"
           :items-per-page="itemsPerPage"
           :sorting-order="sortingOrder"
+          :table-view="tableView"
           :allow-create="allowCreate"
           :allow-import="allowImport"
           @create="$emit('create')"
           @import="$emit('import', $event)"
           @itemsperpagechange="$emit('itemsperpagechange', $event)"
           @sortchange="$emit('sortchange', $event)"
+          @viewchange="$emit('viewchange', $event)"
         />
       </slot>
     </div>
     <div class="card-list__content">
-      <div v-if="items.length > 0" class="vx-row">
-        <div
-          class="vx-col w-full md:w-1/3 sm:w-1/2 mb-base"
-          v-for="item in items"
-          :key="item.id"
+      <div v-if="items.length > 0">
+        <vs-table
+          v-if="tableView"
+          ref="table"
+          :max-items="itemsPerPage"
+          :data="items"
         >
-          <slot name="card" v-bind:item="item"></slot>
-        </div>
+          <template slot="thead">
+            <vs-th v-for="(column, index) in columns" :key="index">
+              {{ $t(column) }}
+            </vs-th>
+            <vs-th>
+              {{ $t("Table.Actions") }}
+            </vs-th>
+          </template>
+
+          <template slot-scope="{ data }">
+            <tbody>
+              <template v-for="tr in data" :data="tr">
+                <slot name="row" v-bind:item="tr"></slot>
+              </template>
+            </tbody>
+          </template>
+        </vs-table>
+        <template v-else>
+          <div class="vx-row">
+            <div
+              class="vx-col w-full md:w-1/3 sm:w-1/2 mb-base"
+              v-for="item in items"
+              :key="item.id"
+            >
+              <slot name="card" v-bind:item="item"></slot>
+            </div>
+          </div>
+        </template>
       </div>
       <div v-else class="w-full flex flex-col align-center justify-center p-24">
         <feather-icon
@@ -85,6 +114,10 @@ export default {
       type: Number,
       default: 0
     },
+    tableView: {
+      type: Boolean,
+      default: true
+    },
     allowCreate: {
       type: Boolean,
       default: true
@@ -92,7 +125,8 @@ export default {
     allowImport: {
       type: Boolean,
       default: true
-    }
+    },
+    columns: Array
   },
   data: () => ({
     visible: 0

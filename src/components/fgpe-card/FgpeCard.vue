@@ -19,37 +19,69 @@
       </div>
 
       <!-- card actions -->
-      <div class="fgpe-card__actions" v-if="hasAction">
+      <div class="fgpe-card__actions">
         <slot name="actions">
-          <div
-            class="fgpe-card__action-buttons"
+          <vs-dropdown
             v-if="
-              actionButtons ||
-                collapseAction ||
-                refreshContentAction ||
-                removeCardAction
+              allowView || allowExport || allowEdit || allowShare || allowRemove
             "
+            class="cursor-pointer"
+            vs-trigger-click
           >
             <feather-icon
-              @click="toggleContent"
-              icon="ChevronUpIcon"
-              :class="{ rotate180: !isContentCollapsed }"
-              class="ml-4"
-              v-if="actionButtons || collapseAction"
-            />
-            <feather-icon
-              @click="refreshcard"
-              icon="RotateCwIcon"
-              class="ml-4"
-              v-if="actionButtons || refreshContentAction"
-            />
-            <feather-icon
-              @click="removeCard"
-              icon="XIcon"
-              class="ml-4"
-              v-if="actionButtons || removeCardAction"
-            />
-          </div>
+              icon="MoreVerticalIcon"
+              svgClasses="w-6 h-6 text-grey"
+            ></feather-icon>
+
+            <vs-dropdown-menu class="w-32">
+              <vs-dropdown-item v-if="allowView" @click="$emit('view')">
+                <div class="flex flex-row">
+                  <feather-icon
+                    icon="EyeIcon"
+                    class="flex items-center mr-2"
+                    svgClasses="w-4 h-4"
+                  /><span>{{ $t("Card.Actions.View") }}</span>
+                </div>
+              </vs-dropdown-item>
+              <vs-dropdown-item v-if="allowEdit" @click="$emit('edit')">
+                <div class="flex flex-row">
+                  <feather-icon
+                    icon="EditIcon"
+                    class="flex items-center mr-2"
+                    svgClasses="w-4 h-4"
+                  /><span>{{ $t("Card.Actions.Edit") }}</span>
+                </div>
+              </vs-dropdown-item>
+              <vs-dropdown-item v-if="allowShare" @click="$emit('share')">
+                <div class="flex flex-row">
+                  <feather-icon
+                    icon="Share2Icon"
+                    class="flex items-center mr-2"
+                    svgClasses="w-4 h-4"
+                  /><span>{{ $t("Card.Actions.Share") }}</span>
+                </div>
+              </vs-dropdown-item>
+              <vs-dropdown-item v-if="allowExport" @click="$emit('export')">
+                <div class="flex flex-row">
+                  <feather-icon
+                    icon="ArrowDownCircleIcon"
+                    class="flex items-center mr-2"
+                    svgClasses="w-4 h-4"
+                  /><span>{{ $t("Card.Actions.Export") }}</span>
+                </div>
+              </vs-dropdown-item>
+              <vs-divider v-if="allowRemove" class="my-1 p-1"></vs-divider>
+              <vs-dropdown-item v-if="allowRemove" @click="$emit('remove')">
+                <div class="flex flex-row">
+                  <feather-icon
+                    icon="TrashIcon"
+                    class="flex items-center mr-2"
+                    svgClasses="w-4 h-4"
+                  /><span>{{ $t("Card.Actions.Delete") }}</span>
+                </div>
+              </vs-dropdown-item>
+            </vs-dropdown-menu>
+          </vs-dropdown>
         </slot>
       </div>
     </div>
@@ -118,6 +150,26 @@ export default {
     removeCardAction: {
       default: false,
       type: Boolean
+    },
+    allowView: {
+      type: Boolean,
+      default: false
+    },
+    allowExport: {
+      type: Boolean,
+      default: false
+    },
+    allowShare: {
+      type: Boolean,
+      default: false
+    },
+    allowEdit: {
+      type: Boolean,
+      default: false
+    },
+    allowRemove: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -129,15 +181,6 @@ export default {
     };
   },
   computed: {
-    hasAction() {
-      return (
-        this.$slots.actions ||
-        this.actionButtons ||
-        this.collapseAction ||
-        this.refreshContentAction ||
-        this.removeCardAction
-      );
-    },
     hasHeader() {
       return this.hasAction || this.title || this.subtitle;
     },

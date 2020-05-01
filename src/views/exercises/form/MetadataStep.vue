@@ -88,7 +88,7 @@
             name="status"
             v-model="metadata.status"
             class="mt-5 w-full select-large"
-            :options="Object.keys(statuses)"
+            :options="statuses"
             :clearable="false"
             :searchable="false"
             :label-placeholder="$t('Exercise.Status')"
@@ -97,12 +97,12 @@
           >
             <template slot="option" slot-scope="option">
               <div class="d-center">
-                {{ $t(statuses[option.label]) }}
+                {{ $t("Exercise.Statuses." + option.label.toUpperCase()) }}
               </div>
             </template>
             <template slot="selected-option" slot-scope="option">
               <div class="selected d-center">
-                {{ $t(statuses[option.label]) }}
+                {{ $t("Exercise.Statuses." + option.label.toUpperCase()) }}
               </div>
             </template>
           </fgpe-select>
@@ -125,7 +125,7 @@
             v-model="metadata.type"
             class="mt-5 w-full select-large"
             :label-placeholder="$t('Exercise.Type')"
-            :options="Object.keys(types)"
+            :options="types"
             :clearable="false"
             :searchable="false"
             @input="updateValue()"
@@ -133,12 +133,12 @@
           >
             <template slot="option" slot-scope="option">
               <div class="d-center">
-                {{ $t(types[option.label]) }}
+                {{ $t("Exercise.Types." + option.label.toUpperCase()) }}
               </div>
             </template>
             <template slot="selected-option" slot-scope="option">
               <div class="selected d-center">
-                {{ $t(types[option.label]) }}
+                {{ $t("Exercise.Types." + option.label.toUpperCase()) }}
               </div>
             </template>
           </fgpe-select>
@@ -159,7 +159,7 @@
             v-model="metadata.difficulty"
             class="mt-5 w-full select-large"
             :label-placeholder="$t('Exercise.Difficulty')"
-            :options="Object.keys(difficultyLevels)"
+            :options="difficultyLevels"
             :clearable="false"
             :searchable="false"
             @input="updateValue()"
@@ -167,12 +167,16 @@
           >
             <template slot="option" slot-scope="option">
               <div class="d-center">
-                {{ $t(difficultyLevels[option.label]) }}
+                {{
+                  $t("Exercise.DifficultyLevels." + option.label.toUpperCase())
+                }}
               </div>
             </template>
             <template slot="selected-option" slot-scope="option">
               <div class="selected d-center">
-                {{ $t(difficultyLevels[option.label]) }}
+                {{
+                  $t("Exercise.DifficultyLevels." + option.label.toUpperCase())
+                }}
               </div>
             </template>
           </fgpe-select>
@@ -262,29 +266,18 @@ export default {
   },
   data() {
     return {
-      types: {
-        blank_sheet: this.$t("Exercise.Types.BlankSheet"),
-        extension: this.$t("Exercise.Types.Extension"),
-        improvement: this.$t("Exercise.Types.Improvement"),
-        bug_fix: this.$t("Exercise.Types.BugFix"),
-        fill_in_gaps: this.$t("Exercise.Types.FillInGaps"),
-        sort_blocks: this.$t("Exercise.Types.SortBlocks"),
-        spot_bug: this.$t("Exercise.Types.SpotBug")
-      },
-      difficultyLevels: {
-        beginner: this.$t("Exercise.DifficultyLevels.Beginner"),
-        easy: this.$t("Exercise.DifficultyLevels.Easy"),
-        average: this.$t("Exercise.DifficultyLevels.Average"),
-        hard: this.$t("Exercise.DifficultyLevels.Hard"),
-        master: this.$t("Exercise.DifficultyLevels.Master")
-      },
-      statuses: {
-        draft: this.$t("Exercise.Statuses.Draft"),
-        unpublished: this.$t("Exercise.Statuses.Unpublished"),
-        published: this.$t("Exercise.Statuses.Published"),
-        trash: this.$t("Exercise.Statuses.Trash")
-      },
-      metadata: this.value
+      metadata: this.value,
+      types: [
+        "blank_sheet",
+        "extension",
+        "improvement",
+        "bug_fix",
+        "fill_in_gaps",
+        "sort_blocks",
+        "spot_bug"
+      ],
+      difficultyLevels: ["beginner", "easy", "average", "hard", "master"],
+      statuses: ["draft", "unpublished", "published", "trash"]
     };
   },
   watch: {

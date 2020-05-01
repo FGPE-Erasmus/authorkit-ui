@@ -11,30 +11,56 @@
       :current-page="currentPage"
       :items-per-page="itemsPerPage"
       :sorting-order="sortingOrder"
+      :table-view="tableView"
       :total="totalItems"
       :items="projects"
       :allow-create="true"
       :allow-import="true"
+      :columns="['Project.Name', 'Project.Description', 'Project.Status']"
       @itemsperpagechange="itemsPerPage = $event"
       @currentpagechange="currentPage = $event"
       @sortchange="sortingOrder = $event"
+      @viewchange="changeView($event)"
       @create="showSidebarForm = true"
       @import="uploadAndImport"
     >
+      <template v-slot:row="{ item }">
+        <card-list-row
+          :allow-view="permissions[item.id] >= 1"
+          :allow-export="permissions[item.id] >= 1"
+          :allow-edit="permissions[item.id] >= 2"
+          :allow-share="permissions[item.id] >= 3"
+          :allow-remove="permissions[item.id] >= 4"
+          @view="openProject(item)"
+          @edit="editProject(item)"
+          @export="exportAndDownload(item)"
+          @share="openSharePopup(item)"
+          @remove="confirmDelete(item)"
+        >
+          <vs-td>
+            <p>{{ truncateWithEllipses(item.name, 20) }}</p>
+          </vs-td>
+          <vs-td>
+            <p>{{ truncateWithEllipses(item.description, 50) }}</p>
+          </vs-td>
+          <vs-td>
+            <p>{{ $t("Project.Statuses." + item.status.toUpperCase()) }}</p>
+          </vs-td>
+        </card-list-row>
+      </template>
       <template v-slot:card="{ item }">
         <project-card
-          :id="item.id"
-          :name="item.name"
-          :description="item.description"
-          :status="item.status"
-          :contributors="item.countContributors"
-          :exercises="item.countExercises"
-          :gamification-layers="item.countGamificationLayers"
-          @edit="editProject"
-          @open="openProject"
-          @share="openSharePopup"
-          @delete="deleteProject"
-          @export="exportAndDownload"
+          :project="item"
+          :allow-view="permissions[item.id] >= 1"
+          :allow-export="permissions[item.id] >= 1"
+          :allow-edit="permissions[item.id] >= 2"
+          :allow-share="permissions[item.id] >= 3"
+          :allow-remove="permissions[item.id] >= 4"
+          @view="openProject(item)"
+          @edit="editProject(item)"
+          @export="exportAndDownload(item)"
+          @share="openSharePopup(item)"
+          @remove="confirmDelete(item)"
         />
       </template>
     </card-list>
@@ -54,6 +80,8 @@ import { mapState } from "vuex";
 
 import * as downloads from "@/assets/utils/downloads";
 import * as search from "@/assets/utils/search";
+import { truncateWithEllipses } from "@/assets/utils/strings";
+import { TOGGLE_TABLE_VIEW } from "@/store/constants";
 import {
   MODULE_BASE,
   PROJECT_LIST,
@@ -74,6 +102,7 @@ import {
 } from "@/store/permissions/permission.constants";
 
 import CardList from "@/components/card-list/CardList";
+import CardListRow from "@/components/card-list/CardListRow";
 import FgpeSharePopup from "@/components/FgpeSharePopup.vue";
 import ProjectCard from "@/views/projects/ProjectCard";
 import ProjectFormSidebar from "@/views/projects/ProjectFormSidebar";
@@ -81,6 +110,7 @@ import ProjectFormSidebar from "@/views/projects/ProjectFormSidebar";
 export default {
   components: {
     CardList,
+    CardListRow,
     FgpeSharePopup,
     ProjectCard,
     ProjectFormSidebar
@@ -105,7 +135,9 @@ export default {
   }),
   computed: {
     ...mapState({
-      searchQuery: "searchQuery"
+      tableView: state => state.theme_settings.tableView,
+      searchQuery: "searchQuery",
+      permissions: state => state.permission.permissions
     })
   },
   watch: {
@@ -125,7 +157,7 @@ export default {
         } else {
           this.searchObj = search.searchQueryToSearch(
             this.searchQuery,
-            ["name"],
+            ["name", "description"],
             ["status"]
           );
         }
@@ -142,8 +174,12 @@ export default {
     this.$store.dispatch(`${PERMISSION_MODULE_BASE}/${PERMISSION_GET_ALL}`);
   },
   methods: {
-    openSharePopup(id) {
-      this.projectSelected = id;
+    truncateWithEllipses,
+    changeView(tableView) {
+      this.$store.dispatch(TOGGLE_TABLE_VIEW, tableView);
+    },
+    openSharePopup(item) {
+      this.projectSelected = item.id;
       this.getShares();
       this.sharePopupOpen = true;
     },
@@ -224,16 +260,16 @@ export default {
         });
     },
 
-    openProject(id) {
-      this.$router.push(`/projects/${id}/exercises`);
+    openProject(item) {
+      this.$router.push(`/projects/${item.id}/exercises`);
     },
     createProject() {
       this.sidebarProject = null;
       this.showSidebarForm = true;
     },
-    editProject(id) {
+    editProject(item) {
       this.$store
-        .dispatch(`${MODULE_BASE}/${PROJECT_GET}`, id)
+        .dispatch(`${MODULE_BASE}/${PROJECT_GET}`, item.id)
         .then(res => {
           this.sidebarProject = res;
           this.showSidebarForm = true;
@@ -351,11 +387,11 @@ export default {
         });
     },
 
-    exportAndDownload(id) {
+    exportAndDownload(item) {
       this.$store
-        .dispatch(`${MODULE_BASE}/${PROJECT_EXPORT}`, id)
+        .dispatch(`${MODULE_BASE}/${PROJECT_EXPORT}`, item.id)
         .then(data => {
-          downloads.download(data, id + ".zip");
+          downloads.download(data, item.id + ".zip");
         })
         .catch(err => {
           this.$vs.notify({
@@ -366,6 +402,22 @@ export default {
             color: "danger"
           });
         });
+    },
+
+    confirmDelete(project) {
+      this.$vs.dialog({
+        type: "confirm",
+        color: "danger",
+        title: this.$t("Dialogs.ConfirmDelete.Title", {
+          item: project.name
+        }),
+        text: this.$t("Dialogs.ConfirmDelete.Message", {
+          item: project.name
+        }),
+        "accept-text": this.$t("Form.Delete"),
+        "cancel-text": this.$t("Form.Cancel"),
+        accept: () => this.deleteProject(project.id)
+      });
     },
 
     deleteProject(id) {

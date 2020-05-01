@@ -702,7 +702,7 @@
 
   .vs-con-table {
     .vs-con-tbody {
-      background: $table-dark-stripe;
+      background: transparent;
       border: 2px solid $content-dark-bg;
 
       .vs-table--tbody-table {
@@ -712,11 +712,7 @@
 
         .vs-table--thead {
           tr {
-            background: $table-dark-stripe;
-          }
-
-          .con-td-check {
-            background: $table-dark-stripe;
+            background: transparent;
           }
         }
       }

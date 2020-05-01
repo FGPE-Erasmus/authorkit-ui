@@ -99,10 +99,6 @@ export default {
   },
   computed: {
     canSee() {
-      this.$acl.check(this.$store.state.userRole);
-      if (this.to) {
-        return this.$acl.check(this.$router.match(this.to).meta.rule);
-      }
       return true;
     }
   },

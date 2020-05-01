@@ -19,9 +19,6 @@ import "../theme.config.js";
 import InstantSearch from "vue-instantsearch";
 Vue.use(InstantSearch);
 
-// ACL
-import acl from "./acl/acl";
-
 // Globally Registered Components
 import "./globalComponents.js";
 
@@ -70,6 +67,5 @@ new Vue({
   router,
   store,
   i18n,
-  acl,
   render: h => h(App)
 }).$mount("#app");
