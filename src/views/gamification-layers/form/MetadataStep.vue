@@ -88,7 +88,7 @@
             name="status"
             v-model="metadata.status"
             class="mt-5 w-full select-large"
-            :options="Object.keys(statuses)"
+            :options="statuses"
             :clearable="false"
             :searchable="false"
             :label-placeholder="$t('GamificationLayer.Status')"
@@ -97,12 +97,16 @@
           >
             <template slot="option" slot-scope="option">
               <div class="d-center">
-                {{ $t(statuses[option.label]) }}
+                {{
+                  $t("GamificationLayer.Statuses." + option.label.toUpperCase())
+                }}
               </div>
             </template>
             <template slot="selected-option" slot-scope="option">
               <div class="selected d-center">
-                {{ $t(statuses[option.label]) }}
+                {{
+                  $t("GamificationLayer.Statuses." + option.label.toUpperCase())
+                }}
               </div>
             </template>
           </fgpe-select>
@@ -144,12 +148,7 @@ export default {
   },
   data() {
     return {
-      statuses: {
-        draft: this.$t("GamificationLayer.Statuses.Draft"),
-        unpublished: this.$t("GamificationLayer.Statuses.Unpublished"),
-        published: this.$t("GamificationLayer.Statuses.Published"),
-        trash: this.$t("GamificationLayer.Statuses.Trash")
-      },
+      statuses: ["draft", "unpublished", "published", "trash"],
       metadata: this.value
     };
   },
