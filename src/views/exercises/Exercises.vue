@@ -97,7 +97,8 @@ import {
   EXERCISE_DELETE,
   EXERCISE_EXPORT,
   EXERCISE_IMPORT,
-  EXERCISE_IMPORT_SIPE
+  EXERCISE_IMPORT_SIPE,
+  EXERCISE_IMPORT_MEF
 } from "@/store/exercises/exercise.constants";
 
 import CardList from "@/components/card-list/CardList";
@@ -236,8 +237,14 @@ export default {
       this.importDialog.active = true;
     },
     uploadAndImport(format) {
-      const action =
-        format === "yapexil" ? EXERCISE_IMPORT : EXERCISE_IMPORT_SIPE;
+      let action;
+      if (format === "mef") {
+        action = EXERCISE_IMPORT_MEF;
+      } else if (format === "sipe") {
+        action = EXERCISE_IMPORT_SIPE;
+      } else {
+        action = EXERCISE_IMPORT;
+      }
       this.$store
         .dispatch(`${MODULE_BASE}/${action}`, {
           project_id: this.projectId,

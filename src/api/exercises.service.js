@@ -70,6 +70,17 @@ class ExercisesService extends HttpService {
     });
   }
 
+  importMef(obj) {
+    const fd = this.buildFormData(obj);
+    const headers = Object.assign(
+      { "Content-Type": "multipart/form-data" },
+      this.headers
+    );
+    return this.client.post("exercises/import/mef", fd, {
+      headers
+    });
+  }
+
   export(id, format = "zip") {
     return this.client.get(`exercises/${id}/export`, {
       responseType: "arraybuffer",

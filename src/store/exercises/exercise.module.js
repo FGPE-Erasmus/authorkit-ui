@@ -11,6 +11,7 @@ import {
   EXERCISE_EXPORT,
   EXERCISE_IMPORT,
   EXERCISE_IMPORT_SIPE,
+  EXERCISE_IMPORT_MEF,
   EXERCISE_FILE_CREATE,
   EXERCISE_FILE_READ,
   EXERCISE_FILE_UPDATE,
@@ -231,6 +232,26 @@ const actions = {
           rootState.project.activeProject && rootState.project.activeProject.id
         )
         .importSipe({ project_id, file })
+        .then(res => {
+          commit(EXERCISE_IMPORT_SUCCESS, res.data);
+          resolve(res.data);
+        })
+        .catch(err => {
+          commit(EXERCISE_IMPORT_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
+  },
+
+  [EXERCISE_IMPORT_MEF]: ({ commit, rootState }, { project_id, file }) => {
+    return new Promise((resolve, reject) => {
+      commit(EXERCISE_IMPORT_REQUEST);
+      exerciseService
+        .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
+        .importMef({ project_id, file })
         .then(res => {
           commit(EXERCISE_IMPORT_SUCCESS, res.data);
           resolve(res.data);

@@ -37,7 +37,8 @@ export default {
     Email: "Email",
     Password: "Password",
     ConfirmPassword: "Confirm Password",
-    TermsConditions: "I accept the terms & conditions.",
+    TermsConditions: "I accept the",
+    ReadTermsConditions: "terms & conditions",
     Login: "Login",
     Register: "Register"
   },
@@ -131,6 +132,10 @@ export default {
 
   Table: {
     Actions: "Actions"
+  },
+
+  TermsConditionsPopup: {
+    Title: "Terms & Conditions"
   },
 
   // dialogs
@@ -288,7 +293,8 @@ export default {
       Title: "Choose importing format",
       Format: {
         yapexil: "YAPExIL",
-        sipe: "SIPE"
+        sipe: "SIPE",
+        mef: "MEF"
       },
       Action: {
         Ok: "OK",

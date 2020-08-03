@@ -1,6 +1,6 @@
 <template>
   <vs-prompt
-    @accept="$emit('import', format)"
+    @accept="$emit('import', currentFormat)"
     @cancel="$emit('cancel')"
     @close="$emit('cancel')"
     :active.sync="dialogActive"
@@ -16,6 +16,9 @@
       }}</vs-radio>
       <vs-radio v-model="currentFormat" vs-value="sipe" class="w-full">{{
         $t("Exercise.ImportDialog.Format.sipe")
+      }}</vs-radio>
+      <vs-radio v-model="currentFormat" vs-value="mef" class="w-full">{{
+        $t("Exercise.ImportDialog.Format.mef")
       }}</vs-radio>
     </div>
   </vs-prompt>
