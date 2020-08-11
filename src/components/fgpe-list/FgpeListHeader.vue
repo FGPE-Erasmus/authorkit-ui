@@ -13,7 +13,13 @@
       <vs-icon :icon-pack="iconPack" :icon="icon" />
     </div>
     <div class="list-titles">
-      <div v-if="title" class="fgpe-list--title">{{ title }}</div>
+      <vs-tooltip v-if="tooltip" :title="title" :text="tooltip" color="primary">
+        <div v-if="title" class="fgpe-list--title has-tooltip">{{ title }}</div>
+        <span></span>
+      </vs-tooltip>
+      <template v-else>
+        <div v-if="title" class="fgpe-list--title">{{ title }}</div>
+      </template>
     </div>
     <div class="fgpe-list--slot">
       <slot />
@@ -35,7 +41,7 @@ export default {
       type: String,
       default: null
     },
-    subtitle: {
+    tooltip: {
       type: String,
       default: null
     },

@@ -132,14 +132,22 @@
                       v-slot="{ errors }"
                     >
                       <div>
-                        <vs-checkbox
-                          v-model="isTermsConditionAccepted"
-                          name="terms"
-                          class="mt-6"
-                          icon-pack="mi md-16"
-                        >
-                          {{ $t("Register.TermsConditions") }}
-                        </vs-checkbox>
+                        <div class="vx-row align-center w-full mt-6">
+                          <vs-checkbox
+                            v-model="isTermsConditionAccepted"
+                            name="terms"
+                            class="vx-col pr-0 mr-0"
+                            icon-pack="mi md-16"
+                          >
+                            {{ $t("Register.TermsConditions") }}
+                          </vs-checkbox>
+                          <a
+                            class="cursor-pointer vx-col px-2"
+                            @click="termsConditionsPopupActive = true"
+                          >
+                            {{ $t("Register.ReadTermsConditions") }}
+                          </a>
+                        </div>
                         <span class="text-danger text-sm">{{ errors[0] }}</span>
                       </div>
                     </ValidationProvider>
@@ -161,6 +169,10 @@
         </div>
       </fgpe-card>
     </div>
+    <terms-conditions-popup
+      :active="termsConditionsPopupActive"
+      @close-popup="termsConditionsPopupActive = false"
+    ></terms-conditions-popup>
   </div>
 </template>
 
@@ -169,11 +181,13 @@ import { mapGetters, mapState } from "vuex";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 import { MODULE_BASE, AUTH_REGISTER } from "@/store/auth/auth.constants";
+import TermsConditionsPopup from "@/components/TermsConditionsPopup";
 
 export default {
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    TermsConditionsPopup
   },
   data() {
     return {
@@ -182,6 +196,7 @@ export default {
       email: "",
       password: "",
       confirm_password: "",
+      termsConditionsPopupActive: false,
       isTermsConditionAccepted: false
     };
   },

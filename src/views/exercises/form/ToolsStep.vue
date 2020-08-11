@@ -20,6 +20,7 @@
       <div class="vx-col sm:w-1/2 w-full mb-2">
         <fgpe-file-list
           :default-category="$t('Exercise.FeedbackGenerators')"
+          :default-category-tooltip="$t('Exercise.Hints.FeedbackGenerators')"
           :items="feedbackGenerators"
           item-title-prop="filename"
           item-subtitle-prop="command_line"
@@ -35,6 +36,7 @@
       <div class="vx-col sm:w-1/2 w-full mb-2">
         <fgpe-file-list
           :default-category="$t('Exercise.TestGenerators')"
+          :default-category-tooltip="$t('Exercise.Hints.TestGenerators')"
           :items="testGenerators"
           item-title-prop="filename"
           item-subtitle-prop="command_line"

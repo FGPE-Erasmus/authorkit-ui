@@ -119,6 +119,16 @@ class ExercisesService extends HttpService {
     });
   }
 
+  translateFile(type, id, natLang) {
+    return this.client.post(
+      `${type}/${id}/translate?nat_lang=${natLang}`,
+      {},
+      {
+        headers: this.headers
+      }
+    );
+  }
+
   deleteFile(type, id) {
     return this.client.delete(`${type}/${id}`, {
       headers: this.headers

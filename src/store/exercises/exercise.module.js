@@ -63,7 +63,11 @@ import {
   EXERCISE_TESTSET_DELETE_REQUEST,
   EXERCISE_TESTSET_DELETE_SUCCESS,
   EXERCISE_TESTSET_DELETE_ERROR,
-  EXERCISE_SELECT_ACTIVE
+  EXERCISE_SELECT_ACTIVE,
+  EXERCISE_FILE_TRANSLATE,
+  EXERCISE_FILE_TRANSLATE_REQUEST,
+  EXERCISE_FILE_TRANSLATE_SUCCESS,
+  EXERCISE_FILE_TRANSLATE_ERROR
 } from "./exercise.constants";
 
 const state = {
@@ -376,6 +380,38 @@ const actions = {
     });
   },
 
+  [EXERCISE_FILE_TRANSLATE]: (
+    { commit, dispatch, rootState },
+    { type, id, natLang }
+  ) => {
+    return new Promise((resolve, reject) => {
+      commit(EXERCISE_FILE_TRANSLATE_REQUEST);
+      exerciseService
+        .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
+        .translateFile(type, id, natLang)
+        .then(res => {
+          commit(EXERCISE_FILE_TRANSLATE_SUCCESS, res.data);
+
+          dispatch(
+            UPDATE_LAST_USED_FIELD_VALUES,
+            {
+              translate_nat_lang: natLang
+            },
+            { root: true }
+          );
+
+          resolve(res.data);
+        })
+        .catch(err => {
+          commit(EXERCISE_FILE_TRANSLATE_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
+  },
+
   [EXERCISE_FILE_DELETE]: ({ commit, rootState }, { type, id }) => {
     return new Promise((resolve, reject) => {
       commit(EXERCISE_FILE_DELETE_REQUEST);
@@ -565,6 +601,16 @@ const mutations = {
     state.loading = Math.max(state.loading - 1, 0);
   },
   [EXERCISE_FILE_UPDATE_ERROR]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+
+  [EXERCISE_FILE_TRANSLATE_REQUEST]: state => {
+    state.loading++;
+  },
+  [EXERCISE_FILE_TRANSLATE_SUCCESS]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+  [EXERCISE_FILE_TRANSLATE_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
   },
 

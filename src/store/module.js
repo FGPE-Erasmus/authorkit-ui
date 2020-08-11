@@ -54,7 +54,8 @@ const state = {
     type: "blank_sheet",
     module: "",
     platform: "",
-    status: "draft"
+    status: "draft",
+    translate_nat_lang: "en"
   },
 
   locale: localStorage.getItem(STORAGE_I18N_LOCALE) || "en",

@@ -31,6 +31,12 @@
 
 .fgpe-list--title {
     font-weight: 700;
+
+    &.has-tooltip {
+        cursor: pointer;
+        text-decoration-color: $primary;
+        text-decoration: underline dotted;
+    }
 }
 
 .fgpe-list--item .list-titles .fgpe-list--subtitle {

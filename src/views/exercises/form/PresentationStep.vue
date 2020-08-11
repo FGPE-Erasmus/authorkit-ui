@@ -36,30 +36,36 @@
       <div class="vx-col sm:w-1/2 w-full mb-2">
         <fgpe-file-list
           :default-category="$t('Exercise.Instructions')"
+          :default-category-tooltip="$t('Exercise.Hints.Instructions')"
           :items="instructions"
           item-title-prop="filename"
           item-subtitle-prop="language"
           @create="activateInstructionsSidebar"
           @edit="activateInstructionsSidebar"
           @delete="removeInstruction"
+          @translate="translateInstruction"
           :allow-create="permissions[projectId] > 1"
           :allow-update="permissions[projectId] > 1"
           :allow-delete="permissions[projectId] > 1"
+          :allow-translate="permissions[projectId] > 1"
         >
         </fgpe-file-list>
       </div>
       <div class="vx-col sm:w-1/2 w-full mb-2">
         <fgpe-file-list
           :default-category="$t('Exercise.Statements')"
+          :default-category-tooltip="$t('Exercise.Hints.Statements')"
           :items="statements"
           item-title-prop="filename"
           item-subtitle-prop="language"
           @create="activateStatementsSidebar"
           @edit="activateStatementsSidebar"
           @delete="removeStatement"
+          @translate="translateStatement"
           :allow-create="permissions[projectId] > 1"
           :allow-update="permissions[projectId] > 1"
           :allow-delete="permissions[projectId] > 1"
+          :allow-translate="permissions[projectId] > 1"
         >
         </fgpe-file-list>
       </div>
@@ -68,6 +74,7 @@
       <div class="vx-col sm:w-1/2 w-full mb-2">
         <fgpe-file-list
           :default-category="$t('Exercise.Embeddables')"
+          :default-category-tooltip="$t('Exercise.Hints.Embeddables')"
           :items="embeddables"
           item-title-prop="filename"
           @create="activateEmbeddablesSidebar"
@@ -82,6 +89,7 @@
       <div class="vx-col sm:w-1/2 w-full mb-2">
         <fgpe-file-list
           :default-category="$t('Exercise.Skeletons')"
+          :default-category-tooltip="$t('Exercise.Hints.Skeletons')"
           :items="skeletons"
           item-title-prop="filename"
           item-subtitle-prop="lang"
@@ -95,6 +103,12 @@
         </fgpe-file-list>
       </div>
     </div>
+
+    <fgpe-translate-popup
+      :active="translatePopup.active"
+      @translate="translate($event)"
+      @close-popup="translatePopup.active = false"
+    ></fgpe-translate-popup>
   </form>
 </template>
 
@@ -107,10 +121,12 @@ import {
   MODULE_BASE,
   EXERCISE_FILE_CREATE,
   EXERCISE_FILE_UPDATE,
-  EXERCISE_FILE_DELETE
+  EXERCISE_FILE_DELETE,
+  EXERCISE_FILE_TRANSLATE
 } from "@/store/exercises/exercise.constants";
 
 import FgpeFileList from "@/components/FgpeFileList";
+import FgpeTranslatePopup from "@/components/FgpeTranslatePopup";
 
 import FormattedTextFileSidebar from "./FormattedTextFileSidebar";
 import ResourceFileSidebar from "./ResourceFileSidebar";
@@ -122,7 +138,8 @@ export default {
     "fgpe-file-list": FgpeFileList,
     "formatted-text-file-sidebar": FormattedTextFileSidebar,
     "resource-file-sidebar": ResourceFileSidebar,
-    "code-file-sidebar": CodeFileSidebar
+    "code-file-sidebar": CodeFileSidebar,
+    "fgpe-translate-popup": FgpeTranslatePopup
   },
   props: {
     id: String,
@@ -187,7 +204,13 @@ export default {
       instruction: undefined,
       statement: undefined,
       embeddable: undefined,
-      skeleton: undefined
+      skeleton: undefined,
+
+      translatePopup: {
+        active: false,
+        type: undefined,
+        id: undefined
+      }
     };
   },
   watch: {
@@ -230,6 +253,12 @@ export default {
       }
     },
 
+    translateInstruction(instruction) {
+      this.translatePopup.active = true;
+      this.translatePopup.type = "instructions";
+      this.translatePopup.id = instruction.id;
+    },
+
     activateStatementsSidebar(statement) {
       this.statement = statement;
       this.isStatementsSidebarActive = true;
@@ -250,6 +279,12 @@ export default {
           this.presentation.statements.push(res);
         });
       }
+    },
+
+    translateStatement(statement) {
+      this.translatePopup.active = true;
+      this.translatePopup.type = "statements";
+      this.translatePopup.id = statement.id;
     },
 
     activateEmbeddablesSidebar(embeddable) {
@@ -296,6 +331,20 @@ export default {
       }
     },
 
+    translate(natLang) {
+      const type = this.translatePopup.type;
+      this.translateFile(type, this.translatePopup.id, natLang).then(res => {
+        if (type === "statements") {
+          this.presentation.statements.push(res);
+        } else if (type === "instructions") {
+          this.presentation.instructions.push(res);
+        }
+      });
+      this.translatePopup.active = false;
+      this.translatePopup.type = undefined;
+      this.translatePopup.id = undefined;
+    },
+
     createFile(type, obj) {
       return new Promise((resolve, reject) => {
         this.$store
@@ -335,6 +384,31 @@ export default {
           .catch(err => {
             this.$vs.notify({
               title: `Failed to update ${type} file`,
+              text: err.message,
+              iconPack: "mi",
+              icon: "error",
+              color: "danger"
+            });
+            reject(err);
+          });
+      });
+    },
+
+    translateFile(type, id, natLang) {
+      return new Promise((resolve, reject) => {
+        this.$store
+          .dispatch(`${MODULE_BASE}/${EXERCISE_FILE_TRANSLATE}`, {
+            exerciseId: this.exerciseId,
+            type,
+            id,
+            natLang
+          })
+          .then(res => {
+            resolve(res);
+          })
+          .catch(err => {
+            this.$vs.notify({
+              title: `Failed to translate ${type} file`,
               text: err.message,
               iconPack: "mi",
               icon: "error",

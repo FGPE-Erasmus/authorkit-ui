@@ -59,6 +59,7 @@
       <div class="vx-col sm:w-1/2 w-full mb-2">
         <fgpe-file-list
           :default-category="$t('Exercise.DynamicCorrectors')"
+          :default-category-tooltip="$t('Exercise.Hints.DynamicCorrectors')"
           :items="dynamic_correctors"
           item-title-prop="filename"
           item-subtitle-prop="command_line"
@@ -74,6 +75,7 @@
       <div class="vx-col sm:w-1/2 w-full mb-2">
         <fgpe-file-list
           :default-category="$t('Exercise.StaticCorrectors')"
+          :default-category-tooltip="$t('Exercise.Hints.StaticCorrectors')"
           :items="static_correctors"
           item-title-prop="filename"
           item-subtitle-prop="command_line"
@@ -91,6 +93,7 @@
       <div class="vx-col sm:w-1/2 w-full mb-2">
         <fgpe-file-list
           :default-category="$t('Exercise.Libraries')"
+          :default-category-tooltip="$t('Exercise.Hints.Libraries')"
           :items="libraries"
           item-title-prop="filename"
           @create="activateLibrariesSidebar"
@@ -105,6 +108,7 @@
       <div class="vx-col sm:w-1/2 w-full mb-2">
         <fgpe-file-list
           :default-category="$t('Exercise.Templates')"
+          :default-category-tooltip="$t('Exercise.Hints.Templates')"
           :items="templates"
           item-title-prop="filename"
           item-subtitle-prop="lang"
@@ -122,6 +126,7 @@
       <div class="vx-col sm:w-1/2 w-full mb-2">
         <fgpe-file-list
           :default-category="$t('Exercise.Solutions')"
+          :default-category-tooltip="$t('Exercise.Hints.Solutions')"
           :items="solutions"
           item-title-prop="filename"
           item-subtitle-prop="lang"
@@ -137,6 +142,7 @@
       <div class="vx-col sm:w-1/2 w-full mb-2">
         <fgpe-file-list
           :default-category="$t('Exercise.Tests')"
+          :default-category-tooltip="$t('Exercise.Hints.Tests')"
           :categories="evaluation.test_sets"
           :items="tests"
           item-title-prop="title"
@@ -159,27 +165,51 @@
               }"
               @click="activateTestsSidebar(true, true, category)"
             >
-              <feather-icon icon="FilePlusIcon" svgClasses="h-4 w-4" />
+              <vs-tooltip
+                :text="$t('Exercise.Test.Create')"
+                class="flex items-center"
+              >
+                <feather-icon icon="FilePlusIcon" svgClasses="h-4 w-4" />
+                <span></span>
+              </vs-tooltip>
             </div>
             <div
               v-if="permissions[projectId] > 1 && category.is_default"
               class="py-2 px-2 cursor-pointer flex items-center justify-between text-base text-primary"
               @click="activateTestsSidebar(false, true)"
             >
-              <feather-icon icon="FolderPlusIcon" svgClasses="h-4 w-4" />
+              <vs-tooltip
+                :text="$t('Exercise.TestSet.Create')"
+                class="flex items-center"
+              >
+                <feather-icon icon="FolderPlusIcon" svgClasses="h-4 w-4" />
+                <span></span>
+              </vs-tooltip>
             </div>
             <template v-else-if="permissions[projectId] > 1">
               <div
                 class="py-2 px-2 cursor-pointer flex items-center justify-between text-base"
                 @click="activateTestsSidebar(false, false, category)"
               >
-                <feather-icon icon="EditIcon" svgClasses="h-4 w-4" />
+                <vs-tooltip
+                  :text="$t('Exercise.TestSet.Edit')"
+                  class="flex items-center"
+                >
+                  <feather-icon icon="EditIcon" svgClasses="h-4 w-4" />
+                  <span></span>
+                </vs-tooltip>
               </div>
               <div
                 class="py-2 px-2 cursor-pointer flex items-center justify-between text-base"
                 @click="confirm(category)"
               >
-                <feather-icon icon="Trash2Icon" svgClasses="h-4 w-4" />
+                <vs-tooltip
+                  :text="$t('Exercise.TestSet.Delete')"
+                  class="flex items-center"
+                >
+                  <feather-icon icon="Trash2Icon" svgClasses="h-4 w-4" />
+                  <span></span>
+                </vs-tooltip>
               </div>
             </template>
           </template>

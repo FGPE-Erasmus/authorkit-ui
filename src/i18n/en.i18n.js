@@ -173,6 +173,13 @@ export default {
     ProgLang: "Programming Language"
   },
 
+  FileList: {
+    Create: "Create file",
+    Edit: "Edit file",
+    Translate: "Clone and translate file",
+    Delete: "Remove file"
+  },
+
   SharePopup: {
     Title: "Share Access",
     Email: "Email",
@@ -185,6 +192,13 @@ export default {
       Owner: "Owner"
     },
     Save: "Save",
+    Cancel: "Cancel"
+  },
+
+  TranslatePopup: {
+    Title: "Translate to ...",
+    NatLang: "Target Language",
+    Translate: "Translate",
     Cancel: "Cancel"
   },
 
@@ -245,11 +259,15 @@ export default {
       File: {
         UploadInputFile: "Upload INPUT File",
         UploadOutputFile: "Upload OUTPUT File"
-      }
+      },
+      Create: "Create a test case"
     },
     _TestSet: "Test Set",
     TestSet: {
-      Name: "Name"
+      Name: "Name",
+      Create: "Create a new set of test cases",
+      Edit: "Edit set of test cases",
+      Delete: "Remove set of test cases"
     },
     Types: {
       BLANK_SHEET: "Blank Sheet",
@@ -300,6 +318,37 @@ export default {
         Ok: "OK",
         Cancel: "Cancel"
       }
+    },
+    Hints: {
+      Title: "The title of the exercise.",
+      Module:
+        "The module in which the exercise is in (or description of its main topic).",
+      Keywords: "The set of keywords of the exercise.",
+      Type: "The type of programming exercise to be solved.",
+      Event: "Event at which the exercise was created (if any).",
+      Platform: "Platform requirements (if any).",
+      Difficulty: "The difficulty of the exercise.",
+      Status: "The status of the exercise.",
+      Instructions: "Instructions to teachers about the exercise.",
+      Statements:
+        "The statement of the exercise to present to the student in the various languages.",
+      Embeddables:
+        "Images, videos, and other files that can be embedded in the statement.",
+      Skeletons: "Part of a solution that is provided to the students.",
+      Libraries:
+        "Code libraries that can be used by solutions, either in compilation or execution phase.",
+      StaticCorrectors:
+        "External programs that are invoked before dynamic correction to classify/process the program's source code.",
+      DynamicCorrectors:
+        "External programs that are invoked after the main correction to classify each run.",
+      Solutions: "Solutions provided by the author(s) of the exercise.",
+      Templates:
+        "Part of a solution that wraps students' code without their awareness.",
+      Tests: "Set(s) of test cases to validate if attempts are correct.",
+      TestGenerators:
+        "External programs that generate the test cases to validate a solution.",
+      FeedbackGenerators:
+        "External programs that generate additional feedback to give to the student about his/her attempt to achieve a solution."
     }
   },
 

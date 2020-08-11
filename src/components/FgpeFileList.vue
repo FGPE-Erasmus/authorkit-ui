@@ -5,6 +5,7 @@
         v-if="item.header"
         :key="item[categoryIdProp]"
         :title="titleForCategory(item)"
+        :tooltip="item.tooltip"
         :class="{
           'text-primary': item.is_default
         }"
@@ -22,7 +23,10 @@
             }"
             @click="$emit('create')"
           >
-            <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
+            <vs-tooltip :text="$t('FileList.Create')" class="flex items-center">
+              <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
+              <span></span>
+            </vs-tooltip>
           </div>
         </slot>
       </fgpe-list-header>
@@ -33,18 +37,37 @@
         :subtitle="subtitleForItem(item)"
       >
         <div
+          v-if="allowTranslate"
+          class="py-2 px-2 cursor-pointer flex items-center justify-between text-base"
+          @click="$emit('translate', item)"
+        >
+          <vs-tooltip
+            :text="$t('FileList.Translate')"
+            class="flex items-center"
+          >
+            <feather-icon icon="GlobeIcon" svgClasses="h-4 w-4" />
+            <span></span>
+          </vs-tooltip>
+        </div>
+        <div
           v-if="allowUpdate"
           class="py-2 px-2 cursor-pointer flex items-center justify-between text-base"
           @click="$emit('edit', item)"
         >
-          <feather-icon icon="EditIcon" svgClasses="h-4 w-4" />
+          <vs-tooltip :text="$t('FileList.Edit')" class="flex items-center">
+            <feather-icon icon="EditIcon" svgClasses="h-4 w-4" />
+            <span></span>
+          </vs-tooltip>
         </div>
         <div
           v-if="allowDelete"
           class="py-2 px-2 cursor-pointer flex items-center justify-between text-danger"
           @click="confirmDelete(item)"
         >
-          <feather-icon icon="Trash2Icon" svgClasses="h-4 w-4" />
+          <vs-tooltip :text="$t('FileList.Delete')" class="flex items-center">
+            <feather-icon icon="Trash2Icon" svgClasses="h-4 w-4" />
+            <span></span>
+          </vs-tooltip>
         </div>
       </fgpe-list-item>
     </template>
@@ -66,6 +89,7 @@ export default {
   },
   props: {
     defaultCategory: String,
+    defaultCategoryTooltip: String,
     categories: {
       type: Array,
       default: () => []
@@ -97,6 +121,10 @@ export default {
     allowDelete: {
       type: Boolean,
       default: true
+    },
+    allowTranslate: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -146,6 +174,7 @@ export default {
             category = {
               [this.categoryIdProp]: key,
               [this.categoryTitleProp]: key,
+              tooltip: this.defaultCategoryTooltip,
               is_default: true
             };
             category.header = true;
