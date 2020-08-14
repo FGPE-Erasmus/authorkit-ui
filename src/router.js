@@ -53,6 +53,19 @@ const router = new Router({
         },
 
         {
+          path: "/profile",
+          name: "profile",
+          component: () => import("@/views/user-settings/UserSettings.vue"),
+          meta: {
+            rule: ["user"],
+            breadcrumb: [
+              { title: "Home", url: "/" },
+              { title: "Profile", active: true }
+            ]
+          }
+        },
+
+        {
           path: "/projects/:project_id/exercises",
           name: "exercises",
           component: () => import("@/views/exercises/Exercises.vue"),
@@ -73,9 +86,9 @@ const router = new Router({
             breadcrumb: [
               { title: "Home", url: "/" },
               { title: "Exercises", url: "/projects/:project_id/exercises" },
-              { title: "Exercise Form", active: true }
+              { title: "ExerciseForm", active: true }
             ],
-            pageTitle: "Exercise Form",
+            pageTitle: "ExerciseForm",
             rule: ["user"]
           }
         },
@@ -88,9 +101,9 @@ const router = new Router({
           meta: {
             breadcrumb: [
               { title: "Home", url: "/" },
-              { title: "Gamification Layers", active: true }
+              { title: "GamificationLayers", active: true }
             ],
-            pageTitle: "Gamification Layers",
+            pageTitle: "GamificationLayers",
             rule: ["user"]
           }
         },
@@ -103,12 +116,12 @@ const router = new Router({
             breadcrumb: [
               { title: "Home", url: "/" },
               {
-                title: "Gamification Layers",
+                title: "GamificationLayers",
                 url: "/projects/:project_id/gamification-layers"
               },
-              { title: "Gamification Layer Form", active: true }
+              { title: "GamificationLayerForm", active: true }
             ],
-            pageTitle: "Gamification Layer Form",
+            pageTitle: "GamificationLayerForm",
             rule: ["user"]
           }
         }
@@ -248,9 +261,6 @@ router.beforeEach((to, from, next) => {
           .then(res => {
             store.commit(`${PROJECT_MODULE_BASE}/${PROJECT_SET_ACTIVE}`, res);
             if (!store.state.permission.permissions[to.params.project_id]) {
-              console.log(
-                store.state.permission.permissions[to.params.project_id]
-              );
               return store
                 .dispatch(
                   `${PERMISSION_MODULE_BASE}/${PERMISSION_GET}`,

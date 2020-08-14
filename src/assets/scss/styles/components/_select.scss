@@ -7,7 +7,9 @@
 
     &.vs--unsearchable {
       .vs__search {
-        display: none;
+        position: absolute;
+        width: 1px;
+        height: 1px;
       }
     }
 
@@ -35,18 +37,17 @@
     .vs__selected-options {
       padding: 0;
       position: relative;
+
+      align-items: center;
     }
 
     .vs__selected {
       position: relative;
-      height: 1rem;
       min-width: 26px;
       border-radius: 20px;
       border: none;
       margin: 0;
       padding: 0;
-
-      line-height: 1;
 
       color: inherit;
     }
@@ -104,7 +105,6 @@
     }
     
     .vs__search, .vs__search:focus {
-      line-height: 1;
       font-size: 1em;
       margin: 0;
       padding: 0;
@@ -113,7 +113,6 @@
       width: 0;
       max-width: 100%;
       flex-grow: 1;
-      height: 1rem;
     }
 
     .vs__actions {
@@ -183,6 +182,14 @@
         height: 1.8rem;
         margin: 0.1rem;
         font-size: .8rem;
+      }
+    }
+  }
+
+  .vs--searchable {
+    &.vs--single.vs--open {
+      .vs__selected {
+        display: none;
       }
     }
   }

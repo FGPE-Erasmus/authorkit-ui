@@ -1,10 +1,15 @@
 export default {
+  Home: "Home",
+  Profile: "Profile",
   Dashboard: "Dashboard",
   Projects: "Projects",
   Exercises: "Exercises",
+  ExerciseForm: "Exercise Form",
   GamificationLayers: "Gamification Layers",
+  GamificationLayerForm: "Gamification Layer Form",
   Contributors: "Contributors",
   Support: "Support",
+  Help: "Help",
   Documentation: "Documentation",
   RaiseSupport: "Raise Support",
   ExitToDashboard: "Exit To Dashboard",
@@ -96,6 +101,27 @@ export default {
     }
   },
 
+  // user settings
+  UserSettings: {
+    Title: "Profile",
+    Tabs: {
+      General: "General",
+      ChangePassword: "Change Password"
+    },
+    UploadPhoto: "Upload Photo",
+    RemovePhoto: "Remove",
+    HintPhoto: "Allowed JPG, GIF or PNG. Max size of 500kB",
+    FirstName: "First Name",
+    LastName: "Last Name",
+    Email: "Email",
+    Institution: "Institution",
+    Country: "Country",
+    PhoneNumber: "Phone Number",
+    OldPassword: "Old Password",
+    NewPassword: "New Password",
+    ConfirmNewPassword: "New Password Confirmation"
+  },
+
   // additional pages
   Maintenance: {
     Title: "Under Maintenance!",
@@ -153,6 +179,7 @@ export default {
     Finish: "Finish",
     Done: "Done",
     Save: "Save",
+    Reset: "Reset",
     Delete: "Delete",
     Cancel: "Cancel",
 
@@ -531,7 +558,9 @@ export default {
     maxFileSize: "The field size must be less than {filesize}",
     passwordConfirmation:
       "The password confirmation does not match the password",
-    criteria: "The {_field_} is not a valid conditional"
+    criteria: "The {_field_} is not a valid conditional",
+    strongPassword:
+      "The password must contain at least: 1 uppercase letter, 1 lowercase letter, 1 number, and one special character (e.g. , . _ & ? etc)"
   },
   fields: {
     firstname: "First Name",
@@ -539,6 +568,9 @@ export default {
     email: "Email",
     password: "Password",
     password_confirmation: "Password Confirmation",
+    old_password: "Old Password",
+    new_password: "New Password",
+    new_password_confirmation: "New Password Confirmation",
     terms: "Terms and Conditions",
     title: "Title",
     module: "Module",
@@ -583,5 +615,28 @@ export default {
     reward_parameters: "Reward Parameters",
     updated_at: "Last Modified Date",
     created_at: "Created Date"
+  },
+
+  Messages: {
+    Success: {
+      ProfileSaved: {
+        Title: "Profile saved successfully",
+        Description: "Your profile has been updated."
+      },
+      PasswordChanged: {
+        Title: "Password changed successfully",
+        Description: "Your password has been updated."
+      }
+    },
+    Error: {
+      ProfileNotSaved: {
+        Title: "Failed to save profile",
+        Description: ""
+      },
+      PasswordNotChanged: {
+        Title: "Failed to change password",
+        Description: ""
+      }
+    }
   }
 };

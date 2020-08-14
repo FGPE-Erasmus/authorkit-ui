@@ -43,6 +43,12 @@ class UsersService extends HttpService {
     });
   }
 
+  changePassword(obj) {
+    return this.client.post(`users/change-password`, obj, {
+      headers: this.headers
+    });
+  }
+
   delete(id) {
     return this.client.delete(`users/${id}`, {
       headers: this.headers

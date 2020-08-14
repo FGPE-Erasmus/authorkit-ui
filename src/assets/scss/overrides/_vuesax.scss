@@ -20,6 +20,21 @@
   font-size: .8rem;
 }
 
+.con-vs-avatar {
+
+  .vs-avatar--text {
+    font-weight: 700;
+    font-size: large;
+  }
+  &.huge {
+    .vs-avatar--text {
+      font-weight: 700;
+      font-size: xx-large;
+    }
+  }
+  
+}
+
 .vs-collapse-item--header {
   font-size: 1.2rem;
   padding: 1rem;
@@ -104,6 +119,23 @@
 // TABS COMPONENT
 .vs-tabs--li button {
   font-size: 1rem;
+}
+
+.vs-tabs-position-left .vs-tabs--ul {
+  display: block;
+  width: auto;
+  border-bottom: 0!important;
+  border-right: 1px solid rgba(0,0,0,.05);
+}
+
+.con-vs-tabs .con-slot-tabs {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.con-slot-tabs {
+  width: 100%;
 }
 
 // SWITCH FORM ELEMENT COMPONENT

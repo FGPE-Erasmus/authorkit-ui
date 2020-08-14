@@ -41,7 +41,7 @@
                       $route.meta.breadcrumb
                   }"
                 >
-                  <h2 class="mb-1">{{ routeTitle }}</h2>
+                  <h2 class="mb-1">{{ $t(routeTitle) }}</h2>
                 </div>
                 <fgpe-breadcrumb
                   class="ml-4 md:block hidden"

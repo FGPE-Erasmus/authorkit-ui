@@ -20,7 +20,7 @@
         :options="options"
         :clearable="clearable"
         :searchable="searchable"
-        :filterBy="filterBy"
+        :filterBy="customFilter ? customFilter : filterBy"
         :reduce="reduce"
         :multiple="multiple"
         :disabled="disabled"
@@ -98,6 +98,9 @@ export default {
       type: [String, Number]
     },
     reduce: {
+      type: Function
+    },
+    customFilter: {
       type: Function
     }
   },

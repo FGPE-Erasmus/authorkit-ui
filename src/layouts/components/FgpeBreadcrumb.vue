@@ -18,9 +18,11 @@
         class="inline-flex items-center"
       >
         <router-link :to="replacePathParams(link.url)" v-if="link.url">{{
-          link.title
+          $t(link.title)
         }}</router-link>
-        <span class="text-primary cursor-default" v-else>{{ link.title }}</span>
+        <span class="text-primary cursor-default" v-else>{{
+          $t(link.title)
+        }}</span>
         <span class="breadcrumb-separator mx-2 flex items-start"
           ><feather-icon icon="ChevronsRightIcon" svgClasses="w-4 h-4"
         /></span>
@@ -29,7 +31,7 @@
         <span
           v-if="$route.meta.breadcrumb.slice(-1)[0].active"
           class="cursor-default"
-          >{{ $route.meta.breadcrumb.slice(-1)[0].title }}</span
+          >{{ $t($route.meta.breadcrumb.slice(-1)[0].title) }}</span
         >
       </li>
     </ul>

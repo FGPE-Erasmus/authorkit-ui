@@ -157,36 +157,15 @@ const actions = {
       authService
         .login(payload.user_details.email, payload.user_details.password)
         .then(res => {
-          commit(AUTH_LOGIN_SUCCESS, res.data);
-          clearTokenStorage();
-          if (payload.remember_me) {
-            localStorage.setItem(STORAGE_REMEMBER_ME, true);
-            localStorage.setItem(STORAGE_ACCESS_TOKEN, res.data.accessToken);
-            localStorage.setItem(
-              STORAGE_ACCESS_TOKEN_EXPIRY_TIME,
-              new Date(Date.now() + res.data.expiresIn * 1000)
-            );
-            localStorage.setItem(STORAGE_REFRESH_TOKEN, res.data.refreshToken);
-            localStorage.setItem(
-              STORAGE_REFRESH_TOKEN_EXPIRY_TIME,
-              new Date(Date.now() + res.data.refreshTokenExpiresIn * 1000)
-            );
-          } else {
-            localStorage.setItem(STORAGE_REMEMBER_ME, false);
-            sessionStorage.setItem(STORAGE_ACCESS_TOKEN, res.data.accessToken);
-            sessionStorage.setItem(
-              STORAGE_ACCESS_TOKEN_EXPIRY_TIME,
-              new Date(Date.now() + res.data.expiresIn * 1000)
-            );
-            sessionStorage.setItem(
-              STORAGE_REFRESH_TOKEN,
-              res.data.refreshToken
-            );
-            sessionStorage.setItem(
-              STORAGE_REFRESH_TOKEN_EXPIRY_TIME,
-              new Date(Date.now() + res.data.refreshTokenExpiresIn * 1000)
-            );
-          }
+          commit(
+            AUTH_LOGIN_SUCCESS,
+            Object.assign(
+              {
+                remember_me: payload.remember_me
+              },
+              res.data
+            )
+          );
 
           dispatch(AUTH_FETCH_AUTHENTICATED_USER).then(() => {
             router.push(router.currentRoute.query.to || "/");
@@ -196,8 +175,6 @@ const actions = {
         })
         .catch(err => {
           commit(AUTH_LOGIN_ERROR, err.response.data);
-          localStorage.removeItem(STORAGE_ACCESS_TOKEN);
-          localStorage.removeItem(STORAGE_REFRESH_TOKEN);
           reject(err.response.data);
         });
     });
@@ -270,17 +247,6 @@ const actions = {
         .logout()
         .then(() => {
           commit(AUTH_LOGOUT_SUCCESS);
-          localStorage.removeItem(STORAGE_REMEMBER_ME);
-          localStorage.removeItem(STORAGE_ACCESS_TOKEN);
-          localStorage.removeItem(STORAGE_ACCESS_TOKEN_EXPIRY_TIME);
-          localStorage.removeItem(STORAGE_REFRESH_TOKEN);
-          localStorage.removeItem(STORAGE_REFRESH_TOKEN_EXPIRY_TIME);
-          localStorage.removeItem(STORAGE_USER_PROFILE);
-          sessionStorage.removeItem(STORAGE_ACCESS_TOKEN);
-          sessionStorage.removeItem(STORAGE_ACCESS_TOKEN_EXPIRY_TIME);
-          sessionStorage.removeItem(STORAGE_REFRESH_TOKEN);
-          sessionStorage.removeItem(STORAGE_REFRESH_TOKEN_EXPIRY_TIME);
-          sessionStorage.removeItem(STORAGE_USER_PROFILE);
 
           router.go();
 
@@ -301,18 +267,6 @@ const actions = {
         .me()
         .then(res => {
           commit(AUTH_FETCH_AUTHENTICATED_USER_SUCCESS, res.data);
-          const remember = localStorage.getItem(STORAGE_REMEMBER_ME) == "true";
-          if (remember) {
-            localStorage.setItem(
-              STORAGE_USER_PROFILE,
-              JSON.stringify(res.data)
-            );
-          } else {
-            sessionStorage.setItem(
-              STORAGE_USER_PROFILE,
-              JSON.stringify(res.data)
-            );
-          }
           resolve(res.data);
         })
         .catch(err => {
@@ -368,10 +322,38 @@ const mutations = {
     state.loading = Math.max(state.loading - 1, 0);
     state.token = res.accessToken;
     state.tokenExpiryTime = new Date(Date.now() + res.expiresIn * 1000);
+    clearTokenStorage();
+    if (res.remember_me) {
+      localStorage.setItem(STORAGE_REMEMBER_ME, true);
+      localStorage.setItem(STORAGE_ACCESS_TOKEN, res.accessToken);
+      localStorage.setItem(
+        STORAGE_ACCESS_TOKEN_EXPIRY_TIME,
+        new Date(Date.now() + res.expiresIn * 1000)
+      );
+      localStorage.setItem(STORAGE_REFRESH_TOKEN, res.refreshToken);
+      localStorage.setItem(
+        STORAGE_REFRESH_TOKEN_EXPIRY_TIME,
+        new Date(Date.now() + res.refreshTokenExpiresIn * 1000)
+      );
+    } else {
+      localStorage.setItem(STORAGE_REMEMBER_ME, false);
+      sessionStorage.setItem(STORAGE_ACCESS_TOKEN, res.accessToken);
+      sessionStorage.setItem(
+        STORAGE_ACCESS_TOKEN_EXPIRY_TIME,
+        new Date(Date.now() + res.expiresIn * 1000)
+      );
+      sessionStorage.setItem(STORAGE_REFRESH_TOKEN, res.refreshToken);
+      sessionStorage.setItem(
+        STORAGE_REFRESH_TOKEN_EXPIRY_TIME,
+        new Date(Date.now() + res.refreshTokenExpiresIn * 1000)
+      );
+    }
   },
   [AUTH_LOGIN_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
     state.hasLoadedOnce = true;
+    localStorage.removeItem(STORAGE_ACCESS_TOKEN);
+    localStorage.removeItem(STORAGE_REFRESH_TOKEN);
   },
 
   // reset password
@@ -416,6 +398,17 @@ const mutations = {
   },
   [AUTH_LOGOUT_SUCCESS]: state => {
     state.loading = Math.max(state.loading - 1, 0);
+    localStorage.removeItem(STORAGE_REMEMBER_ME);
+    localStorage.removeItem(STORAGE_ACCESS_TOKEN);
+    localStorage.removeItem(STORAGE_ACCESS_TOKEN_EXPIRY_TIME);
+    localStorage.removeItem(STORAGE_REFRESH_TOKEN);
+    localStorage.removeItem(STORAGE_REFRESH_TOKEN_EXPIRY_TIME);
+    localStorage.removeItem(STORAGE_USER_PROFILE);
+    sessionStorage.removeItem(STORAGE_ACCESS_TOKEN);
+    sessionStorage.removeItem(STORAGE_ACCESS_TOKEN_EXPIRY_TIME);
+    sessionStorage.removeItem(STORAGE_REFRESH_TOKEN);
+    sessionStorage.removeItem(STORAGE_REFRESH_TOKEN_EXPIRY_TIME);
+    sessionStorage.removeItem(STORAGE_USER_PROFILE);
   },
   [AUTH_LOGOUT_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
@@ -428,6 +421,12 @@ const mutations = {
   [AUTH_FETCH_AUTHENTICATED_USER_SUCCESS]: (state, user) => {
     state.loading = Math.max(state.loading - 1, 0);
     state.profile = user;
+    const remember = localStorage.getItem(STORAGE_REMEMBER_ME) == "true";
+    if (remember) {
+      localStorage.setItem(STORAGE_USER_PROFILE, JSON.stringify(user));
+    } else {
+      sessionStorage.setItem(STORAGE_USER_PROFILE, JSON.stringify(user));
+    }
   },
   [AUTH_FETCH_AUTHENTICATED_USER_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);

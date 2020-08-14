@@ -91,7 +91,7 @@
                     </ValidationProvider>
 
                     <ValidationProvider
-                      rules="required|min:8|max:100|password:confirmation"
+                      rules="required|min:8|max:100|strongPassword|password:confirmation"
                       name="password"
                       mode="eager"
                       :persist="true"

@@ -1045,34 +1045,6 @@
       }
     }
 
-    .con-vs-avatar {
-      background: $theme-light-dark-bg !important;
-
-      &.con-vs-avatar-primary {
-        background: rgba(var(--vs-primary), 1) !important;
-      }
-
-      &.con-vs-avatar-success {
-        background: rgba(var(--vs-success), 1) !important;
-      }
-
-      &.con-vs-avatar-danger {
-        background: rgba(var(--vs-danger), 1) !important;
-      }
-
-      &.con-vs-avatar-warning {
-        background: rgba(var(--vs-warning), 1) !important;
-      }
-
-      &.con-vs-avatar-info {
-        background: rgba(var(--vs-info), 1) !important;
-      }
-
-      &.con-vs-avatar-dark {
-        background: rgba($grey, 1) !important;
-      }
-    }
-
     .vs-navbar {
       background-color: $theme-light-dark-bg !important;
       box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .5);
@@ -1082,6 +1054,34 @@
     textarea,
     select {
       background: $theme-light-dark-bg;
+    }
+  }
+
+  .con-vs-avatar {
+    background: $theme-light-dark-bg !important;
+
+    &.con-vs-avatar-primary {
+      background: rgba(var(--vs-primary), 1) !important;
+    }
+
+    &.con-vs-avatar-success {
+      background: rgba(var(--vs-success), 1) !important;
+    }
+
+    &.con-vs-avatar-danger {
+      background: rgba(var(--vs-danger), 1) !important;
+    }
+
+    &.con-vs-avatar-warning {
+      background: rgba(var(--vs-warning), 1) !important;
+    }
+
+    &.con-vs-avatar-info {
+      background: rgba(var(--vs-info), 1) !important;
+    }
+
+    &.con-vs-avatar-dark {
+      background: rgba($grey, 1) !important;
     }
   }
 

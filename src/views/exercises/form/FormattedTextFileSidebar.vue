@@ -50,26 +50,13 @@
             v-slot="{ errors }"
             persist
           >
-            <fgpe-select
+            <fgpe-language-select
               name="nat_lang"
               v-model="fileItem.nat_lang"
               class="mt-5 w-full select-large"
-              :options="Object.keys(languages)"
-              :clearable="false"
-              :searchable="false"
               :label-placeholder="$t('Exercise.File.NatLang')"
             >
-              <template slot="option" slot-scope="option">
-                <div class="d-center">
-                  {{ languages[option.label] }}
-                </div>
-              </template>
-              <template slot="selected-option" slot-scope="option">
-                <div class="selected d-center">
-                  {{ languages[option.label] }}
-                </div>
-              </template>
-            </fgpe-select>
+            </fgpe-language-select>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
@@ -140,7 +127,6 @@ import { mapState } from "vuex";
 import { ValidationProvider } from "vee-validate";
 
 import { base64toBlob } from "@/assets/utils/file.js";
-import languages from "@/assets/data/languages.json";
 
 import {
   MODULE_BASE,
@@ -148,6 +134,7 @@ import {
 } from "@/store/exercises/exercise.constants";
 
 import FgpeSelect from "@/components/FgpeSelect";
+import FgpeLanguageSelect from "@/components/FgpeLanguageSelect";
 import FgpeCodeEditorPopup from "@/components/FgpeCodeEditorPopup";
 import AddUpdateFileSidebar from "@/components/sidebar-form/AddUpdateFileSidebar";
 
@@ -156,6 +143,7 @@ export default {
   components: {
     ValidationProvider,
     "fgpe-select": FgpeSelect,
+    "fgpe-language-select": FgpeLanguageSelect,
     "fgpe-code-editor-popup": FgpeCodeEditorPopup,
     "add-update-file-sidebar": AddUpdateFileSidebar
   },
@@ -203,7 +191,6 @@ export default {
         html: "HTML",
         txt: "TXT"
       },
-      languages,
       fileItem: undefined,
       editorOpen: false,
       canEditCode: true,

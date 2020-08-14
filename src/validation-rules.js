@@ -57,6 +57,14 @@ extend("criteria", {
       return true;
     }).length === 0
 });
+extend("strongPassword", {
+  message: i18n.t("validation.strongPassword"),
+  validate: value => {
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&.,\-_])(?=.{8,})/gm.test(
+      value
+    );
+  }
+});
 
 // Install messages
 configure({

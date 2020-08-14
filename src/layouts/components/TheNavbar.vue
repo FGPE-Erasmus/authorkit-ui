@@ -139,22 +139,14 @@
             class="cursor-pointer"
           >
             <div class="con-img ml-3">
-              <img
-                v-if="user.profile_img"
+              <vs-avatar
                 key="fgpe-image"
                 :src="user.profile_img"
-                alt="user-img"
+                :text="name"
+                alt="avatar"
                 width="40"
                 height="40"
-                class="rounded-full shadow-md cursor-pointer block"
-              />
-              <gravatar-img
-                v-else
-                key="gravatar-img"
-                :email="user.email"
-                :size="40"
-                alt="user-img"
-                class="rounded-full shadow-md cursor-pointer block"
+                class="shadow-md cursor-pointer block con-vs-avatar-primary"
               />
             </div>
             <vs-dropdown-menu>
@@ -200,7 +192,6 @@ import {
 } from "@/store/constants";
 import { MODULE_BASE, AUTH_LOGOUT } from "@/store/auth/auth.constants";
 import I18nSelect from "@/components/I18nSelect.vue";
-import GravatarImg from "@/components/GravatarImg.vue";
 
 export default {
   name: "the-navbar",
@@ -355,8 +346,7 @@ export default {
   },
   components: {
     VuePerfectScrollbar,
-    I18nSelect,
-    GravatarImg
+    I18nSelect
   }
 };
 </script>
