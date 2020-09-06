@@ -2,23 +2,16 @@
   <multi-row-input
     name="trigger"
     :label="$t('GamificationLayer.Triggers')"
-    :value="value"
+    :value="triggers"
     @input="onChangeTriggers"
-    :empty-line="{
-      type: types[0],
-      event: events.time[0],
-      recurrent: false,
-      parameters: [],
-      cronjob: '* * * * *',
-      interval: 10
-    }"
+    :empty-line="empty"
     v-slot:default="{ line, index }"
   >
     <div class="block">
       <div class="w-full mb-2">
         <fgpe-select
-          name="type"
-          v-model="line.type"
+          name="kind"
+          v-model="line.kind"
           class="w-full select-large"
           :placeholder="$t('GamificationLayer.Trigger.Type')"
           :options="types"
@@ -45,7 +38,7 @@
           v-model="line.event"
           class="w-full select-large"
           :placeholder="$t('GamificationLayer.Trigger.Event')"
-          :options="line.type ? events[line.type.toLowerCase()] : events.time"
+          :options="line.kind ? events[line.kind.toLowerCase()] : events.time"
           :clearable="false"
           :searchable="false"
         >
@@ -252,6 +245,16 @@ export default {
     }
   },
   computed: {
+    empty() {
+      return {
+        kind: this.types[0],
+        event: this.events.time[0],
+        recurrent: false,
+        parameters: [],
+        cronjob: "* * * * *",
+        interval: 10
+      };
+    },
     rewardsById() {
       return this.rewards.reduce((obj, item) => {
         obj[item.id] = item;
@@ -296,9 +299,7 @@ export default {
           "DUEL_COMPLETED"
         ]
       },
-      challenge: null,
-      exercise: null,
-      reward: null
+      triggers: []
     };
   },
   watch: {
@@ -306,8 +307,15 @@ export default {
       if (!val) {
         this.triggers = [];
       } else {
-        this.triggers = val;
+        this.triggers = this.triggersFromServer(val);
       }
+    }
+  },
+  mounted() {
+    if (!this.value) {
+      this.triggers = [];
+    } else {
+      this.triggers = this.triggersFromServer(this.value);
     }
   },
   methods: {
@@ -335,11 +343,51 @@ export default {
           }
         }
         return {
-          ...trigger,
+          kind: trigger.kind,
+          event: trigger.event,
+          recurrent: trigger.recurrent,
           parameters
         };
       });
       this.$emit("input", triggers);
+    },
+
+    triggersFromServer(val) {
+      return val.map(trigger => {
+        if (trigger.kind === "TIME") {
+          if (trigger.event === "CRONJOB") {
+            return Object.assign({}, this.empty, {
+              ...trigger,
+              cronjob: trigger.parameters[0]
+            });
+          } else {
+            return Object.assign({}, this.empty, {
+              ...trigger,
+              interval: trigger.parameters[0]
+            });
+          }
+        } else {
+          const eventSource = this.activeEventSource(trigger);
+          switch (eventSource) {
+            case "EXERCISE":
+              return Object.assign({}, this.empty, {
+                ...trigger,
+                exercise: trigger.parameters[0]
+              });
+            case "CHALLENGE":
+              return Object.assign({}, this.empty, {
+                ...trigger,
+                challenge: trigger.parameters[0]
+              });
+            case "REWARD":
+              return Object.assign({}, this.empty, {
+                ...trigger,
+                reward: trigger.parameters[0]
+              });
+          }
+        }
+        return trigger;
+      });
     },
 
     activeEventSource(line) {
