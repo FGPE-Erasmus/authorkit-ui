@@ -6,7 +6,10 @@
       :is-sidebar-active="isLeaderboardSidebarActive"
       :item="leaderboard"
       @submit="saveLeaderboard"
-      @close-sidebar="isLeaderboardSidebarActive = false"
+      @close-sidebar="
+        isLeaderboardSidebarActive = false;
+        leaderboard = undefined;
+      "
     />
     <div class="vx-row">
       <div class="vx-col w-full mb-2">

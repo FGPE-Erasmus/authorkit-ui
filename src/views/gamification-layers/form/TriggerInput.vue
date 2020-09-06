@@ -67,19 +67,14 @@
       </div>
 
       <div v-if="activeEventSources[index] === 'REWARD'" class="w-full mb-2">
-        <ValidationProvider
-          name="reward"
-          rules="required"
-          v-slot="{ errors }"
-          persist
-        >
+        <ValidationProvider name="reward" rules="" v-slot="{ errors }" persist>
           <fgpe-select
             name="reward"
             v-model="line.reward"
             class="w-full select-large"
             :placeholder="$t('GamificationLayer.Trigger.Reward')"
             :options="rewards"
-            :clearable="false"
+            :clearable="true"
             :searchable="true"
             :reduce="option => option.id"
           >
@@ -103,7 +98,7 @@
       <div v-if="activeEventSources[index] === 'CHALLENGE'" class="w-full mb-2">
         <ValidationProvider
           name="challenge"
-          rules="required"
+          rules=""
           v-slot="{ errors }"
           persist
         >
@@ -113,7 +108,7 @@
             class="w-full select-large"
             :placeholder="$t('GamificationLayer.Trigger.Challenge')"
             :options="challenges"
-            :clearable="false"
+            :clearable="true"
             :searchable="true"
             :reduce="option => option.id"
           >
@@ -141,7 +136,7 @@
       <div v-if="activeEventSources[index] === 'EXERCISE'" class="w-full mb-2">
         <ValidationProvider
           name="exercise"
-          rules="required"
+          rules=""
           v-slot="{ errors }"
           persist
         >
@@ -151,7 +146,7 @@
             class="w-full select-large"
             :placeholder="$t('GamificationLayer.Trigger.Exercise')"
             :options="exercises"
-            :clearable="false"
+            :clearable="true"
             :searchable="true"
             :reduce="option => option.id"
           >

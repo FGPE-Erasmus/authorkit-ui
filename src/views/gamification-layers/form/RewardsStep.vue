@@ -6,7 +6,10 @@
       :is-sidebar-active="isRewardSidebarActive"
       :item="reward"
       @submit="saveReward"
-      @close-sidebar="isRewardSidebarActive = false"
+      @close-sidebar="
+        isRewardSidebarActive = false;
+        reward = undefined;
+      "
     />
     <div class="vx-row">
       <div class="vx-col w-full mb-2">

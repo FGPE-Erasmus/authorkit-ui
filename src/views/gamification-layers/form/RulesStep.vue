@@ -6,7 +6,10 @@
       :is-sidebar-active="isRuleSidebarActive"
       :item="rule"
       @submit="saveRule"
-      @close-sidebar="isRuleSidebarActive = false"
+      @close-sidebar="
+        isRuleSidebarActive = false;
+        rule = undefined;
+      "
     />
     <div class="vx-row">
       <div class="vx-col w-full mb-2">

@@ -7,7 +7,10 @@
       :is-sidebar-active="isChallengeSidebarActive"
       :item="challenge"
       @submit="saveChallenge"
-      @close-sidebar="isChallengeSidebarActive = false"
+      @close-sidebar="
+        isChallengeSidebarActive = false;
+        challenge = undefined;
+      "
     />
     <reward-sidebar
       :project-id="projectId"
