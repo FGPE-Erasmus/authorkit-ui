@@ -1,6 +1,6 @@
 <template>
   <add-update-file-sidebar
-    :type="$t('GamificationLayer._Leaderboard')"
+    :name="$t('GamificationLayer._Leaderboard')"
     :existing="!!leaderboard.id"
     :is-sidebar-active="isSidebarActive"
     @submit="$emit('submit', leaderboardDto)"

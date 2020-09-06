@@ -1,6 +1,6 @@
 <template>
   <add-update-file-sidebar
-    :type="$t('GamificationLayer._Reward')"
+    :name="$t('GamificationLayer._Reward')"
     :existing="!!reward.id"
     :is-sidebar-active="isSidebarActive"
     @submit="$emit('submit', rewardDto)"
@@ -80,6 +80,61 @@
                 </div>
               </template>
             </fgpe-select>
+            <span v-show="errors[0]" class="text-danger text-sm">
+              {{ errors[0] }}
+            </span>
+          </ValidationProvider>
+        </div>
+      </div>
+
+      <div class="vx-row">
+        <div class="vx-col w-full mt-2 mb-2">
+          <vs-checkbox
+            name="recurrent"
+            v-model="reward.recurrent"
+            class="w-full"
+            icon-pack="mi md-16"
+          >
+            {{ $t("GamificationLayer.Reward.Recurrent") }}
+          </vs-checkbox>
+        </div>
+      </div>
+
+      <div v-if="canLinkImage" class="vx-row">
+        <div class="vx-col w-full mt-2 mb-2">
+          <fgpe-image-upload name="image" v-model="reward.image" />
+        </div>
+      </div>
+
+      <div class="vx-row">
+        <div class="vx-col w-full mt-2 mb-2">
+          <ValidationProvider
+            name="cost"
+            rules="required"
+            v-slot="{ errors }"
+            persist
+          >
+            <label class="fgpe-label">
+              {{ $t("GamificationLayer.Reward.Cost") }}
+            </label>
+            <vs-checkbox
+              name="purchasable"
+              class="w-full mt-1 mb-1"
+              icon-pack="mi md-16"
+              :value="reward.cost > 0"
+              @input="onPurchasable"
+            >
+              {{ $t("GamificationLayer.Reward.Purchasable") }}
+            </vs-checkbox>
+            <vs-input-number
+              v-if="reward.cost > 0"
+              name="cost"
+              v-model.number="reward.cost"
+              :min="1"
+              :step="1"
+              size="medium"
+              icon-pack="mi"
+            />
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
@@ -308,6 +363,7 @@
 <script>
 import { ValidationProvider } from "vee-validate";
 
+import FgpeImageUpload from "@/components/FgpeImageUpload";
 import FgpeSelect from "@/components/FgpeSelect";
 import MultiRowInput from "@/components/MultiRowInput";
 import AddUpdateFileSidebar from "@/components/sidebar-form/AddUpdateFileSidebar";
@@ -327,6 +383,7 @@ export default {
   name: "reward-sidebar",
   components: {
     ValidationProvider,
+    "fgpe-image-upload": FgpeImageUpload,
     "fgpe-select": FgpeSelect,
     "multi-row-input": MultiRowInput,
     "add-update-file-sidebar": AddUpdateFileSidebar,
@@ -351,6 +408,9 @@ export default {
         name: "",
         description: "",
         kind: "POINT",
+        image: null,
+        recurrent: true,
+        cost: 0,
         amount: 0,
         unlockable_exercises: [],
         unlockable_challenges: [],
@@ -425,6 +485,9 @@ export default {
         name: this.reward.name,
         description: this.reward.description,
         kind: this.reward.kind,
+        image: this.canLinkImage ? this.reward.image : null,
+        recurrent: this.reward.recurrent,
+        cost: this.reward.cost,
         revealable_exercises: [],
         revealable_challenges: [],
         unlockable_exercises: [],
@@ -458,6 +521,14 @@ export default {
         dto.congratulations = this.reward.congratulations;
       }
       return dto;
+    },
+
+    canLinkImage() {
+      return (
+        ["BADGE", "VIRTUAL_ITEM", "COUPON", "MESSAGE"].indexOf(
+          this.reward.kind
+        ) >= 0
+      );
     }
   },
 
@@ -506,6 +577,14 @@ export default {
             color: "danger"
           });
         });
+    },
+
+    onPurchasable(val) {
+      if (val) {
+        this.reward.cost = 1;
+      } else {
+        this.reward.cost = 0;
+      }
     }
   }
 };

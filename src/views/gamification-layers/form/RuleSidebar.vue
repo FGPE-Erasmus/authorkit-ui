@@ -1,6 +1,6 @@
 <template>
   <add-update-file-sidebar
-    :type="$t('GamificationLayer._Rule')"
+    :name="$t('GamificationLayer._Rule')"
     :existing="!!rule.id"
     :is-sidebar-active="isSidebarActive"
     @submit="$emit('submit', ruleDto)"
@@ -20,6 +20,28 @@
               v-model="rule.name"
               :label-placeholder="$t('GamificationLayer.Rule.Name')"
               class="w-full"
+            />
+            <span v-show="errors[0]" class="text-danger text-sm">
+              {{ errors[0] }}
+            </span>
+          </ValidationProvider>
+        </div>
+      </div>
+
+      <div class="vx-row">
+        <div class="vx-col w-full mb-2">
+          <ValidationProvider
+            name="triggers"
+            rules="required|triggers"
+            v-slot="{ errors }"
+            persist
+          >
+            <trigger-input
+              name="triggers"
+              v-model="rule.triggers"
+              :challenges="challenges"
+              :exercises="exercises"
+              :rewards="rewards"
             />
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
@@ -185,7 +207,16 @@ import FgpeSelect from "@/components/FgpeSelect";
 import MultiRowInput from "@/components/MultiRowInput";
 import AddUpdateFileSidebar from "@/components/sidebar-form/AddUpdateFileSidebar";
 import CriteriaInput from "./CriteriaInput";
+import TriggerInput from "./TriggerInput";
 
+import {
+  MODULE_BASE as CHALLENGE_MODULE_BASE,
+  CHALLENGE_LIST
+} from "@/store/challenges/challenge.constants";
+import {
+  MODULE_BASE as EXERCISE_MODULE_BASE,
+  EXERCISE_LIST
+} from "@/store/exercises/exercise.constants";
 import {
   MODULE_BASE as REWARD_MODULE_BASE,
   REWARD_LIST
@@ -199,7 +230,8 @@ export default {
     "fgpe-select": FgpeSelect,
     "multi-row-input": MultiRowInput,
     "add-update-file-sidebar": AddUpdateFileSidebar,
-    "criteria-input": CriteriaInput
+    "criteria-input": CriteriaInput,
+    "trigger-input": TriggerInput
   },
   props: {
     projectId: String,
@@ -218,12 +250,15 @@ export default {
     return {
       empty: {
         name: "",
-        actions: [],
-        criteria: {}
+        triggers: [],
+        criteria: {},
+        actions: []
       },
       rule: undefined,
       action_type_choices: ["GIVE", "TAKE", "UPDATE"],
 
+      challenges: [],
+      exercises: [],
       rewards: [],
 
       actions: []
@@ -233,6 +268,8 @@ export default {
     isSidebarActive(val) {
       if (val) {
         this.getRewards();
+        this.getChallenges();
+        this.getExercises();
       } else {
         this.rule = JSON.parse(JSON.stringify(this.empty));
       }
@@ -241,7 +278,7 @@ export default {
       if (!val || !val.id) {
         this.rule = Object.assign({}, this.empty);
       } else {
-        this.rule = Object.assign({}, val);
+        this.rule = Object.assign({}, this.empty, val);
       }
       const actions = [];
       this.rule.actions.forEach(a => {
@@ -277,6 +314,7 @@ export default {
         challenge_id: this.parentChallengeId || this.rule.challenge_id,
         gl_id: this.gamificationLayerId,
         name: this.rule.name,
+        triggers: this.rule.triggers,
         actions: this.rule.actions,
         criteria: this.rule.criteria
       };
@@ -294,13 +332,18 @@ export default {
       this.line.parameters.splice(i, 1);
       return false;
     },
+
     getRewards() {
       const query = {
         filter: [`gl_id||eq||${this.gamificationLayerId}`],
         select: ["id", "name"]
       };
-      if (this.challengeId) {
-        query.or = [`challenge_id||eq||${this.challengeId}`];
+      if (this.parentChallengeId) {
+        query.filter.push(`challenge_id||eq||${this.parentChallengeId}`);
+        query.or = [
+          `gl_id||eq||${this.gamificationLayerId}`,
+          `challenge_id||$isnull`
+        ];
       }
       this.$store
         .dispatch(`${REWARD_MODULE_BASE}/${REWARD_LIST}`, query)
@@ -313,6 +356,60 @@ export default {
         .catch(err => {
           this.$vs.notify({
             title: "Failed to get rewards",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
+    },
+
+    getChallenges() {
+      const query = {
+        filter: [`gl_id||eq||${this.gamificationLayerId}`],
+        select: ["id", "name"]
+      };
+      if (this.parentChallengeId) {
+        query.filter.push(`parent_challenge_id||eq||${this.parentChallengeId}`);
+        query.or = [
+          `gl_id||eq||${this.gamificationLayerId}`,
+          `parent_challenge_id||$isnull`
+        ];
+      }
+      this.$store
+        .dispatch(`${CHALLENGE_MODULE_BASE}/${CHALLENGE_LIST}`, query)
+        .then(res => {
+          this.challenges = res.map(challenge => ({
+            id: challenge.id,
+            label: challenge.name
+          }));
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to get challenges",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
+    },
+
+    getExercises() {
+      this.$store
+        .dispatch(`${EXERCISE_MODULE_BASE}/${EXERCISE_LIST}`, {
+          filter: [`project_id||eq||${this.projectId}`],
+          select: ["id", "title"]
+        })
+        .then(res => {
+          this.exercises = res.map(exercise => ({
+            id: exercise.id,
+            label: exercise.title
+          }));
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to get exercises",
             text: err.message,
             iconPack: "mi",
             icon: "error",

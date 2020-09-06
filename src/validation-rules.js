@@ -2,6 +2,8 @@ import { extend, configure } from "vee-validate";
 import { min, max, required, email } from "vee-validate/dist/rules";
 import i18n from "./i18n/i18n";
 
+const cron = require("cron-validator");
+
 // Install rules
 extend("required", required);
 extend("min", min);
@@ -57,6 +59,10 @@ extend("criteria", {
       return true;
     }).length === 0
 });
+extend("triggers", {
+  message: i18n.t("validation.triggers"),
+  validate: value => value
+});
 extend("strongPassword", {
   message: i18n.t("validation.strongPassword"),
   validate: value => {
@@ -64,6 +70,10 @@ extend("strongPassword", {
       value
     );
   }
+});
+extend("cronjob", {
+  message: i18n.t("validation.cronjob"),
+  validate: value => cron.isValidCron(value)
 });
 
 // Install messages

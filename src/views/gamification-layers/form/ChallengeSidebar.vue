@@ -1,6 +1,6 @@
 <template>
   <add-update-file-sidebar
-    :type="$t('GamificationLayer._Challenge')"
+    :name="$t('GamificationLayer._Challenge')"
     :existing="!!challenge.id"
     :is-sidebar-active="isSidebarActive"
     @submit="$emit('submit', challengeDto)"

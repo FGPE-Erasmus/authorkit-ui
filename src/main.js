@@ -15,10 +15,6 @@ Vue.prototype.$http = axios;
 // Theme Configurations
 import "../theme.config.js";
 
-// Algolia - Instant Search
-import InstantSearch from "vue-instantsearch";
-Vue.use(InstantSearch);
-
 // Globally Registered Components
 import "./globalComponents.js";
 

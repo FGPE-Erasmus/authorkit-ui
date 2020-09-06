@@ -207,6 +207,10 @@ export default {
     Delete: "Remove file"
   },
 
+  ImageUpload: {
+    Hint: "Drop an image here"
+  },
+
   SharePopup: {
     Title: "Share Access",
     Email: "Email",
@@ -464,7 +468,10 @@ export default {
       Hints: "Hints",
       Hint: "Hint",
       Congratulations: "Congratulations",
-      Congratulation: "Congratulation"
+      Congratulation: "Congratulation",
+      Recurrent: "Recurrent",
+      Cost: "Cost",
+      Purchasable: "Purchasable"
     },
     _Criteria: "Criteria",
     Criteria: {
@@ -500,6 +507,40 @@ export default {
       Junctors: {
         AND: "AND",
         OR: "OR"
+      }
+    },
+    Triggers: "Triggers",
+    Trigger: {
+      Type: "Type of Trigger",
+      Types: {
+        TIME: "TIME",
+        ACTION: "ACTION"
+      },
+      Event: "Event",
+      Events: {
+        INTERVAL: "INTERVAL",
+        CRONJOB: "CRONJOB",
+        SUBMISSION_RECEIVED: "SUBMISSION RECEIVED",
+        SUBMISSION_EVALUATED: "SUBMISSION EVALUATED",
+        SUBMISSION_ACCEPTED: "SUBMISSION ACCEPTED",
+        SUBMISSION_REJECTED: "SUBMISSION REJECTED",
+        CHALLENGE_COMPLETED: "CHALLENGE COMPLETED",
+        CHALLENGE_FAILED: "CHALLENGE FAILED",
+        REWARD_GRANTED: "REWARD GRANTED",
+        PLAYER_UPDATED: "PLAYER UPDATED",
+        POINTS_UPDATED: "POINTS UPDATED",
+        DUEL_INITIATED: "DUEL INITIATED",
+        DUEL_INVITATION_RECEIVED: "DUEL INVITATION RECEIVED",
+        DUEL_ACCEPTED: "DUEL ACCEPTED",
+        DUEL_REJECTED: "DUEL REJECTED",
+        DUEL_COMPLETED: "DUEL COMPLETED"
+      },
+      Recurrent: "Recurrent",
+      Challenge: "Challenge",
+      Exercise: "Exercise",
+      Reward: "Reward",
+      Cronjob: {
+        InvalidExpression: "Invalid cron expression"
       }
     },
     _Rule: "Rule",
@@ -560,7 +601,9 @@ export default {
       "The password confirmation does not match the password",
     criteria: "The {_field_} is not a valid conditional",
     strongPassword:
-      "The password must contain at least: 1 uppercase letter, 1 lowercase letter, 1 number, and one special character (e.g. , . _ & ? etc)"
+      "The password must contain at least: 1 uppercase letter, 1 lowercase letter, 1 number, and one special character (e.g. , . _ & ? etc)",
+    triggers: "Invalid triggers found",
+    cronjob: "Invalid cron expression"
   },
   fields: {
     firstname: "First Name",
@@ -610,11 +653,16 @@ export default {
     hints: "Hints",
     congratulations: "Congratulations",
     criteria: "Criteria",
+    triggers: "Triggers",
     action_types: "Action Types",
     parameters: "Parameters",
+    cronjob: "Cron",
     reward_parameters: "Reward Parameters",
     updated_at: "Last Modified Date",
-    created_at: "Created Date"
+    created_at: "Created Date",
+    challenge: "Challenge",
+    exercise: "Exercise",
+    reward: "Reward"
   },
 
   Messages: {

@@ -3,7 +3,6 @@
     <label
       v-if="labelPlaceholder ? false : label"
       class="fgpe-select--label"
-      for=""
       @click="focusInput"
     >
       {{ label }}
@@ -16,7 +15,7 @@
         :class="{
           hasValue: !!value && (typeof value === 'number' || value.length > 0)
         }"
-        :placeholder="!value ? placeholder : null"
+        :placeholder="!value && !searchable && !isFocus ? placeholder : null"
         :options="options"
         :clearable="clearable"
         :searchable="searchable"
@@ -24,6 +23,8 @@
         :reduce="reduce"
         :multiple="multiple"
         :disabled="disabled"
+        @search:blur="listeners.blur"
+        @search:focus="listeners.focus"
         v-on="listeners"
       >
         <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
@@ -32,13 +33,20 @@
       </v-select>
       <transition name="placeholderx">
         <span
-          v-if="isValue && (labelPlaceholder || placeholder)"
+          v-if="
+            isValue &&
+              (!isFocus || !placeholder) &&
+              (labelPlaceholder || placeholder)
+          "
           ref="spanplaceholder"
           :style="styleLabel"
           :class="[
             {
               'vs-placeholder-label': labelPlaceholder,
-              normal: !isFocus && isValue && (labelPlaceholder || placeholder)
+              normal:
+                (!isFocus || !placeholder) &&
+                isValue &&
+                (labelPlaceholder || placeholder)
             }
           ]"
           class="input-span-placeholder fgpe-select--placeholder"

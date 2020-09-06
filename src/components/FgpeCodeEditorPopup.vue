@@ -56,7 +56,8 @@
         </div>
       </div>
       <MonacoEditor
-        class="flex-grow editor"
+        ref="editor"
+        class="editor"
         v-model="codeLocal"
         :language="programmingLanguageLocal"
         :options="editorOptions"
@@ -156,6 +157,15 @@ export default {
         if (this.code !== val) {
           this.$emit("change-code", val);
         }
+      }
+    }
+  },
+  watch: {
+    active(val) {
+      if (val) {
+        this.$nextTick(() => {
+          this.$refs.editor.getEditor().layout();
+        });
       }
     }
   }

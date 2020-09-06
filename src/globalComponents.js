@@ -8,10 +8,12 @@ import FeatherIcon from "./components/FeatherIcon.vue";
 import vueFilePond, { setOptions } from "vue-filepond";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 
 import "vue-select/dist/vue-select.css";
 
 import "filepond/dist/filepond.min.css";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 
 Vue.component(FgpeCard.name, FgpeCard);
 Vue.component("v-select", vSelect);
@@ -25,5 +27,9 @@ setOptions({
 });
 Vue.component(
   "file-pond",
-  vueFilePond(FilePondPluginFileValidateType, FilePondPluginFileValidateSize)
+  vueFilePond(
+    FilePondPluginFileValidateType,
+    FilePondPluginFileValidateSize,
+    FilePondPluginImagePreview
+  )
 );
