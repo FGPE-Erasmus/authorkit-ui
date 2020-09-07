@@ -26,7 +26,7 @@
                 type="border"
                 v-if="tour.currentStep != tour.steps.length - 1"
               >
-                Skip
+                {{ $t("Tour.Skip") }}
               </vs-button>
 
               <vs-button
@@ -39,7 +39,7 @@
                 class="mr-3"
                 v-if="tour.currentStep"
               >
-                Previous
+                {{ $t("Tour.Previous") }}
               </vs-button>
 
               <vs-button
@@ -53,7 +53,7 @@
                 class="btn-tour-next"
                 v-if="tour.currentStep != tour.steps.length - 1"
               >
-                Next
+                {{ $t("Tour.Next") }}
               </vs-button>
 
               <vs-button
@@ -67,7 +67,7 @@
                 class="btn-tour-finish"
                 v-if="tour.currentStep == tour.steps.length - 1"
               >
-                Finish
+                {{ $t("Tour.Finish") }}
               </vs-button>
             </div>
           </v-step>

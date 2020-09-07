@@ -210,7 +210,7 @@
               "
               :options="exercises"
               :clearable="false"
-              :searchable="false"
+              :searchable="true"
               :multiple="true"
               :reduce="option => option.id"
             >

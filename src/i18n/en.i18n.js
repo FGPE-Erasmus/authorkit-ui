@@ -17,6 +17,8 @@ export default {
   ReturnHome: "Return Home",
 
   Navbar: {
+    Profile: "Profile",
+    Logout: "Logout",
     Search: {
       Placeholder: "Search"
     }
@@ -133,6 +135,13 @@ export default {
   Actions: "Actions",
 
   // components
+  Tour: {
+    Skip: "Skip",
+    Previous: "Previous",
+    Next: "Next",
+    Finish: "Finish"
+  },
+
   CardList: {
     Header: {
       Create: "Create",

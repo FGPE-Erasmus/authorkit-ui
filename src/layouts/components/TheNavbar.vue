@@ -159,7 +159,7 @@
                     icon="UserIcon"
                     svgClasses="w-4 h-4"
                   ></feather-icon>
-                  <span class="ml-2">Profile</span>
+                  <span class="ml-2">{{ $t("Navbar.Profile") }}</span>
                 </li>
                 <vs-divider class="m-1"></vs-divider>
                 <li
@@ -170,7 +170,7 @@
                     icon="LogOutIcon"
                     svgClasses="w-4 h-4"
                   ></feather-icon>
-                  <span class="ml-2">Logout</span>
+                  <span class="ml-2">{{ $t("Navbar.Logout") }}</span>
                 </li>
               </ul>
             </vs-dropdown-menu>

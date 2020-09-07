@@ -1,5 +1,6 @@
 <template>
   <vs-prompt
+    class="pick-exercises-dialog"
     @accept="$emit('pick', selection)"
     @cancel="$emit('cancel')"
     @close="$emit('cancel')"
@@ -7,13 +8,13 @@
     icon-pack="mi"
     style="z-index: 55000"
   >
-    <div>
+    <div class="title">
       <h4 class="mb-4">
         {{ $t("GamificationLayer.PickExercisesDialog.Title") }}
       </h4>
     </div>
 
-    <div class="w-full">
+    <div class="body w-full">
       <vs-checkbox
         :value="all"
         @change="toggleSelectAll"
@@ -113,3 +114,23 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.pick-exercises-dialog.con-vs-dialog .vs-dialog .vs-dialog-text {
+  padding: 1rem;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  max-height: 75vh;
+  overflow: hidden;
+
+  .title {
+    flex: 0;
+  }
+
+  .body {
+    flex: 1;
+    overflow: auto;
+  }
+}
+</style>
