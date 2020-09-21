@@ -293,9 +293,8 @@ const mutations = {
   [AUTH_RESEND_VERIFY_EMAIL_REQUEST]: state => {
     state.loading++;
   },
-  [AUTH_RESEND_VERIFY_EMAIL_SUCCESS]: (state, res) => {
+  [AUTH_RESEND_VERIFY_EMAIL_SUCCESS]: state => {
     state.loading = Math.max(state.loading - 1, 0);
-    console.log(res);
   },
   [AUTH_RESEND_VERIFY_EMAIL_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
@@ -360,9 +359,8 @@ const mutations = {
   [AUTH_RESET_PASSWORD_REQUEST]: state => {
     state.loading++;
   },
-  [AUTH_RESET_PASSWORD_SUCCESS]: (state, res) => {
+  [AUTH_RESET_PASSWORD_SUCCESS]: state => {
     state.loading = Math.max(state.loading - 1, 0);
-    console.log(res);
   },
   [AUTH_RESET_PASSWORD_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
@@ -372,9 +370,8 @@ const mutations = {
   [AUTH_SET_PASSWORD_REQUEST]: state => {
     state.loading++;
   },
-  [AUTH_SET_PASSWORD_SUCCESS]: (state, res) => {
+  [AUTH_SET_PASSWORD_SUCCESS]: state => {
     state.loading = Math.max(state.loading - 1, 0);
-    console.log(res);
   },
   [AUTH_SET_PASSWORD_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
@@ -384,9 +381,8 @@ const mutations = {
   [AUTH_REFRESH_TOKEN_REQUEST]: state => {
     state.loading++;
   },
-  [AUTH_REFRESH_TOKEN_SUCCESS]: (state, res) => {
+  [AUTH_REFRESH_TOKEN_SUCCESS]: state => {
     state.loading = Math.max(state.loading - 1, 0);
-    console.log(res);
   },
   [AUTH_REFRESH_TOKEN_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);

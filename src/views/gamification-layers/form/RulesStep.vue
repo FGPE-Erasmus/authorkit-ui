@@ -139,15 +139,6 @@ export default {
       return node;
     },
 
-    /* Dragging */
-
-    ruleTreeDragStart(node) {
-      console.log(node);
-    },
-    ruleTreeDragFinish(node) {
-      console.log(node);
-    },
-
     /* lifecycle */
 
     onCreate(id, data) {
@@ -222,7 +213,6 @@ export default {
     },
 
     updateRule(rule) {
-      console.log(rule);
       return new Promise((resolve, reject) => {
         this.$store
           .dispatch(`${RULE_MODULE_BASE}/${RULE_UPDATE}`, {

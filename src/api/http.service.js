@@ -27,6 +27,7 @@ export default class HttpService {
     ) {
       this.addResponseInterceptor(
         res => {
+          // eslint-disable-next-line no-console
           console.log(
             "%c Request Success:",
             "color: #4CAF50; font-weight: bold",
@@ -50,6 +51,7 @@ export default class HttpService {
 
             router.go();
           }
+          // eslint-disable-next-line no-console
           console.log(
             "%c Request Error:",
             "color: #EC6060; font-weight: bold",

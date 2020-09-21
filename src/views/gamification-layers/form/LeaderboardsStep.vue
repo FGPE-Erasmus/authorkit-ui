@@ -139,15 +139,6 @@ export default {
       return node;
     },
 
-    /* Dragging */
-
-    leaderboardTreeDragStart(node) {
-      console.log(node);
-    },
-    leaderboardTreeDragFinish(node) {
-      console.log(node);
-    },
-
     /* lifecycle */
 
     onCreate(id, data) {

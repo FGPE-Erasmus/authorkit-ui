@@ -137,15 +137,6 @@ export default {
       return node;
     },
 
-    /* Dragging */
-
-    rewardTreeDragStart(node) {
-      console.log(node);
-    },
-    rewardTreeDragFinish(node) {
-      console.log(node);
-    },
-
     /* lifecycle */
 
     onCreate(id, data) {
@@ -220,7 +211,6 @@ export default {
     },
 
     updateReward(reward) {
-      console.log(reward);
       return new Promise((resolve, reject) => {
         this.$store
           .dispatch(`${REWARD_MODULE_BASE}/${REWARD_UPDATE}`, {

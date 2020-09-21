@@ -350,19 +350,9 @@ export default {
       return node;
     },
 
-    /* Dragging */
-
-    challengeTreeDragStart(node) {
-      console.log(node);
-    },
-    challengeTreeDragFinish(node) {
-      console.log(node);
-    },
-
     /* lifecycle */
 
     onCreate(id, data) {
-      console.log(`Creating on ... ${id} ... ${data}`);
       if (!data) {
         this.activateChallengeSidebar();
         return;
@@ -582,7 +572,6 @@ export default {
     },
 
     updateLeaderboard(leaderboard) {
-      console.log(leaderboard);
       return new Promise((resolve, reject) => {
         this.$store
           .dispatch(`${LEADERBOARD_MODULE_BASE}/${LEADERBOARD_UPDATE}`, {
@@ -682,7 +671,6 @@ export default {
     },
 
     updateReward(reward) {
-      console.log(reward);
       return new Promise((resolve, reject) => {
         this.$store
           .dispatch(`${REWARD_MODULE_BASE}/${REWARD_UPDATE}`, {
@@ -782,7 +770,6 @@ export default {
     },
 
     updateRule(rule) {
-      console.log(rule);
       return new Promise((resolve, reject) => {
         this.$store
           .dispatch(`${RULE_MODULE_BASE}/${RULE_UPDATE}`, {

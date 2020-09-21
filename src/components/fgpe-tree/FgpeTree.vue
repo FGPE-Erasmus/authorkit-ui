@@ -83,15 +83,12 @@ export default {
   methods: {
     onCreate(id, data) {
       this.$emit("create-node", id, data);
-      console.log(`Creating on ... ${id} ... ${data}`);
     },
     onUpdate(id, data) {
       this.$emit("update-node", id, data);
-      console.log(`Updating ... ${id} ... ${data}`);
     },
     onDelete(id, data) {
       this.$emit("delete-node", id, data);
-      console.log(`Deleting ... ${id} ... ${data}`);
     }
   }
 };
