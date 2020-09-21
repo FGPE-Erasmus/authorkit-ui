@@ -486,7 +486,7 @@ export default {
       },
       Amount: "Amount",
       Challenges: "Challenges",
-      Exercises: "Exercises",
+      Exercise: "Exercise",
       Hints: "Hints",
       Hint: "Hint",
       Congratulations: "Congratulations",

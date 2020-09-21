@@ -206,7 +206,7 @@
               name="exercise"
               v-model="reward.exercise_id"
               class="mt-5 w-full select-large"
-              :label-placeholder="$t('GamificationLayer.Reward.Exercises')"
+              :label-placeholder="$t('GamificationLayer.Reward.Exercise')"
               :options="exercises"
               :clearable="false"
               :searchable="true"
