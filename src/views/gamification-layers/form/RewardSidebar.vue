@@ -194,37 +194,13 @@
         </div>
       </div>
 
-      <div class="vx-row" v-if="reward.kind === 'HINT'">
-        <div class="vx-col w-full mb-2">
-          <ValidationProvider
-            name="exercise"
-            rules="required"
-            v-slot="{ errors }"
-            persist
-          >
-            <fgpe-select
-              name="exercise"
-              v-model="reward.exercise_id"
-              class="mt-5 w-full select-large"
-              :label-placeholder="$t('GamificationLayer.Reward.Exercise')"
-              :options="exercises"
-              :clearable="false"
-              :searchable="true"
-              :multiple="false"
-              :reduce="option => option.id"
-              :picker-threshold="1"
-            >
-            </fgpe-select>
-            <span v-show="errors[0]" class="text-danger text-sm">
-              {{ errors[0] }}
-            </span>
-          </ValidationProvider>
-        </div>
-      </div>
-
       <div
         class="vx-row"
-        v-if="reward.kind === 'REVEAL' || reward.kind === 'UNLOCK'"
+        v-if="
+          reward.kind === 'HINT' ||
+            reward.kind === 'REVEAL' ||
+            reward.kind === 'UNLOCK'
+        "
       >
         <div class="vx-col w-full mb-2">
           <ValidationProvider
@@ -264,11 +240,6 @@ import FgpeSelect from "@/components/FgpeSelect";
 import AddUpdateFileSidebar from "@/components/sidebar-form/AddUpdateFileSidebar";
 
 import {
-  MODULE_BASE as EXERCISE_MODULE_BASE,
-  EXERCISE_LIST
-} from "@/store/exercises/exercise.constants";
-
-import {
   MODULE_BASE as CHALLENGE_MODULE_BASE,
   CHALLENGE_LIST
 } from "@/store/challenges/challenge.constants";
@@ -306,7 +277,6 @@ export default {
         cost: 0,
         amount: 0,
         challenges: [],
-        exercise_id: null,
         message: ""
       },
       reward: undefined,
@@ -321,16 +291,12 @@ export default {
         "MESSAGE"
       ],
 
-      exercises: [],
-      challenges: [],
-
-      message: ""
+      challenges: []
     };
   },
   watch: {
     isSidebarActive(val) {
       if (val) {
-        this.getExercises();
         this.getChallenges();
       } else {
         this.reward = JSON.parse(JSON.stringify(this.empty));
@@ -356,7 +322,6 @@ export default {
         image: this.canLinkImage ? this.reward.image : null,
         recurrent: this.reward.recurrent,
         cost: this.reward.cost,
-        exercise_id: this.reward.exercise_id,
         challenges: [],
         message: "",
         amount: 0
@@ -365,7 +330,8 @@ export default {
         dto.amount = this.reward.amount;
       } else if (
         this.reward.kind === "REVEAL" ||
-        this.reward.kind === "UNLOCK"
+        this.reward.kind === "UNLOCK" ||
+        this.reward.kind === "HINT"
       ) {
         dto.challenges = this.reward.challenges.map(id => ({
           id
@@ -389,29 +355,6 @@ export default {
   },
 
   methods: {
-    getExercises() {
-      this.$store
-        .dispatch(`${EXERCISE_MODULE_BASE}/${EXERCISE_LIST}`, {
-          filter: [`project_id||eq||${this.projectId}`],
-          select: ["id", "title"]
-        })
-        .then(res => {
-          this.exercises = res.map(exercise => ({
-            id: exercise.id,
-            label: exercise.title
-          }));
-        })
-        .catch(err => {
-          this.$vs.notify({
-            title: "Failed to get exercises",
-            text: err.message,
-            iconPack: "mi",
-            icon: "error",
-            color: "danger"
-          });
-        });
-    },
-
     getChallenges() {
       this.$store
         .dispatch(`${CHALLENGE_MODULE_BASE}/${CHALLENGE_LIST}`, {

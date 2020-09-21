@@ -685,7 +685,8 @@ export default {
     created_at: "Created Date",
     challenge: "Challenge",
     exercise: "Exercise",
-    reward: "Reward"
+    reward: "Reward",
+    message: "Message"
   },
 
   Messages: {
