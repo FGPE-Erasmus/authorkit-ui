@@ -125,10 +125,8 @@ export default {
         data: {
           nodeType: "reward",
           ...reward,
-          revealable_exercises: reward.revealable_exercise_ids,
-          revealable_challenges: reward.revealable_challenge_ids,
-          unlockable_exercises: reward.unlockable_exercise_ids,
-          unlockable_challenges: reward.unlockable_challenge_ids
+          exercise: reward.exercise_id,
+          challenges: reward.challenge_ids
         },
         state: {
           draggable: false,

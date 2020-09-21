@@ -213,29 +213,15 @@
               :searchable="true"
               :multiple="true"
               :reduce="option => option.id"
+              :picker-threshold="1"
             >
             </fgpe-select>
-            <div class="flex flex-wrap">
-              <span
-                class="text-primary cursor-pointer ml-auto mt-2"
-                @click="openPicker()"
-              >
-                {{ $t("GamificationLayer.OpenExercisePicker") }}
-              </span>
-            </div>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
           </ValidationProvider>
         </div>
       </div>
-      <pick-exercises-dialog
-        :project-id="projectId"
-        :active="pickerActive"
-        :selected="challenge.exercises"
-        @pick="onExercisesSelected"
-        @cancel="pickerActive = false"
-      />
     </template>
   </add-update-file-sidebar>
 </template>
@@ -250,7 +236,6 @@ import {
   MODULE_BASE as EXERCISE_MODULE_BASE,
   EXERCISE_LIST
 } from "@/store/exercises/exercise.constants";
-import PickExercisesDialog from "@/views/gamification-layers/dialog/PickExercisesDialog";
 
 export default {
   name: "challenge-sidebar",
@@ -258,8 +243,7 @@ export default {
     ValidationProvider,
     "fgpe-chips": FgpeChips,
     "fgpe-select": FgpeSelect,
-    "add-update-file-sidebar": AddUpdateFileSidebar,
-    PickExercisesDialog
+    "add-update-file-sidebar": AddUpdateFileSidebar
   },
   props: {
     projectId: String,

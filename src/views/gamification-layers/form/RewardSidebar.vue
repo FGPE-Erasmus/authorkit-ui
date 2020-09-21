@@ -107,7 +107,7 @@
       </div>
 
       <div class="vx-row">
-        <div class="vx-col w-full mt-2 mb-2">
+        <div class="vx-col w-full mt-2 mb-4">
           <ValidationProvider
             name="cost"
             rules="required"
@@ -119,7 +119,7 @@
             </label>
             <vs-checkbox
               name="purchasable"
-              class="w-full mt-1 mb-1"
+              class="w-full mt-2 mb-2"
               icon-pack="mi md-16"
               :value="reward.cost > 0"
               @input="onPurchasable"
@@ -167,94 +167,52 @@
         </div>
       </div>
 
+      <div
+        class="vx-row"
+        v-if="reward.kind === 'HINT' || reward.kind === 'MESSAGE'"
+      >
+        <div class="vx-col w-full mb-2">
+          <ValidationProvider
+            name="message"
+            rules="required|minLength:1"
+            v-slot="{ errors }"
+            persist
+          >
+            <vs-textarea
+              :label="$t('GamificationLayer.Reward.Message')"
+              name="message"
+              v-model="reward.message"
+              :class="{
+                hasValue: !!reward.message
+              }"
+              class="w-full"
+            />
+            <span v-show="errors[0]" class="text-danger text-sm">
+              {{ errors[0] }}
+            </span>
+          </ValidationProvider>
+        </div>
+      </div>
+
       <div class="vx-row" v-if="reward.kind === 'HINT'">
         <div class="vx-col w-full mb-2">
           <ValidationProvider
-            name="hints"
-            rules="required|minLength:1"
-            v-slot="{ errors }"
-            persist
-          >
-            <multi-row-input
-              :label="$t('GamificationLayer.Reward.Hints')"
-              name="hints"
-              v-model="hints"
-              :empty-line="{ hint: '' }"
-              :empty-check="l => !l.hint"
-              v-slot:default="{ line }"
-            >
-              <div class="flex">
-                <div class="w-full">
-                  <vs-input
-                    name="hint"
-                    v-model="line.hint"
-                    :placeholder="$t('GamificationLayer.Reward.Hint')"
-                    class="w-full"
-                  />
-                </div>
-              </div>
-            </multi-row-input>
-            <span v-show="errors[0]" class="text-danger text-sm">
-              {{ errors[0] }}
-            </span>
-          </ValidationProvider>
-        </div>
-      </div>
-
-      <div class="vx-row" v-if="reward.kind === 'MESSAGE'">
-        <div class="vx-col w-full mb-2">
-          <ValidationProvider
-            name="congratulations"
-            rules="required|minLength:1"
-            v-slot="{ errors }"
-            persist
-          >
-            <multi-row-input
-              :label="$t('GamificationLayer.Reward.Congratulations')"
-              name="congratulations"
-              v-model="congratulations"
-              :empty-line="{ congratulation: '' }"
-              :empty-check="l => !l.congratulation"
-              v-slot:default="{ line }"
-            >
-              <div class="flex">
-                <div class="w-full">
-                  <vs-input
-                    name="congratulation"
-                    v-model="line.congratulation"
-                    :placeholder="$t('GamificationLayer.Reward.Congratulation')"
-                    class="w-full"
-                  />
-                </div>
-              </div>
-            </multi-row-input>
-            <span v-show="errors[0]" class="text-danger text-sm">
-              {{ errors[0] }}
-            </span>
-          </ValidationProvider>
-        </div>
-      </div>
-
-      <div class="vx-row" v-if="reward.kind === 'REVEAL'">
-        <div class="vx-col w-full mb-2">
-          <ValidationProvider
-            name="revealable_exercises"
-            rules=""
+            name="exercise"
+            rules="required"
             v-slot="{ errors }"
             persist
           >
             <fgpe-select
-              name="revealable_exercises"
-              v-model="reward.revealable_exercises"
+              name="exercise"
+              v-model="reward.exercise_id"
               class="mt-5 w-full select-large"
-              :label-placeholder="
-                $t('GamificationLayer.Reward.RevealableExercises')
-              "
+              :label-placeholder="$t('GamificationLayer.Reward.Exercises')"
               :options="exercises"
               :clearable="false"
-              :searchable="false"
-              :multiple="true"
+              :searchable="true"
+              :multiple="false"
               :reduce="option => option.id"
+              :picker-threshold="1"
             >
             </fgpe-select>
             <span v-show="errors[0]" class="text-danger text-sm">
@@ -264,96 +222,34 @@
         </div>
       </div>
 
-      <div class="vx-row" v-if="reward.kind === 'REVEAL'">
+      <div
+        class="vx-row"
+        v-if="reward.kind === 'REVEAL' || reward.kind === 'UNLOCK'"
+      >
         <div class="vx-col w-full mb-2">
           <ValidationProvider
-            name="revealable_challenges"
+            name="challenges"
             rules=""
             v-slot="{ errors }"
             persist
           >
             <fgpe-select
-              name="revealable_challenges"
-              v-model="reward.revealable_challenges"
+              name="challenges"
+              v-model="reward.challenges"
               class="mt-5 w-full select-large"
-              :label-placeholder="
-                $t('GamificationLayer.Reward.RevealableChallenges')
-              "
+              :label-placeholder="$t('GamificationLayer.Reward.Challenges')"
               :options="challenges"
               :clearable="false"
               :searchable="false"
               :multiple="true"
               :reduce="option => option.id"
+              :picker-threshold="1"
             >
             </fgpe-select>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
           </ValidationProvider>
-        </div>
-      </div>
-
-      <div class="vx-row" v-if="reward.kind === 'UNLOCK'">
-        <div class="vx-col w-full mb-2">
-          <ValidationProvider
-            name="unlockable_exercises"
-            rules=""
-            v-slot="{ errors }"
-            persist
-          >
-            <fgpe-select
-              name="unlockable_exercises"
-              v-model="reward.unlockable_exercises"
-              class="mt-5 w-full select-large"
-              :label-placeholder="
-                $t('GamificationLayer.Reward.UnlockableExercises')
-              "
-              :options="exercises"
-              :clearable="false"
-              :searchable="false"
-              :multiple="true"
-              :reduce="option => option.id"
-            >
-            </fgpe-select>
-            <span v-show="errors[0]" class="text-danger text-sm">
-              {{ errors[0] }}
-            </span>
-          </ValidationProvider>
-        </div>
-      </div>
-
-      <div class="vx-row" v-if="reward.kind === 'UNLOCK'">
-        <div class="vx-col w-full mb-2">
-          <ValidationProvider
-            name="unlockable_challenges"
-            rules=""
-            v-slot="{ errors }"
-            persist
-          >
-            <fgpe-select
-              name="unlockable_challenges"
-              v-model="reward.unlockable_challenges"
-              class="mt-5 w-full select-large"
-              :label-placeholder="
-                $t('GamificationLayer.Reward.UnlockableChallenges')
-              "
-              :options="challenges"
-              :clearable="false"
-              :searchable="false"
-              :multiple="true"
-              :reduce="option => option.id"
-            >
-            </fgpe-select>
-            <span v-show="errors[0]" class="text-danger text-sm">
-              {{ errors[0] }}
-            </span>
-          </ValidationProvider>
-        </div>
-      </div>
-
-      <div class="vx-row">
-        <div class="vx-col w-full mb-2">
-          <criteria-input v-model="reward.criteria" />
         </div>
       </div>
     </template>
@@ -365,9 +261,7 @@ import { ValidationProvider } from "vee-validate";
 
 import FgpeImageUpload from "@/components/FgpeImageUpload";
 import FgpeSelect from "@/components/FgpeSelect";
-import MultiRowInput from "@/components/MultiRowInput";
 import AddUpdateFileSidebar from "@/components/sidebar-form/AddUpdateFileSidebar";
-import CriteriaInput from "./CriteriaInput";
 
 import {
   MODULE_BASE as EXERCISE_MODULE_BASE,
@@ -385,9 +279,7 @@ export default {
     ValidationProvider,
     "fgpe-image-upload": FgpeImageUpload,
     "fgpe-select": FgpeSelect,
-    "multi-row-input": MultiRowInput,
-    "add-update-file-sidebar": AddUpdateFileSidebar,
-    "criteria-input": CriteriaInput
+    "add-update-file-sidebar": AddUpdateFileSidebar
   },
   props: {
     projectId: String,
@@ -404,6 +296,7 @@ export default {
   },
   data() {
     return {
+      pickerActive: false,
       empty: {
         name: "",
         description: "",
@@ -412,13 +305,9 @@ export default {
         recurrent: true,
         cost: 0,
         amount: 0,
-        unlockable_exercises: [],
-        unlockable_challenges: [],
-        revealable_exercises: [],
-        revealable_challenges: [],
-        hints: [],
-        congratulations: [],
-        criteria: {}
+        challenges: [],
+        exercise_id: null,
+        message: ""
       },
       reward: undefined,
       kind_choices: [
@@ -435,8 +324,7 @@ export default {
       exercises: [],
       challenges: [],
 
-      hints: [],
-      congratulations: []
+      message: ""
     };
   },
   watch: {
@@ -454,26 +342,6 @@ export default {
       } else {
         this.reward = JSON.parse(JSON.stringify(val));
       }
-      this.$set(
-        this,
-        "hints",
-        this.reward.hints.map(h => ({ hint: h }))
-      );
-      this.$set(
-        this,
-        "congratulations",
-        this.reward.congratulations.map(c => ({
-          congratulation: c
-        }))
-      );
-    },
-    hints(val) {
-      this.reward.hints.splice(0, this.reward.hints.length);
-      this.reward.hints.push(...val.map(h => h.hint));
-    },
-    congratulations(val) {
-      this.reward.congratulations.splice(0, this.reward.congratulations.length);
-      this.reward.congratulations.push(...val.map(c => c.congratulation));
     }
   },
   computed: {
@@ -488,44 +356,32 @@ export default {
         image: this.canLinkImage ? this.reward.image : null,
         recurrent: this.reward.recurrent,
         cost: this.reward.cost,
-        revealable_exercises: [],
-        revealable_challenges: [],
-        unlockable_exercises: [],
-        unlockable_challenges: [],
-        hints: [],
-        congratulations: [],
-        amount: 0,
-        criteria: this.reward.criteria
+        exercise_id: this.reward.exercise_id,
+        challenges: [],
+        message: "",
+        amount: 0
       };
       if (this.reward.kind === "POINT") {
         dto.amount = this.reward.amount;
-      } else if (this.reward.kind === "REVEAL") {
-        dto.revealable_exercises = this.reward.revealable_exercises.map(id => ({
+      } else if (
+        this.reward.kind === "REVEAL" ||
+        this.reward.kind === "UNLOCK"
+      ) {
+        dto.challenges = this.reward.challenges.map(id => ({
           id
         }));
-        dto.revealable_challenges = this.reward.revealable_challenges.map(
-          id => ({
-            id
-          })
-        );
-      } else if (this.reward.kind === "UNLOCK") {
-        dto.unlockable_exercises = this.reward.unlockable_exercises.map(id => ({
-          id
-        }));
-        dto.unlockable_challenges = this.reward.unlockable_challenges.map(
-          id => ({ id })
-        );
-      } else if (this.reward.kind === "HINT") {
-        dto.hints = this.reward.hints;
-      } else if (this.reward.kind === "MESSAGE") {
-        dto.congratulations = this.reward.congratulations;
+      } else if (
+        this.reward.kind === "HINT" ||
+        this.reward.kind === "MESSAGE"
+      ) {
+        dto.message = this.reward.message;
       }
       return dto;
     },
 
     canLinkImage() {
       return (
-        ["BADGE", "VIRTUAL_ITEM", "COUPON", "MESSAGE"].indexOf(
+        ["BADGE", "VIRTUAL_ITEM", "COUPON", "MESSAGE", "HINT"].indexOf(
           this.reward.kind
         ) >= 0
       );

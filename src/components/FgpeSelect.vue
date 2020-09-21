@@ -56,14 +56,44 @@
         </span>
       </transition>
     </div>
+    <div
+      v-if="pickerThreshold && options.length >= pickerThreshold"
+      class="flex flex-wrap"
+    >
+      <span
+        class="text-primary cursor-pointer ml-auto mt-2"
+        @click="openPicker()"
+      >
+        {{ $t("Select.OpenPicker") }}
+      </span>
+    </div>
+    <fgpe-picker-dialog
+      v-if="pickerThreshold && options.length >= pickerThreshold"
+      :title="placeholder || labelPlaceholder"
+      :multiple="multiple"
+      :options="options"
+      :active="pickerActive"
+      :selected="selected"
+      @pick="onPickerSelected"
+      @cancel="pickerActive = false"
+    >
+      <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+        <slot :name="slot" v-bind="scope" />
+      </template>
+    </fgpe-picker-dialog>
   </div>
 </template>
 
 <script>
 import colors from "@/../colors.config.json";
 
+import FgpePickerDialog from "@/components/FgpePickerDialog";
+
 export default {
   name: "fgpe-select",
+  components: {
+    "fgpe-picker-dialog": FgpePickerDialog
+  },
   props: {
     value: {
       type: [String, Number, Array],
@@ -110,6 +140,10 @@ export default {
     },
     customFilter: {
       type: Function
+    },
+    pickerThreshold: {
+      type: Number,
+      default: 0
     }
   },
   computed: {
@@ -137,7 +171,8 @@ export default {
   data() {
     return {
       isFocus: false,
-      selected: this.value
+      selected: this.value,
+      pickerActive: false
     };
   },
   watch: {
@@ -174,6 +209,15 @@ export default {
         }
       }
       return false;
+    },
+
+    openPicker() {
+      this.pickerActive = true;
+    },
+
+    onPickerSelected(options) {
+      this.pickerActive = false;
+      this.selected = options;
     }
   }
 };

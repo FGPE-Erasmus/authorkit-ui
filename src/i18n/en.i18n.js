@@ -242,6 +242,21 @@ export default {
     Cancel: "Cancel"
   },
 
+  SelectExercises: {
+    Exercises: "Exercises",
+    OpenPicker: "Open Picker"
+  },
+
+  Select: {
+    OpenPicker: "Open Picker"
+  },
+
+  PickerDialog: {
+    PickOption: "Pick an Option",
+    PickOptions: "Pick Options",
+    SelectAll: "Select All"
+  },
+
   _Project: "Project",
   Project: {
     Name: "Name",
@@ -470,14 +485,13 @@ export default {
         MESSAGE: "MESSAGE"
       },
       Amount: "Amount",
-      UnlockableExercises: "Unlockable Exercises",
-      UnlockableChallenges: "Unlockable Challenges",
-      RevealableExercises: "Revealable Exercises",
-      RevealableChallenges: "Revealable Challenges",
+      Challenges: "Challenges",
+      Exercises: "Exercises",
       Hints: "Hints",
       Hint: "Hint",
       Congratulations: "Congratulations",
       Congratulation: "Congratulation",
+      Message: "Message",
       Recurrent: "Recurrent",
       Cost: "Cost",
       Purchasable: "Purchasable"
