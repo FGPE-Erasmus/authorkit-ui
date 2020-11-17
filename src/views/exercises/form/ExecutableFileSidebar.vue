@@ -15,12 +15,19 @@
             v-slot="{ errors }"
             persist
           >
-            <vs-input
-              name="command_line"
-              v-model="fileItem.command_line"
-              :label-placeholder="$t('Exercise.File.CommandLine')"
-              class="w-full"
-            />
+            <vs-tooltip
+              :title="$t('ExecutableFile.CommandLine')"
+              :text="$t('ExecutableFile.Hints.CommandLine')"
+              color="primary"
+              position="left"
+            >
+              <vs-input
+                name="command_line"
+                v-model="fileItem.command_line"
+                :label-placeholder="$t('ExecutableFile.CommandLine')"
+                class="w-full"
+              />
+            </vs-tooltip>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>

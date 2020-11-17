@@ -59,8 +59,8 @@ const router = new Router({
           meta: {
             rule: ["user"],
             breadcrumb: [
-              { title: "Home", url: "/" },
-              { title: "Profile", active: true }
+              { i18n: "Home", url: "/" },
+              { i18n: "Profile", active: true }
             ]
           }
         },
@@ -71,8 +71,8 @@ const router = new Router({
           component: () => import("@/views/exercises/Exercises.vue"),
           meta: {
             breadcrumb: [
-              { title: "Home", url: "/" },
-              { title: "Exercises", active: true }
+              { i18n: "Home", url: "/" },
+              { i18n: "Exercises", active: true }
             ],
             pageTitle: "Exercises",
             rule: ["user"]
@@ -84,9 +84,9 @@ const router = new Router({
           component: () => import("@/views/exercises/ExerciseForm.vue"),
           meta: {
             breadcrumb: [
-              { title: "Home", url: "/" },
-              { title: "Exercises", url: "/projects/:project_id/exercises" },
-              { title: "ExerciseForm", active: true }
+              { i18n: "Home", url: "/" },
+              { i18n: "Exercises", url: "/projects/:project_id/exercises" },
+              { i18n: "ExerciseForm", active: true }
             ],
             pageTitle: "ExerciseForm",
             rule: ["user"]
@@ -100,8 +100,8 @@ const router = new Router({
             import("@/views/gamification-layers/GamificationLayers.vue"),
           meta: {
             breadcrumb: [
-              { title: "Home", url: "/" },
-              { title: "GamificationLayers", active: true }
+              { i18n: "Home", url: "/" },
+              { i18n: "GamificationLayers", active: true }
             ],
             pageTitle: "GamificationLayers",
             rule: ["user"]
@@ -114,15 +114,39 @@ const router = new Router({
             import("@/views/gamification-layers/GamificationLayerForm.vue"),
           meta: {
             breadcrumb: [
-              { title: "Home", url: "/" },
+              { i18n: "Home", url: "/" },
               {
-                title: "GamificationLayers",
+                i18n: "GamificationLayers",
                 url: "/projects/:project_id/gamification-layers"
               },
-              { title: "GamificationLayerForm", active: true }
+              { i18n: "GamificationLayerForm", active: true }
             ],
             pageTitle: "GamificationLayerForm",
             rule: ["user"]
+          }
+        },
+        {
+          path: "/documentation",
+          name: "documentation",
+          component: () => import("@/views/pages/FAQ.vue"),
+          meta: {
+            rule: ["*"],
+            breadcrumb: [
+              { i18n: "Home", url: "/" },
+              { i18n: "Documentation.Title", active: true }
+            ]
+          }
+        },
+        {
+          path: "/support",
+          name: "support",
+          component: () => import("@/views/pages/Support"),
+          meta: {
+            rule: ["*"],
+            breadcrumb: [
+              { i18n: "Home", url: "/" },
+              { i18n: "Support.Title", active: true }
+            ]
           }
         }
       ]

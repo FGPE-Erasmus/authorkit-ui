@@ -35,19 +35,10 @@
             </template>
             <template v-else-if="!showCloseButton && !sidebarItemsIconOnly">
               <feather-icon
-                icon="DiscIcon"
+                :icon="!reduce ? 'DiscIcon' : 'CircleIcon'"
                 class="mr-0 cursor-pointer"
                 svg-classes="stroke-current"
-                v-show="!reduce"
-                @click="toggleReduce(true)"
-                id="btnSidebarToggler"
-              ></feather-icon>
-              <feather-icon
-                icon="CircleIcon"
-                class="mr-0 cursor-pointer"
-                svg-classes="stroke-current"
-                v-show="reduce"
-                @click="toggleReduce(false)"
+                @click="toggleReduce(!reduce)"
                 id="btnSidebarToggler"
               ></feather-icon>
             </template>
@@ -75,8 +66,8 @@
                 :key="`sidebarItem-${index}`"
                 v-if="!sidebarItem.submenu"
                 :index="index"
-                :to="sidebarItem.slug != 'external' ? sidebarItem.url : ''"
-                :href="sidebarItem.slug == 'external' ? sidebarItem.url : ''"
+                :to="sidebarItem.slug !== 'external' ? sidebarItem.url : ''"
+                :href="sidebarItem.slug === 'external' ? sidebarItem.url : ''"
                 :icon="sidebarItem.icon"
                 :target="sidebarItem.target"
                 :isDisabled="sidebarItem.isDisabled"
@@ -277,9 +268,7 @@ export default {
       }
     },
     psSectionScroll() {
-      if (this.$refs.mainSidebarPs.$el.scrollTop > 0)
-        this.showShadowBottom = true;
-      else this.showShadowBottom = false;
+      this.showShadowBottom = this.$refs.mainSidebarPs.$el.scrollTop > 0;
     }
   },
   components: {

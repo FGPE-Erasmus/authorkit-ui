@@ -16,33 +16,40 @@
             v-slot="{ validate, errors }"
             persist
           >
-            <file-pond
-              name="inputFile"
-              ref="inputFileUpload"
-              class-name="fgpe-pond"
-              :server="inputServer"
-              :label-idle="$t('Exercise.Test.File.UploadInputFile')"
-              allow-multiple="false"
-              max-files="1"
-              accepted-file-types="text/*"
-              maxFileSize="1MB"
-              :labelMaxFileSizeExceeded="
-                $t('validation.maxFileSize', { filesize: '1MB' })
-              "
-              :labelMaxFileSize="
-                $t('Form.File.MaxFileSizeLabel', { filesize: '1MB' })
-              "
-              :files="inputFiles"
-              @updatefiles="updateInputFiles($event) || validate($event)"
-            />
-            <div v-if="canEditInput" class="flex flex-wrap">
-              <span
-                class="text-primary cursor-pointer ml-auto"
-                @click="openEditor('input')"
-              >
-                {{ $t("Form.File.OpenEditor") }}
-              </span>
-            </div>
+            <vs-tooltip
+              :title="$t('TestFile.Input')"
+              :text="$t('TestFile.Hints.Input')"
+              color="primary"
+              position="left"
+            >
+              <file-pond
+                name="inputFile"
+                ref="inputFileUpload"
+                class-name="fgpe-pond"
+                :server="inputServer"
+                :label-idle="$t('Exercise.Test.File.UploadInputFile')"
+                allow-multiple="false"
+                max-files="1"
+                accepted-file-types="text/*"
+                maxFileSize="1MB"
+                :labelMaxFileSizeExceeded="
+                  $t('validation.maxFileSize', { filesize: '1MB' })
+                "
+                :labelMaxFileSize="
+                  $t('Form.File.MaxFileSizeLabel', { filesize: '1MB' })
+                "
+                :files="inputFiles"
+                @updatefiles="updateInputFiles($event) || validate($event)"
+              />
+              <div v-if="canEditInput" class="flex flex-wrap">
+                <span
+                  class="text-primary cursor-pointer ml-auto"
+                  @click="openEditor('input')"
+                >
+                  {{ $t("Form.File.OpenEditor") }}
+                </span>
+              </div>
+            </vs-tooltip>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
@@ -59,33 +66,40 @@
             v-slot="{ validate, errors }"
             persist
           >
-            <file-pond
-              name="outputFile"
-              ref="outputFileUpload"
-              class-name="fgpe-pond"
-              :server="outputServer"
-              :label-idle="$t('Exercise.Test.File.UploadOutputFile')"
-              allow-multiple="false"
-              max-files="1"
-              accepted-file-types="text/*"
-              maxFileSize="1MB"
-              :labelMaxFileSizeExceeded="
-                $t('validation.maxFileSize', { filesize: '1MB' })
-              "
-              :labelMaxFileSize="
-                $t('Form.File.MaxFileSizeLabel', { filesize: '1MB' })
-              "
-              :files="outputFiles"
-              @updatefiles="updateOutputFiles($event) || validate($event)"
-            />
-            <div v-if="canEditOutput" class="flex flex-wrap">
-              <span
-                class="text-primary cursor-pointer ml-auto"
-                @click="openEditor('output')"
-              >
-                {{ $t("Form.File.OpenEditor") }}
-              </span>
-            </div>
+            <vs-tooltip
+              :title="$t('TestFile.Output')"
+              :text="$t('TestFile.Hints.Output')"
+              color="primary"
+              position="left"
+            >
+              <file-pond
+                name="outputFile"
+                ref="outputFileUpload"
+                class-name="fgpe-pond"
+                :server="outputServer"
+                :label-idle="$t('Exercise.Test.File.UploadOutputFile')"
+                allow-multiple="false"
+                max-files="1"
+                accepted-file-types="text/*"
+                maxFileSize="1MB"
+                :labelMaxFileSizeExceeded="
+                  $t('validation.maxFileSize', { filesize: '1MB' })
+                "
+                :labelMaxFileSize="
+                  $t('Form.File.MaxFileSizeLabel', { filesize: '1MB' })
+                "
+                :files="outputFiles"
+                @updatefiles="updateOutputFiles($event) || validate($event)"
+              />
+              <div v-if="canEditOutput" class="flex flex-wrap">
+                <span
+                  class="text-primary cursor-pointer ml-auto"
+                  @click="openEditor('output')"
+                >
+                  {{ $t("Form.File.OpenEditor") }}
+                </span>
+              </div>
+            </vs-tooltip>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
@@ -101,25 +115,32 @@
             v-slot="{ errors }"
             persist
           >
-            <fgpe-chips
-              name="arguments"
-              v-model="test.arguments"
-              :label-placeholder="$t('Exercise.Test.Arguments')"
-              :unique="false"
-              icon-pack="mi md-16"
-              remove-icon="delete_forever"
+            <vs-tooltip
+              :title="$t('TestFile.Arguments')"
+              :text="$t('TestFile.Hints.Arguments')"
+              color="primary"
+              position="left"
             >
-              <vs-chip
-                v-for="(arg, i) in test.arguments"
-                :key="i"
-                @click="removeArg(arg)"
-                closable
-                icon-pack="mi"
-                close-icon="close"
+              <fgpe-chips
+                name="arguments"
+                v-model="test.arguments"
+                :label-placeholder="$t('TestFile.Arguments')"
+                :unique="false"
+                icon-pack="mi md-16"
+                remove-icon="delete_forever"
               >
-                {{ arg }}
-              </vs-chip>
-            </fgpe-chips>
+                <vs-chip
+                  v-for="(arg, i) in test.arguments"
+                  :key="i"
+                  @click="removeArg(arg)"
+                  closable
+                  icon-pack="mi"
+                  close-icon="close"
+                >
+                  {{ arg }}
+                </vs-chip>
+              </fgpe-chips>
+            </vs-tooltip>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
@@ -135,18 +156,25 @@
             v-slot="{ errors }"
             persist
           >
-            <label class="fgpe-label">
-              {{ $t("Exercise.Test.Weight") }}
-            </label>
-            <vs-input-number
-              name="weight"
-              v-model.number="test.weight"
-              :step="1"
-              min="0"
-              max="100"
-              size="medium"
-              icon-pack="mi"
-            />
+            <vs-tooltip
+              :title="$t('TestFile.Weight')"
+              :text="$t('TestFile.Hints.Weight')"
+              color="primary"
+              position="left"
+            >
+              <label class="fgpe-label">
+                {{ $t("TestFile.Weight") }}
+              </label>
+              <vs-input-number
+                name="weight"
+                v-model.number="test.weight"
+                :step="1"
+                min="0"
+                max="100"
+                size="medium"
+                icon-pack="mi"
+              />
+            </vs-tooltip>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
@@ -156,14 +184,21 @@
 
       <div class="vx-row">
         <div class="vx-col w-full mb-2">
-          <vs-checkbox
-            name="visible"
-            v-model="test.visible"
-            class="mt-5 w-full"
-            icon-pack="mi md-16"
+          <vs-tooltip
+            :title="$t('TestFile.Visible')"
+            :text="$t('TestFile.Hints.Visible')"
+            color="primary"
+            position="left"
           >
-            {{ $t("Exercise.Test.Visible") }}
-          </vs-checkbox>
+            <vs-checkbox
+              name="visible"
+              v-model="test.visible"
+              class="mt-5 w-full"
+              icon-pack="mi md-16"
+            >
+              {{ $t("TestFile.Visible") }}
+            </vs-checkbox>
+          </vs-tooltip>
         </div>
       </div>
       <fgpe-code-editor-popup

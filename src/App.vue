@@ -36,7 +36,7 @@ export default {
       theme: "theme"
     }),
     toggleClassInBody(className) {
-      if (className == "dark") {
+      if (className === "dark") {
         document.body.classList.add("theme-dark");
       } else {
         if (document.body.className.match("theme-dark"))

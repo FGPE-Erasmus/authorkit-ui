@@ -15,12 +15,19 @@
             v-slot="{ errors }"
             persist
           >
-            <vs-input
-              name="name"
-              v-model="testset.name"
-              :label-placeholder="$t('Exercise.TestSet.Name')"
-              class="w-full"
-            />
+            <vs-tooltip
+              :title="$t('TestSetFile.Name')"
+              :text="$t('TestSetFile.Hints.Name')"
+              color="primary"
+              position="left"
+            >
+              <vs-input
+                name="name"
+                v-model="testset.name"
+                :label-placeholder="$t('TestSetFile.Name')"
+                class="w-full"
+              />
+            </vs-tooltip>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
@@ -36,18 +43,25 @@
             v-slot="{ errors }"
             persist
           >
-            <label class="fgpe-label">
-              {{ $t("Exercise.Test.Weight") }}
-            </label>
-            <vs-input-number
-              name="weight"
-              v-model.number="testset.weight"
-              :step="1"
-              min="0"
-              max="100"
-              size="medium"
-              icon-pack="mi"
-            />
+            <vs-tooltip
+              :title="$t('TestSetFile.Weight')"
+              :text="$t('TestSetFile.Hints.Weight')"
+              color="primary"
+              position="left"
+            >
+              <label class="fgpe-label">
+                {{ $t("TestSetFile.Weight") }}
+              </label>
+              <vs-input-number
+                name="weight"
+                v-model.number="testset.weight"
+                :step="1"
+                min="0"
+                max="100"
+                size="medium"
+                icon-pack="mi"
+              />
+            </vs-tooltip>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
@@ -57,14 +71,21 @@
 
       <div class="vx-row">
         <div class="vx-col w-full mb-2">
-          <vs-checkbox
-            name="visible"
-            v-model="testset.visible"
-            class="mt-5 w-full"
-            icon-pack="mi md-16"
+          <vs-tooltip
+            :title="$t('TestSetFile.Visible')"
+            :text="$t('TestSetFile.Hints.Visible')"
+            color="primary"
+            position="left"
           >
-            {{ $t("Exercise.Test.Visible") }}
-          </vs-checkbox>
+            <vs-checkbox
+              name="visible"
+              v-model="testset.visible"
+              class="mt-5 w-full"
+              icon-pack="mi md-16"
+            >
+              {{ $t("TestSetFile.Visible") }}
+            </vs-checkbox>
+          </vs-tooltip>
         </div>
       </div>
     </template>

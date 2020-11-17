@@ -124,11 +124,7 @@ export default {
         text: leaderboard.name,
         data: {
           nodeType: "leaderboard",
-          ...leaderboard,
-          revealable_exercises: leaderboard.revealable_exercise_ids,
-          revealable_challenges: leaderboard.revealable_challenge_ids,
-          unlockable_exercises: leaderboard.unlockable_exercise_ids,
-          unlockable_challenges: leaderboard.unlockable_challenge_ids
+          ...leaderboard
         },
         state: {
           draggable: false,

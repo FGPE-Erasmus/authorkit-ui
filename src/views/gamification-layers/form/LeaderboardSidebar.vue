@@ -29,6 +29,19 @@
       </div>
 
       <div class="vx-row">
+        <div class="vx-col w-full mt-2 mb-2">
+          <vs-checkbox
+            name="groups"
+            v-model="leaderboard.groups"
+            class="w-full"
+            icon-pack="mi md-16"
+          >
+            {{ $t("GamificationLayer.Leaderboard.GroupScope") }}
+          </vs-checkbox>
+        </div>
+      </div>
+
+      <div class="vx-row">
         <div class="vx-col w-full mb-2">
           <ValidationProvider
             name="metrics"
@@ -131,6 +144,7 @@ export default {
     return {
       empty: {
         name: "",
+        groups: false,
         metrics: [],
         sorting_orders: []
       },
@@ -172,15 +186,15 @@ export default {
   },
   computed: {
     leaderboardDto() {
-      const dto = {
+      return {
         id: this.leaderboard.id,
         challenge_id: this.parentChallengeId || this.leaderboard.challenge_id,
         gl_id: this.gamificationLayerId,
         name: this.leaderboard.name,
+        groups: this.leaderboard.groups,
         metrics: this.leaderboard.metrics,
         sorting_orders: this.leaderboard.sorting_orders
       };
-      return dto;
     }
   },
   methods: {}

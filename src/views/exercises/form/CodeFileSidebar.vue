@@ -15,17 +15,24 @@
             v-slot="{ errors }"
             persist
           >
-            <fgpe-select
-              name="prog_lang"
-              v-model="fileItem.lang"
-              class="mt-5 w-full select-large"
-              :options="languages"
-              :clearable="false"
-              :searchable="true"
-              :reduce="o => o.id"
-              :label-placeholder="$t('Exercise.File.ProgLang')"
+            <vs-tooltip
+              :title="$t('CodeFile.ProgLang')"
+              :text="$t('CodeFile.Hints.ProgLang')"
+              color="primary"
+              position="left"
             >
-            </fgpe-select>
+              <fgpe-select
+                name="prog_lang"
+                v-model="fileItem.lang"
+                class="mt-5 w-full select-large"
+                :options="languages"
+                :clearable="false"
+                :searchable="true"
+                :reduce="o => o.id"
+                :label-placeholder="$t('CodeFile.ProgLang')"
+              >
+              </fgpe-select>
+            </vs-tooltip>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>

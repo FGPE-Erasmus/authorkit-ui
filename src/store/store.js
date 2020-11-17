@@ -7,6 +7,7 @@ Vue.use(Vuex);
 
 import moduleAuth from "./auth/auth.module";
 import moduleUser from "./users/user.module";
+import moduleContact from "./contact/contact.module";
 import modulePermission from "./permissions/permission.module";
 import moduleProject from "./projects/project.module";
 import moduleExercise from "./exercises/exercise.module";
@@ -24,6 +25,7 @@ export default new Vuex.Store({
   modules: {
     auth: moduleAuth,
     user: moduleUser,
+    contact: moduleContact,
     permission: modulePermission,
     project: moduleProject,
     exercise: moduleExercise,

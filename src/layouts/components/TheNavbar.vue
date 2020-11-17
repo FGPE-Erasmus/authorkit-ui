@@ -250,8 +250,8 @@ export default {
     },
 
     classObj() {
-      if (this.sidebarWidth == "default") return "navbar-default";
-      else if (this.sidebarWidth == "reduced") return "navbar-reduced";
+      if (this.sidebarWidth === "default") return "navbar-default";
+      else if (this.sidebarWidth === "reduced") return "navbar-reduced";
       else if (this.sidebarWidth) return "navbar-full";
       return "navbar-default";
     },

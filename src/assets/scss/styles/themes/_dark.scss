@@ -903,24 +903,24 @@
 
   .vs-collapse {
     &.shadow {
-      box-shadow: 0 0px 8px 0 rgba($white, .1) !important;
+      box-shadow: 0 0px 8px 0 rgba($dark, .1) !important;
     }
 
     .vs-collapse-item {
-      border-bottom-color: rgba($white, .04);
+      border-bottom-color: rgba($dark, .04);
     }
 
     &.border {
-      border-color: rgba($white, .1);
+      border-color: rgba($dark, .1);
 
       .vs-collapse-item {
-        border-bottom-color: rgba($white, .04);
+        border-bottom-color: rgba($dark, .04);
       }
     }
 
     &.margin {
       .vs-collapse-item {
-        box-shadow: 0 2px 15px 0 rgba($white, .05)
+        box-shadow: 0 2px 15px 0 rgba($dark, .05)
       }
     }
   }
@@ -1108,5 +1108,10 @@
       border-left: 0;
       border-top: 0;
     }
+  }
+
+
+  .faq-bg {
+    background-color: $dark-card-color;
   }
 }

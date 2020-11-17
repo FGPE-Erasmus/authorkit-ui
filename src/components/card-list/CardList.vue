@@ -75,6 +75,7 @@
           :value="currentPage"
           @change="$emit('currentpagechange', $event)"
           icon-pack="mi"
+          class="my-2"
         ></vs-pagination>
       </slot>
     </div>

@@ -15,26 +15,33 @@
             v-slot="{ errors }"
             persist
           >
-            <fgpe-select
-              name="format"
-              v-model="fileItem.format"
-              class="mt-5 w-full select-large"
-              :options="Object.keys(textFormats)"
-              :clearable="false"
-              :searchable="false"
-              :label-placeholder="$t('Exercise.File.Format')"
+            <vs-tooltip
+              :title="$t('FormattedTextFile.Format')"
+              :text="$t('FormattedTextFile.Hints.Format')"
+              color="primary"
+              position="left"
             >
-              <template slot="option" slot-scope="option">
-                <div class="d-center">
-                  {{ textFormats[option.label] }}
-                </div>
-              </template>
-              <template slot="selected-option" slot-scope="option">
-                <div class="selected d-center">
-                  {{ textFormats[option.label] }}
-                </div>
-              </template>
-            </fgpe-select>
+              <fgpe-select
+                name="format"
+                v-model="fileItem.format"
+                class="mt-5 w-full select-large"
+                :options="Object.keys(textFormats)"
+                :clearable="false"
+                :searchable="false"
+                :label-placeholder="$t('Exercise.File.Format')"
+              >
+                <template slot="option" slot-scope="option">
+                  <div class="d-center">
+                    {{ textFormats[option.label] }}
+                  </div>
+                </template>
+                <template slot="selected-option" slot-scope="option">
+                  <div class="selected d-center">
+                    {{ textFormats[option.label] }}
+                  </div>
+                </template>
+              </fgpe-select>
+            </vs-tooltip>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
@@ -50,13 +57,20 @@
             v-slot="{ errors }"
             persist
           >
-            <fgpe-language-select
-              name="nat_lang"
-              v-model="fileItem.nat_lang"
-              class="mt-5 w-full select-large"
-              :label-placeholder="$t('Exercise.File.NatLang')"
+            <vs-tooltip
+              :title="$t('FormattedTextFile.NatLang')"
+              :text="$t('FormattedTextFile.Hints.NatLang')"
+              color="primary"
+              position="left"
             >
-            </fgpe-language-select>
+              <fgpe-language-select
+                name="nat_lang"
+                v-model="fileItem.nat_lang"
+                class="mt-5 w-full select-large"
+                :label-placeholder="$t('FormattedTextFile.NatLang')"
+              >
+              </fgpe-language-select>
+            </vs-tooltip>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>

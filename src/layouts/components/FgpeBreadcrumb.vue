@@ -1,16 +1,18 @@
 <template>
   <div class="fgpe-breadcrumb">
     <ul class="flex flex-wrap items-center">
-      <li class="inline-flex items-end">
-        <router-link to="/">
+      <li class="inline-flex items-center">
+        <router-link to="/" class="flex items-center">
           <feather-icon
             icon="HomeIcon"
-            svgClasses="h-5 w-5 mb-1 stroke-current text-primary"
+            svgClasses="h-5 w-5 stroke-current text-primary"
           ></feather-icon>
         </router-link>
-        <span class="breadcrumb-separator mx-2"
-          ><feather-icon icon="ChevronsRightIcon" svgClasses="w-4 h-4"
-        /></span>
+        <feather-icon
+          icon="ChevronsRightIcon"
+          svgClasses="w-4 h-4"
+          class="breadcrumb-separator mx-2"
+        />
       </li>
       <li
         v-for="(link, index) in $route.meta.breadcrumb.slice(1, -1)"
@@ -18,10 +20,10 @@
         class="inline-flex items-center"
       >
         <router-link :to="replacePathParams(link.url)" v-if="link.url">{{
-          $t(link.title)
+          $t(link.i18n)
         }}</router-link>
         <span class="text-primary cursor-default" v-else>{{
-          $t(link.title)
+          $t(link.i18n)
         }}</span>
         <span class="breadcrumb-separator mx-2 flex items-start"
           ><feather-icon icon="ChevronsRightIcon" svgClasses="w-4 h-4"
@@ -31,7 +33,7 @@
         <span
           v-if="$route.meta.breadcrumb.slice(-1)[0].active"
           class="cursor-default"
-          >{{ $t($route.meta.breadcrumb.slice(-1)[0].title) }}</span
+          >{{ $t($route.meta.breadcrumb.slice(-1)[0].i18n) }}</span
         >
       </li>
     </ul>

@@ -2,16 +2,11 @@ export default {
   Home: "Home",
   Profile: "Profile",
   Dashboard: "Dashboard",
-  Projects: "Projects",
   Exercises: "Exercises",
   ExerciseForm: "Exercise Form",
   GamificationLayers: "Gamification Layers",
   GamificationLayerForm: "Gamification Layer Form",
-  Contributors: "Contributors",
-  Support: "Support",
   Help: "Help",
-  Documentation: "Documentation",
-  RaiseSupport: "Raise Support",
   ExitToDashboard: "Exit To Dashboard",
 
   ReturnHome: "Return Home",
@@ -73,7 +68,7 @@ export default {
   LockScreen: {
     Title: "Unlock Session",
     Message:
-      "To get back to your dashboar, you must enter your password below.",
+      "To get back to your dashboard, you must enter your password below.",
     NotUser: "Are you not {name}?",
     Unlock: "Unlock"
   },
@@ -188,6 +183,7 @@ export default {
     Finish: "Finish",
     Done: "Done",
     Save: "Save",
+    Send: "Send",
     Reset: "Reset",
     Delete: "Delete",
     Cancel: "Cancel",
@@ -257,6 +253,17 @@ export default {
     SelectAll: "Select All"
   },
 
+  // projects
+  Projects: {
+    Title: "Projects",
+    Card: {
+      Contributors: "Contributors",
+      GamificationLayers: "Gamification Layers",
+      Exercises: "Exercises",
+      Open: "Open project ..."
+    }
+  },
+
   _Project: "Project",
   Project: {
     Name: "Name",
@@ -267,7 +274,8 @@ export default {
       ANNOUNCED: "Announced",
       OPEN: "Open",
       CLOSED: "Closed"
-    }
+    },
+    Public: "Public?"
   },
 
   // exercises
@@ -461,6 +469,7 @@ export default {
     _Leaderboard: "Leaderboard",
     Leaderboard: {
       Name: "Name",
+      GroupScope: "Group scoped?",
       Metrics: "Metrics",
       Metric: "Metric",
       SortingOrder: "Sorting Order",
@@ -585,6 +594,125 @@ export default {
     }
   },
 
+  // sidebars
+  ExecutableFile: {
+    CommandLine: "Command Line",
+    Hints: {
+      CommandLine:
+        "The command line to execute the file with. Use $FILE to refer to the absolute path to the file."
+    }
+  },
+  FormattedTextFile: {
+    Format: "Format",
+    NatLang: "Natural Language",
+    Hints: {
+      Format:
+        "The format of the uploaded file. Either PDF (Portable Document Format), MARKDOWN (a lightweight markup language), HTML (HyperText Markup Language), or TXT (text).",
+      NatLang:
+        "Language used in the file to communicate with people (NOT the programming language)."
+    }
+  },
+  CodeFile: {
+    ProgLang: "Programming Language",
+    Hints: {
+      ProgLang:
+        "An artificial language used to write instructions that can be translated into machine language and then executed by a computer."
+    }
+  },
+  TestSetFile: {
+    Name: "Name",
+    Weight: "Weight",
+    Visible: "Visible?",
+    Hints: {
+      Name: "Name to identify this test set.",
+      Weight: "Weight of this test set in the overall grade.",
+      Visible: "Is this test set visible?"
+    }
+  },
+  TestFile: {
+    Input: "Input",
+    Output: "Output",
+    Arguments: "Arguments",
+    Weight: "Weight",
+    Visible: "Visible?",
+    Hints: {
+      Input: "Input test file to feed the program with.",
+      Output: "Output test file to compare the program's output with.",
+      Arguments: "Arguments to pass to the tested program.",
+      Weight: "Weight of this test in the overall grade.",
+      Visible: "Is this test visible?"
+    }
+  },
+
+  // Documentation
+  Documentation: {
+    Title: "Documentation",
+    Topics: {
+      Title: "Topics",
+      All: "All",
+      General: "General",
+      Project: "Project",
+      Exercise: "Exercise",
+      GamificationLayer: "Gamification Layer"
+    },
+    Questions: {
+      Q1: "What is this?",
+      A1:
+        "AuthorKit is a web application to support the authors through the whole process of preparing gamified programming exercises. The authoring process aims for simplicity and reusability, allowing you to import content from popular non-gamified exercise formats, and export it or share it with other peers, internally or via a GitHub repository.",
+      Q2: "Q",
+      A2: "A",
+      Q3: "Q",
+      A3: "A",
+      Q4: "Q",
+      A4: "A",
+      Q5: "Q",
+      A5: "A",
+      Q6: "Q",
+      A6: "A",
+      Q7: "Q",
+      A7: "A",
+      Q8: "Q",
+      A8: "A",
+      Q9: "Q",
+      A9: "A",
+      Q10: "Q",
+      A10: "A",
+      Q11: "Q",
+      A11: "A",
+      Q12: "Q",
+      A12: "A",
+      Q13: "Q",
+      A13: "A",
+      Q14: "Q",
+      A14: "A",
+      Q15: "Q",
+      A15: "A",
+      Q16: "Q",
+      A16: "A"
+    }
+  },
+  Support: {
+    Title: "Support",
+    Partners: {
+      Title: "Partners",
+      Poland: "Uniwersytet Szczeciński (Poland)",
+      Porto:
+        "INESC TEC – Instituto de Engenharia de Sistemas e Computadores, Tecnologia e Ciência (Portugal)",
+      Denmark: "Aalborg Universitet (Denmark)",
+      Italy: "Universita Degli Studi Di Napoli Parthenope (Italy)"
+    },
+    Information: {
+      Title: "Contact Information",
+      Address:
+        "Faculty of Economics and Management, Institute of IT in Management, University of Szczecin, Mickiewicza 64, Szczecin 71-101, Poland"
+    },
+    Form: {
+      Title: "Send Message",
+      Subject: "Subject",
+      Description: "Description"
+    }
+  },
+
   validation: {
     alpha: "The {_field_} field may only contain alphabetic characters",
     alpha_num: "The {_field_} field may only contain alpha-numeric characters",
@@ -686,11 +814,16 @@ export default {
     challenge: "Challenge",
     exercise: "Exercise",
     reward: "Reward",
-    message: "Message"
+    message: "Message",
+    subject: "Subject"
   },
 
   Messages: {
     Success: {
+      SupportMessage: {
+        Title: "Message Sent",
+        Description: "Your support message has been sent."
+      },
       ProfileSaved: {
         Title: "Profile saved successfully",
         Description: "Your profile has been updated."
@@ -701,6 +834,10 @@ export default {
       }
     },
     Error: {
+      SupportMessage: {
+        Title: "Message NOT Sent",
+        Description: "Failed to send your support message. Reason: {reason}"
+      },
       ProfileNotSaved: {
         Title: "Failed to save profile",
         Description: ""

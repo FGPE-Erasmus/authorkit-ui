@@ -69,6 +69,7 @@ const getters = {
   loading: state =>
     state.loading ||
     state.auth.loading ||
+    state.contact.loading ||
     state.project.loading ||
     state.exercise.loading ||
     state.gamificationLayer.loading ||

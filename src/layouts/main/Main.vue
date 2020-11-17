@@ -27,7 +27,7 @@
         <div class="router-view">
           <div
             class="router-content"
-            :class="{ 'mt-0': navbarType == 'hidden' }"
+            :class="{ 'mt-0': navbarType === 'hidden' }"
           >
             <transition :name="routerTransition">
               <div
@@ -35,17 +35,18 @@
                 v-if="$route.meta.breadcrumb || $route.meta.pageTitle"
               >
                 <div
+                  v-if="$route.meta.pageTitle"
                   class="content-area__heading"
                   :class="{
                     'pr-4 border-0 md:border-r border-t-0 border-b-0 border-l-0 border-solid border-grey-light':
                       $route.meta.breadcrumb
                   }"
                 >
-                  <h2 class="mb-1">{{ $t(routeTitle) }}</h2>
+                  <h2 class="mb-1">{{ $t($route.meta.pageTitle) }}</h2>
                 </div>
                 <fgpe-breadcrumb
-                  class="ml-4 md:block hidden"
                   v-if="$route.meta.breadcrumb"
+                  class="ml-4 md:block hidden"
                 />
               </div>
             </transition>
@@ -124,58 +125,55 @@ export default {
       activeProject: state => state.project.activeProject
     }),
     isProjectContext() {
-      if (this.$route.path.match(/\/projects\/(.+)/i)) return true;
-      else return false;
+      return !!this.$route.path.match(/\/projects\/(.+)/i);
     },
     currentProjectId() {
       return this.$route.params.project_id;
     },
     isThemeDark() {
-      return this.$store.state.theme == "dark";
+      return this.$store.state.theme === "dark";
     },
     contentAreaClass() {
-      if (this.sidebarWidth == "default") return "content-area-default";
-      else if (this.sidebarWidth == "reduced") return "content-area-reduced";
+      if (this.sidebarWidth === "default") return "content-area-default";
+      else if (this.sidebarWidth === "reduced") return "content-area-reduced";
       else if (this.sidebarWidth) return "content-area-full";
       return "content-area-default";
     },
     navbarClasses() {
       return {
-        "navbar-hidden": this.navbarType == "hidden",
-        "navbar-sticky": this.navbarType == "sticky",
-        "navbar-static": this.navbarType == "static",
-        "navbar-floating": this.navbarType == "floating"
+        "navbar-hidden": this.navbarType === "hidden",
+        "navbar-sticky": this.navbarType === "sticky",
+        "navbar-static": this.navbarType === "static",
+        "navbar-floating": this.navbarType === "floating"
       };
     },
     footerClasses() {
       return {
-        "footer-hidden": this.footerType == "hidden",
-        "footer-sticky": this.footerType == "sticky",
-        "footer-static": this.footerType == "static"
+        "footer-hidden": this.footerType === "hidden",
+        "footer-sticky": this.footerType === "sticky",
+        "footer-static": this.footerType === "static"
       };
     },
     sidebarItems() {
       return [
         ...this.sidebarItemsFromContext,
         {
-          header: "Support",
-          i18n: "Support"
+          header: "Help",
+          i18n: "Help"
         },
         {
           url: "/documentation",
           name: "Documentation",
           icon: "BookOpenIcon",
-          slug: "external",
-          i18n: "Documentation",
-          target: "_blank"
+          slug: "documentation",
+          i18n: "Documentation.Title"
         },
         {
-          url: "/help",
-          name: "Help",
+          url: "/support",
+          name: "Support",
           icon: "LifeBuoyIcon",
-          slug: "external",
-          i18n: "Help",
-          target: "_blank"
+          slug: "support",
+          i18n: "Support.Title"
         }
       ];
     },

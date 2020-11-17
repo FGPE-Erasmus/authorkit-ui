@@ -80,7 +80,7 @@
                 class="mt-5 w-full"
                 icon-pack="mi md-16"
               >
-                {{ $t("Public") }}
+                {{ $t("Project.Public") }}
               </vs-checkbox>
             </div>
           </div>
@@ -134,7 +134,7 @@
           type="border"
           color="danger"
           @click="isSidebarActiveLocal = false"
-          >{{ $t("Cancel") }}</vs-button
+          >{{ $t("Form.Cancel") }}</vs-button
         >
       </div>
     </ValidationObserver>
