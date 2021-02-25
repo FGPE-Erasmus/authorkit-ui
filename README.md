@@ -9,6 +9,11 @@ The UI of a toolkit to author gamified activities to support programming learnin
 npm install
 ```
 
+## Setup environment
+```
+cp .env.example .env
+```
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
@@ -17,6 +22,19 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build
+```
+
+### Compiles and minifies for production with Docker
+```
+docker build -t fgpe/authorkit-ui:latest .
+```
+
+### Serves for production with Docker
+```
+docker run -it -p 8080:80 \
+    -v $(pwd)/.env:/usr/share/nginx/html/.env \
+    -v $(pwd)/docker/nginx.conf:/etcginx/nginx.conf \
+    --rm fgpe/authorkit-ui:latest
 ```
 
 ### Run your tests

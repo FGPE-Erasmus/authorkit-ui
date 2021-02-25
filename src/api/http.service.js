@@ -1,6 +1,5 @@
 import axios from "axios";
 
-import config from "../../api.config.json";
 import router from "../router";
 import {
   STORAGE_ACCESS_TOKEN,
@@ -9,12 +8,12 @@ import {
   STORAGE_REFRESH_TOKEN_EXPIRY_TIME,
   STORAGE_REMEMBER_ME,
   STORAGE_USER_PROFILE
-} from "../store/constants";
+} from "@/store/constants";
 
 export default class HttpService {
   constructor(language = "en") {
     this.client = axios.create({
-      baseURL: `${config.protocol}://${config.host}:${config.port}/${config.base_path}`,
+      baseURL: process.env.VUE_APP_AUTHORKIT_API_BASE_URL,
       headers: {
         Accept: "application/json",
         "Accept-Language": language,
