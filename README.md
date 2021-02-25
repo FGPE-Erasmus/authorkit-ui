@@ -33,7 +33,7 @@ docker build -t fgpe/authorkit-ui:latest .
 ```
 docker run -it -p 8080:80 \
     -v $(pwd)/.env:/usr/share/nginx/html/.env \
-    -v $(pwd)/docker/nginx.conf:/etcginx/nginx.conf \
+    -v $(pwd)/docker/nginx.conf:/etc/nginx/nginx.conf \
     --rm fgpe/authorkit-ui:latest
 ```
 
