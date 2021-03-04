@@ -16,3 +16,54 @@
 @import "components/sharePopup";
 @import "components/translatePopup";
 @import "components/datePicker";
+
+
+input.autocomplete-input {
+  background-color: $white;
+  background-image: none;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+
+  height: 2.5rem;
+  padding: .7rem;
+  font-size: 1rem;
+
+  font-family: $font-family-monospace;
+
+  &:focus, &[aria-expanded=true] {
+    border-color: rgba(0, 0, 0, .2);
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 0 0;
+  }
+
+  &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: $theme-dark-text-color;
+    opacity: 1; /* Firefox */
+    font-size: 13px;
+    font-family: $font-family-base;
+  }
+
+  &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: $theme-dark-text-color;
+    font-size: 13px;
+    font-family: $font-family-base;
+  }
+
+  &::-ms-input-placeholder { /* Microsoft Edge */
+    color: $theme-dark-text-color;
+    font-size: 13px;
+    font-family: $font-family-base;
+  }
+
+}
+
+.autocomplete-result-list {
+  z-index: 49000 !important;
+}
+
+.autocomplete-result {
+  cursor: default;
+  padding: 12px;
+  background-image: none;
+}

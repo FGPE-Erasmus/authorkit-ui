@@ -74,7 +74,7 @@
       :options="options"
       :active="pickerActive"
       :selected="selected"
-      @pick="onPickerSelected"
+      @pick="onPickerSelected($event)"
       @cancel="pickerActive = false"
     >
       <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">

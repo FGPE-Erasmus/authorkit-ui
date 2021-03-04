@@ -39,9 +39,7 @@
                 {{ $t(`Documentation.Questions.Q${que.id}`) }}
               </h5>
             </div>
-            <p>
-              {{ $t(`Documentation.Questions.A${que.id}`) }}
-            </p>
+            <div v-html="$t(`Documentation.Questions.A${que.id}`)"></div>
           </vs-collapse-item>
         </vs-collapse>
       </div>
@@ -169,6 +167,17 @@ export default {
 
   .faq-topics {
     line-height: 1.6;
+  }
+
+  .con-content--item {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: 1rem 0 0.8rem 0;
+    }
   }
 }
 </style>

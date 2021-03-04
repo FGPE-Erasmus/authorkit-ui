@@ -101,7 +101,7 @@ export default {
   },
   watch: {
     searchQuery(val) {
-      if (val == "") {
+      if (val === "") {
         this.inputInit();
         if (this.bodyOverlay)
           this.$store.commit(THEME_TOGGLE_CONTENT_OVERLAY, false);

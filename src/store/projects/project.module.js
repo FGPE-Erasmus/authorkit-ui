@@ -257,8 +257,9 @@ const actions = {
           resolve(res.data);
         })
         .catch(err => {
-          commit(PROJECT_EXPORT_ERROR, err.response.data);
-          reject(err.response.data);
+          const data = err.response ? err.response.data : err;
+          commit(PROJECT_EXPORT_ERROR, data);
+          reject(data);
         });
     });
   },

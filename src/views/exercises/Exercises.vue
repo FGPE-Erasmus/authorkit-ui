@@ -32,7 +32,7 @@
           :allow-remove="permissions[projectId] >= 4"
           @view="edit(item)"
           @edit="edit(item)"
-          @export="exportAndDownload(item)"
+          @export="triggerExport(item.id)"
           @remove="confirmDelete(item)"
         >
           <vs-td>
@@ -79,6 +79,15 @@
         importDialog.file = undefined;
       "
     />
+    <export-exercise-dialog
+      :active="exportDialog.active"
+      :format="exportDialog.format"
+      @export="exportAndDownload($event)"
+      @cancel="
+        exportDialog.active = false;
+        exportDialog.file = undefined;
+      "
+    />
   </div>
 </template>
 
@@ -98,20 +107,23 @@ import {
   EXERCISE_EXPORT,
   EXERCISE_IMPORT,
   EXERCISE_IMPORT_SIPE,
-  EXERCISE_IMPORT_MEF
+  EXERCISE_IMPORT_MEF,
+  EXERCISE_EXPORT_MEF
 } from "@/store/exercises/exercise.constants";
 
 import CardList from "@/components/card-list/CardList";
 import CardListRow from "@/components/card-list/CardListRow";
 import ExerciseCard from "@/views/exercises/ExerciseCard";
 import ImportExerciseDialog from "@/views/exercises/dialog/ImportExerciseDialog";
+import ExportExerciseDialog from "@/views/exercises/dialog/ExportExerciseDialog";
 
 export default {
   components: {
     CardList,
     CardListRow,
     ExerciseCard,
-    ImportExerciseDialog
+    ImportExerciseDialog,
+    ExportExerciseDialog
   },
   data: () => ({
     sortingOptions: ["title", "type", "difficulty", "updated_at", "created_at"],
@@ -128,6 +140,11 @@ export default {
     importDialog: {
       active: false,
       file: undefined,
+      format: "yapexil"
+    },
+    exportDialog: {
+      active: false,
+      exerciseId: undefined,
       format: "yapexil"
     }
   }),
@@ -208,11 +225,22 @@ export default {
     edit(exercise) {
       this.$router.push(`/projects/${this.projectId}/exercises/${exercise.id}`);
     },
-    exportAndDownload(exercise) {
+    triggerExport(exerciseId) {
+      this.exportDialog.exerciseId = exerciseId;
+      this.exportDialog.format = "yapexil";
+      this.exportDialog.active = true;
+    },
+    exportAndDownload(format) {
+      const exerciseId = this.exportDialog.exerciseId;
       this.$store
-        .dispatch(`${MODULE_BASE}/${EXERCISE_EXPORT}`, exercise.id)
+        .dispatch(
+          `${MODULE_BASE}/${
+            format === "yapexil" ? EXERCISE_EXPORT : EXERCISE_EXPORT_MEF
+          }`,
+          this.exportDialog.exerciseId
+        )
         .then(data => {
-          downloads.download(data, exercise.id + ".zip");
+          downloads.download(data, exerciseId + ".zip");
         })
         .catch(err => {
           this.$vs.notify({
@@ -223,6 +251,8 @@ export default {
             color: "danger"
           });
         });
+      this.exportDialog.exerciseId = undefined;
+      this.exportDialog.active = false;
     },
     triggerImport(file) {
       this.importDialog.file = file;

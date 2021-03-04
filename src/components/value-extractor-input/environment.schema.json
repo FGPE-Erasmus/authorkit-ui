@@ -1,0 +1,247 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "ChallengeStatus": {
+      "properties": {
+        "challenge": {
+          "type": "string",
+          "pattern": "(?:^[a-f0-9]{24}$)"
+        },
+        "progress": {
+          "type": "number"
+        },
+        "openedAt": {
+          "description": "Enables basic storage and retrieval of dates and times.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "startedAt": {
+          "description": "Enables basic storage and retrieval of dates and times.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "endedAt": {
+          "description": "Enables basic storage and retrieval of dates and times.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "AVAILABLE",
+            "COMPLETED",
+            "FAILED",
+            "HIDDEN",
+            "LOCKED",
+            "OPENED",
+            "REJECTED"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "Player": {
+      "properties": {
+        "group": {
+          "type": "string",
+          "pattern": "(?:^[a-f0-9]{24}$)"
+        },
+        "learningPath": {
+          "items": [
+            {
+              "$ref": "#/definitions/ChallengeStatus"
+            }
+          ],
+          "type": "array"
+        },
+        "points": {
+          "type": "number"
+        },
+        "rewards": {
+          "items": [
+            {
+              "$ref": "#/definitions/Reward"
+            }
+          ],
+          "type": "array"
+        },
+        "submissions": {
+          "items": [
+            {
+              "$ref": "#/definitions/Submission"
+            }
+          ],
+          "type": "array"
+        },
+        "user": {
+          "type": "string",
+          "pattern": "(?:^[a-f0-9]{24}$)"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "Reward": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "(?:^[a-f0-9]{24}$)"
+        },
+        "description": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "challenges": {
+          "items": {
+            "type": "string",
+            "pattern": "(?:^[a-f0-9]{24}$)"
+          },
+          "type": "array"
+        },
+        "cost": {
+          "type": "number"
+        },
+        "createdAt": {
+          "description": "Enables basic storage and retrieval of dates and times.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "BADGE",
+            "COUPON",
+            "HINT",
+            "MESSAGE",
+            "POINT",
+            "REVEAL",
+            "UNLOCK",
+            "VIRTUAL_ITEM"
+          ],
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "parentChallenge": {
+          "type": "string",
+          "pattern": "(?:^[a-f0-9]{24}$)"
+        },
+        "recurrent": {
+          "type": "boolean"
+        },
+        "updatedAt": {
+          "description": "Enables basic storage and retrieval of dates and times.",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "Submission": {
+      "properties": {
+        "evaluationEngine": {
+          "enum": [
+            "BASE",
+            "MOOSHAK"
+          ],
+          "type": "string"
+        },
+        "exerciseId": {
+          "type": "string",
+          "pattern": "(?:^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[a-f0-9]{4}-[a-f0-9]{12}$)|(?:^0{8}-0{4}-0{4}-0{4}-0{12}$)"
+        },
+        "feedback": {
+          "type": "string"
+        },
+        "grade": {
+          "type": "number"
+        },
+        "language": {
+          "type": "string"
+        },
+        "metrics": {
+          "properties": {
+            "executionTime": {
+              "type": "number"
+            },
+            "cpuUsage": {
+              "type": "number"
+            },
+            "memoryUsage": {
+              "type": "number"
+            },
+            "programSize": {
+              "type": "number"
+            },
+            "linesOfCode": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": {
+          },
+          "type": "object"
+        },
+        "player": {
+          "type": "string",
+          "pattern": "(?:^[a-f0-9]{24}$)"
+        },
+        "result": {
+          "enum": [
+            "ACCEPT",
+            "ASK_FOR_REEVALUATION",
+            "COMPILATION_ERROR",
+            "OUTPUT_LIMIT_OVERFLOW",
+            "PROCESSING",
+            "RESOURCE_USAGE_EXCEEDED",
+            "RUNTIME_ERROR",
+            "TIMED_OUT",
+            "WRONG_ANSWER"
+          ],
+          "type": "string"
+        },
+        "submittedAt": {
+          "description": "Enables basic storage and retrieval of dates and times.",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "current_time": {
+      "type": "number"
+    },
+    "players": {
+      "items": [
+        {
+          "$ref": "#/definitions/Player"
+        }
+      ],
+      "minItems": 0,
+      "type": "array"
+    },
+    "submissions": {
+      "items": [
+        {
+          "$ref": "#/definitions/Submission"
+        }
+      ],
+      "minItems": 0,
+      "type": "array"
+    }
+  },
+  "type": "object",
+  "additionalProperties": false
+}

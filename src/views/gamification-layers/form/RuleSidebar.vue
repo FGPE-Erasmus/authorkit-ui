@@ -52,7 +52,11 @@
 
       <div class="vx-row">
         <div class="vx-col w-full mb-2">
-          <criteria-input v-model="rule.criteria" />
+          <criteria-input
+            v-model="rule.criteria"
+            :challenges="challenges"
+            :exercises="exercises"
+          />
         </div>
       </div>
 
@@ -399,12 +403,14 @@ export default {
       this.$store
         .dispatch(`${EXERCISE_MODULE_BASE}/${EXERCISE_LIST}`, {
           filter: [`project_id||eq||${this.projectId}`],
-          select: ["id", "title"]
+          select: ["id", "title", "module"]
         })
         .then(res => {
           this.exercises = res.map(exercise => ({
             id: exercise.id,
-            label: exercise.title
+            label: exercise.module
+              ? `[${exercise.module}] ${exercise.title}`
+              : exercise.title
           }));
         })
         .catch(err => {

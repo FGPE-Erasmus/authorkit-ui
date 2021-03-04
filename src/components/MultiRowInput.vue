@@ -16,7 +16,7 @@
           <div class="flex justify-end">
             <vs-button
               v-if="index + 1 === lines.length"
-              @click="addLine"
+              @click.native="addLine"
               color="primary"
               type="filled"
               icon="playlist_add"
@@ -37,7 +37,7 @@
     </div>
     <div v-else class="w-full flex justify-center">
       <vs-button
-        @click="addLine"
+        @click.native="addLine"
         color="primary"
         type="filled"
         icon="playlist_add"

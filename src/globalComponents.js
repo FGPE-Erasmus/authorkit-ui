@@ -9,17 +9,22 @@ import vueFilePond, { setOptions } from "vue-filepond";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import Autocomplete from "@trevoreyre/autocomplete-vue";
 
 import "vue-select/dist/vue-select.css";
 
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 
+import "@trevoreyre/autocomplete-vue/dist/style.css";
+
 Vue.component(FgpeCard.name, FgpeCard);
 Vue.component("v-select", vSelect);
 Vue.component(FgpeTooltip.name, FgpeTooltip);
 Vue.component(FgpeBreadcrumb.name, FgpeBreadcrumb);
 Vue.component(FeatherIcon.name, FeatherIcon);
+
+Vue.use(Autocomplete);
 
 // file upload
 setOptions({

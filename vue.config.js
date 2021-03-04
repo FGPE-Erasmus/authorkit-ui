@@ -1,11 +1,11 @@
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 module.exports = {
-  publicPath: "/",
+  publicPath: process.env.VUE_APP_PUBLIC_PATH,
   configureWebpack: {
     plugins: [
       new MonacoWebpackPlugin({
-        publicPath: "/",
+        publicPath: process.env.VUE_APP_PUBLIC_PATH,
         features: ["!gotoSymbol"]
       })
     ]

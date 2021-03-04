@@ -13,24 +13,39 @@
         {{
           title ||
             (multiple
-              ? Vue.$t("PickerDialog.PickOption")
-              : $t("PickerDialog.PickOptions"))
+              ? $t("PickerDialog.PickOptions")
+              : $t("PickerDialog.PickOption"))
         }}
       </h4>
     </div>
 
     <div class="body w-full">
-      <vs-checkbox
-        v-if="multiple"
-        :value="all"
-        @change="toggleSelectAll"
-        icon-pack="mi md-16"
-        class="mb-4"
-      >
-        {{ $t("PickerDialog.SelectAll") }}
-      </vs-checkbox>
-      <ul class="centerx">
-        <li v-for="option in normalizedOptions" :key="option.id" class="mb-2">
+      <vs-row class="w-full mb-8">
+        <vs-col
+          vs-align="flex-end"
+          vs-justify="flex-start"
+          :vs-w="multiple ? 7 : 12"
+        >
+          <vs-input
+            name="query"
+            v-model="query"
+            :label-placeholder="$t('PickerDialog.Query')"
+          />
+        </vs-col>
+        <vs-col class="flex" vs-align="flex-end" vs-justify="flex-end" vs-w="5">
+          <vs-checkbox
+            v-if="multiple"
+            :value="all"
+            @change="toggleSelectAll"
+            icon-pack="mi md-16"
+          >
+            {{ $t("PickerDialog.SelectAll") }}
+          </vs-checkbox>
+        </vs-col>
+      </vs-row>
+
+      <vs-col class="w-full">
+        <div v-for="option in filteredOptions" :key="option.id" class="my-2">
           <vs-checkbox
             v-if="multiple"
             v-model="selection"
@@ -51,8 +66,8 @@
               {{ option.label }}
             </slot>
           </vs-radio>
-        </li>
-      </ul>
+        </div>
+      </vs-col>
     </div>
   </vs-prompt>
 </template>
@@ -83,6 +98,7 @@ export default {
   },
   data() {
     return {
+      query: "",
       dialogActive: this.active,
       selection: []
     };
@@ -102,7 +118,7 @@ export default {
   },
   computed: {
     all() {
-      return this.selection.length === this.normalizedOptions.length;
+      return this.selection.length === this.filteredOptions.length;
     },
     normalizedOptions() {
       const normalizedOptions = [];
@@ -120,6 +136,15 @@ export default {
         }
       }
       return normalizedOptions;
+    },
+    filteredOptions() {
+      return this.normalizedOptions
+        .filter(
+          option =>
+            !this.query ||
+            option.label.toLowerCase().includes(this.query.toLowerCase())
+        )
+        .sort((a, b) => a.label.localeCompare(b.label));
     }
   },
 
@@ -128,7 +153,7 @@ export default {
       if (this.all) {
         this.selection = [];
       } else {
-        this.selection = this.normalizedOptions.map(option => option.id);
+        this.selection = this.filteredOptions.map(option => option.id);
       }
     }
   }

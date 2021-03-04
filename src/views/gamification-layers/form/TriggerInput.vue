@@ -278,12 +278,18 @@ export default {
       events: {
         time: ["INTERVAL", "CRONJOB"],
         action: [
+          "GAME_STARTED",
+          "GAME_FINISHED",
+          "PLAYER_ENROLLED",
+          "PLAYER_LEFT",
+          "CHALLENGE_COMPLETED",
+          "CHALLENGE_FAILED",
+          "CHALLENGE_OPENED",
+          "CHALLENGE_REVEALED",
           "SUBMISSION_RECEIVED",
           "SUBMISSION_EVALUATED",
           "SUBMISSION_ACCEPTED",
           "SUBMISSION_REJECTED",
-          "CHALLENGE_COMPLETED",
-          "CHALLENGE_FAILED",
           "REWARD_GRANTED",
           "PLAYER_UPDATED",
           "POINTS_UPDATED",
@@ -395,6 +401,8 @@ export default {
 
         case "CHALLENGE_COMPLETED":
         case "CHALLENGE_FAILED":
+        case "CHALLENGE_OPENED":
+        case "CHALLENGE_REVEALED":
           return "CHALLENGE";
 
         case "REWARD_GRANTED":

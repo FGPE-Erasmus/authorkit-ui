@@ -521,7 +521,7 @@
     }
   }
 
-  input {
+  input, .autocomplete-input, .autocomplete-input:focus, .autocomplete-input[aria-expanded=true] {
     background: $theme-light-dark-bg;
     background-color: $theme-light-dark-bg;
     color: $theme-dark-text-color;
@@ -1052,7 +1052,8 @@
 
     input,
     textarea,
-    select {
+    select,
+    .autocomplete-input:focus, .autocomplete-input[aria-expanded=true] {
       background: $theme-light-dark-bg;
     }
   }
@@ -1112,6 +1113,15 @@
 
 
   .faq-bg {
+    background-color: $dark-card-color;
+  }
+
+  pre {
+    background: $dark;
+    color: $white;
+  }
+
+  .autocomplete-result-list {
     background-color: $dark-card-color;
   }
 }

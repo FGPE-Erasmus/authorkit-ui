@@ -67,7 +67,8 @@ import {
   EXERCISE_FILE_TRANSLATE,
   EXERCISE_FILE_TRANSLATE_REQUEST,
   EXERCISE_FILE_TRANSLATE_SUCCESS,
-  EXERCISE_FILE_TRANSLATE_ERROR
+  EXERCISE_FILE_TRANSLATE_ERROR,
+  EXERCISE_EXPORT_MEF
 } from "./exercise.constants";
 
 const state = {
@@ -276,6 +277,27 @@ const actions = {
           rootState.project.activeProject && rootState.project.activeProject.id
         )
         .export(id)
+        .then(res => {
+          commit(EXERCISE_EXPORT_SUCCESS, res.data);
+
+          resolve(res.data);
+        })
+        .catch(err => {
+          commit(EXERCISE_EXPORT_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
+  },
+
+  [EXERCISE_EXPORT_MEF]: ({ commit, rootState }, id) => {
+    return new Promise((resolve, reject) => {
+      commit(EXERCISE_EXPORT_REQUEST);
+      exerciseService
+        .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
+        .exportMef(id)
         .then(res => {
           commit(EXERCISE_EXPORT_SUCCESS, res.data);
 

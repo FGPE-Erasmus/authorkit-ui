@@ -5,9 +5,11 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:docker": "vue-cli-service build --mode production-docker",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@trevoreyre/autocomplete-vue": "^2.2.0",
     "axios": "^0.18.0",
     "core-js": "^2.5.7",
     "cron-validator": "^1.1.1",
@@ -17,6 +19,7 @@
     "filepond-plugin-file-validate-size": "^2.2.0",
     "filepond-plugin-file-validate-type": "^1.2.4",
     "filepond-plugin-image-preview": "^4.6.4",
+    "jsonpath-plus": "^5.0.3",
     "liquor-tree": "^0.2.70",
     "md5": "^2.2.1",
     "perfect-scrollbar": "^1.4.0",

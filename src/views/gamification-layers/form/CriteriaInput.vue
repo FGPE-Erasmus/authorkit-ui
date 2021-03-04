@@ -48,9 +48,13 @@
         </div>
 
         <div class="w-full mb-1">
-          <vs-input
+          <value-extractor-input
             name="left_property"
-            v-model="line.condition.left_property"
+            :value="line.condition.left_property"
+            @input="line.condition.left_property = $event"
+            :challenges="challenges"
+            :exercises="exercises"
+            :mode="line.condition.left_entity"
             :placeholder="$t('GamificationLayer.Criteria.LeftProperty')"
             class="w-full"
           />
@@ -113,9 +117,13 @@
         </div>
 
         <div v-if="showRightProperty(line)" class="w-full mb-1">
-          <vs-input
+          <value-extractor-input
             name="right_property"
-            v-model="line.condition.right_property"
+            :value="line.condition.right_property"
+            @input="line.condition.right_property = $event"
+            :challenges="challenges"
+            :exercises="exercises"
+            :mode="line.condition.right_entity"
             :placeholder="$t('GamificationLayer.Criteria.RightProperty')"
             class="w-full"
           />
@@ -156,10 +164,12 @@ import { ValidationProvider } from "vee-validate";
 
 import FgpeSelect from "@/components/FgpeSelect";
 import MultiRowInput from "@/components/MultiRowInput";
+import ValueExtractorInput from "@/components/value-extractor-input/ValueExtractorInput";
 
 export default {
   name: "criteria-input",
   components: {
+    ValueExtractorInput,
     ValidationProvider,
     "fgpe-select": FgpeSelect,
     "multi-row-input": MultiRowInput
@@ -167,6 +177,14 @@ export default {
   props: {
     value: {
       type: Object
+    },
+    exercises: {
+      type: Array,
+      default: () => []
+    },
+    challenges: {
+      type: Array,
+      default: () => []
     }
   },
   computed: {

@@ -250,7 +250,8 @@ export default {
   PickerDialog: {
     PickOption: "Pick an Option",
     PickOptions: "Pick Options",
-    SelectAll: "Select All"
+    SelectAll: "Select All",
+    Query: "Search ..."
   },
 
   // projects
@@ -375,6 +376,17 @@ export default {
       Format: {
         yapexil: "YAPExIL",
         sipe: "SIPE",
+        mef: "MEF"
+      },
+      Action: {
+        Ok: "OK",
+        Cancel: "Cancel"
+      }
+    },
+    ExportDialog: {
+      Title: "Choose exporting format",
+      Format: {
+        yapexil: "YAPExIL",
         mef: "MEF"
       },
       Action: {
@@ -552,10 +564,16 @@ export default {
       Events: {
         INTERVAL: "INTERVAL",
         CRONJOB: "CRONJOB",
+        GAME_STARTED: "GAME STARTED",
+        GAME_FINISHED: "GAME FINISHED",
+        PLAYER_ENROLLED: "PLAYER ENROLLED",
+        PLAYER_LEFT: "PLAYER LEFT",
         SUBMISSION_RECEIVED: "SUBMISSION RECEIVED",
         SUBMISSION_EVALUATED: "SUBMISSION EVALUATED",
         SUBMISSION_ACCEPTED: "SUBMISSION ACCEPTED",
         SUBMISSION_REJECTED: "SUBMISSION REJECTED",
+        CHALLENGE_OPENED: "CHALLENGE OPENED",
+        CHALLENGE_REVEALED: "CHALLENGE REVEALED",
         CHALLENGE_COMPLETED: "CHALLENGE COMPLETED",
         CHALLENGE_FAILED: "CHALLENGE FAILED",
         REWARD_GRANTED: "REWARD GRANTED",
@@ -591,6 +609,31 @@ export default {
     PickExercisesDialog: {
       Title: "Pick Exercises",
       SelectAll: "Select All"
+    }
+  },
+  ValueExtractor: {
+    Title: "JSON Path",
+    _Variables: "Variables",
+    Variables: {
+      _Type: "Type",
+      Type: {
+        CHALLENGE: "CHALLENGE",
+        EXERCISE: "EXERCISE"
+      }
+    },
+    EditVariables: "Edit Variables ...",
+    Popup: {
+      Title: "Edit Variables ...",
+      _Variables: "Variables",
+      Variables: {
+        Challenge: "Challenge",
+        Exercise: "Exercise",
+        _Type: "Type",
+        Type: {
+          CHALLENGE: "CHALLENGE",
+          EXERCISE: "EXERCISE"
+        }
+      }
     }
   },
 
@@ -687,8 +730,132 @@ export default {
       A14: "A",
       Q15: "Q",
       A15: "A",
-      Q16: "Q",
-      A16: "A"
+      Q16: "How to define criteria properties?",
+      A16:
+        "<p>Criteria properties are defined using JSONPath.</p>" +
+        "<h5>Syntax</h5>\n" +
+        "<p>JSONPath expressions start with <code>$.</code> indicating the root element.</p>\n" +
+        "<pre> $.player.submissions[0].result              \n" +
+        ' player.submissions[0].result                # With implicit "$."\n' +
+        "\n" +
+        " $['player']['submissions'][0]['result']     # Alternative notation similar to scripting languages\n" +
+        "</pre><h6>Tree Traversal</h6>\n" +
+        '<pre> $.parentNode.childNode.field       # content of "field" of all</span> <span>"childNode"</span>s <span>of</span> <span>"parentNode"</span>\n' +
+        ' $..anyChildNode                    # <span>all</span> children <span>at</span> any depth named <span>"anyChildNode"</span>\n' +
+        ' $.parentNode.*                     # <span>all</span> children below <span>"parentNode"</span>\n' +
+        "</pre><h6>Array Access</h6>\n" +
+        "<pre> <span>$.</span>submissions[<span>0</span>]            <span># first element</span>\n" +
+        " <span>$.</span>submissions[-<span>1</span>]           <span># last element</span>\n" +
+        " <span>$.</span>submissions[<span>2</span><span>:</span><span>3</span>]          <span># range</span>\n" +
+        " <span>$.</span>submissions[<span>0</span>,<span>4</span>,<span>5</span>]        <span># selection</span>\n" +
+        "</pre><h6>Filtering</h6>\n" +
+        "<pre>" +
+        ' $.player[?(@.group)]                    # Only player that have attribute <span>"group"</span>\n' +
+        " $.player[?(@.submissions.length === 5)] # Only player with 5 submissions\n" +
+        " $.player[?(@.points &gt; 20)]              # Only player with more than 20 points\n" +
+        "</pre><h6>Complex Conditions</h6>\n" +
+        "<pre> $.submissions[?(@.result == <span>'ACCEPTED'</span> || @.grade &gt;= <span>100</span>)]     # logical or\n" +
+        " $.submissions[?(@.result == <span>'ACCEPTED'</span> &amp;&amp; @.grade &gt;= <span>100</span>)]     # logical and\n" +
+        "</pre><h6>Output Mapping</h6>\n" +
+        "<pre> $.[].<span>{Name:name, Age:age, Hobbies:details.hobbies}</span>        # Mapping fields/<span>nested</span> fields <span>to</span> <span>new</span> <span>set</span>\n" +
+        "</pre><h5>Target JSON Objects in AuthorKit</h5>\n" +
+        "<p>JSON Objects to which JSONPath expressions can be applied.</p>\n" +
+        "<h6>EVENT</h6>\n" +
+        "<pre>{\n" +
+        "    ... event parameters ...\n" +
+        "    player?: {\n" +
+        "        ...\n" +
+        "    }\n" +
+        "}\n" +
+        "</pre><h6>ACTION</h6>\n" +
+        "<pre>{\n" +
+        "    ... action parameters ...\n" +
+        "    player?: {\n" +
+        "        ...\n" +
+        "    }\n" +
+        "}\n" +
+        "</pre><h6>PLAYER</h6>\n" +
+        "<pre>{\n" +
+        "    user: string;\n" +
+        "    group?: string;\n" +
+        "    points?: number;\n" +
+        "    rewards: [\n" +
+        "        {\n" +
+        "\n" +
+        "        },\n" +
+        "        ...\n" +
+        "    ];\n" +
+        "    learningPath: [\n" +
+        "        {\n" +
+        "            challenge?: string;\n" +
+        "            startedAt?: Date;\n" +
+        "            openedAt?: Date;\n" +
+        "            endedAt?: Date;\n" +
+        "            refs?: string[];\n" +
+        "            state?: 'AVAILABLE' | 'LOCKED' | 'HIDDEN' | 'OPENED' | 'FAILED' | 'COMPLETED' | 'REJECTED';\n" +
+        "            progress?: number;\n" +
+        "        },\n" +
+        "        ...\n" +
+        "    ]\n" +
+        "    submissions: [\n" +
+        "        {\n" +
+        "            player?: string\n" +
+        "            exerciseId?: string;\n" +
+        "            evaluationEngine?: EvaluationEngine;\n" +
+        "            language?: string;\n" +
+        "            metrics?: Map&lt;string, any&gt;;\n" +
+        "            result?: Result;\n" +
+        "            grade?: number;\n" +
+        "            feedback?: string;\n" +
+        "            submittedAt?: Date;\n" +
+        "        },\n" +
+        "        ...\n" +
+        "    ];\n" +
+        "}\n" +
+        "</pre><h6>ENVIRONMENT</h6>\n" +
+        "<pre>{\n" +
+        "    players: [\n" +
+        "        {\n" +
+        "            user: string;\n" +
+        "            group?: string;\n" +
+        "            points?: number;\n" +
+        "            rewards: [Reward];\n" +
+        "            learningPath: [\n" +
+        "                {\n" +
+        "                    challenge?: string;\n" +
+        "                    startedAt?: Date;\n" +
+        "                    openedAt?: Date;\n" +
+        "                    endedAt?: Date;\n" +
+        "                    refs?: string[];\n" +
+        "                    state?: 'AVAILABLE' | 'LOCKED' | 'HIDDEN' | 'OPENED' | 'FAILED' | 'COMPLETED' | 'REJECTED';\n" +
+        "                    progress?: number;\n" +
+        "                },\n" +
+        "                ...\n" +
+        "            ]\n" +
+        "            submissions: [Submission];\n" +
+        "        },\n" +
+        "        ...\n" +
+        "    ],\n" +
+        "    submissions: [\n" +
+        "        {\n" +
+        "            player?: string\n" +
+        "            exerciseId?: string;\n" +
+        "            evaluationEngine?: EvaluationEngine;\n" +
+        "            language?: string;\n" +
+        "            metrics?: Map&lt;string, any&gt;;\n" +
+        "            result?: Result;\n" +
+        "            grade?: number;\n" +
+        "            feedback?: string;\n" +
+        "            submittedAt?: Date;\n" +
+        "        },\n" +
+        "        ...\n" +
+        "    ],\n" +
+        "    current_time: number\n" +
+        "}\n" +
+        '</pre><h5 id="example-queries">Example Queries</h5>\n' +
+        "<p>Number of exercises that the player solved in a set of two</p>\n" +
+        '<pre>$.player.submissions[?((@.exerciseId === ${V0} || @.exerciseId === ${V1}) &amp;&amp; @.result === <span>"ACCEPTED"</span>)].length\n' +
+        "</pre>"
     }
   },
   Support: {
