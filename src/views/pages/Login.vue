@@ -5,6 +5,9 @@
     id="page-login"
   >
     <div class="vx-col sm:w-1/2 md:w-1/2 lg:w-3/4 xl:w-3/5 mx-auto self-center">
+      <div class="back-home" v-on:click="$router.push('/home')">
+        <vs-icon size="large" icon="chevron_left" icon-pack="mi"></vs-icon>
+      </div>
       <fgpe-card>
         <div slot="no-body" class="full-page-bg-color">
           <div class="vx-row">
@@ -216,7 +219,7 @@ export default {
   },
   mounted() {
     if (this.isUserLoggedIn()) {
-      this.$router.push(this.$router.currentRoute.query.to || "/");
+      this.$router.push(this.$router.currentRoute.query.to || "/dashboard");
     }
   },
   methods: {

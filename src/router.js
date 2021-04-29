@@ -1,6 +1,6 @@
 /*
   Description: Routes for vue-router. Lazy loading is enabled.
-  Object Strucutre:
+  Object Structure:
                     path => router path
                     name => router name
                     component(lazy loading) => component to load
@@ -41,7 +41,15 @@ const router = new Router({
       children: [
         {
           path: "/",
-          redirect: "/dashboard"
+          redirect: "/home"
+        },
+        {
+          path: "/home",
+          name: "home",
+          component: () => import("@/views/pages/Home.vue"),
+          meta: {
+            rule: ["*"]
+          }
         },
         {
           path: "/dashboard",
@@ -251,7 +259,14 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  if (to.path === "/home" && store.getters["auth/isAuthenticated"]) {
+    router.push({ path: "/dashboard" });
+    return next();
+  }
   if (
+    to.path === "/home" ||
+    to.path === "/documentation" ||
+    to.path === "/support" ||
     to.path === "/pages/login" ||
     to.path === "/pages/forgot-password" ||
     to.path === "/pages/reset-password" ||
@@ -265,7 +280,10 @@ router.beforeEach((to, from, next) => {
     store.getters["auth/isAuthenticated"]
   ) {
     if (
-      to.path.match(/\/(dashboard|projects|exercises|gamification-layers)\/?$/i)
+      to.path === "/home" ||
+      to.path.match(
+        /\/(home|dashboard|projects|exercises|gamification-layers)\/?$/i
+      )
     ) {
       store.dispatch(SHOW_SEARCH_ICON);
     } else {

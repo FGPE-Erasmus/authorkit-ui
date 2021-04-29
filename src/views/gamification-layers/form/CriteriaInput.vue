@@ -215,7 +215,6 @@ export default {
         "NOT_IN"
       ],
       junctor_choices: ["AND", "OR"],
-
       conditions: []
     };
   },

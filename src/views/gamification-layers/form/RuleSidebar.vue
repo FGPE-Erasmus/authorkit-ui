@@ -123,7 +123,7 @@
                     </span>
                   </ValidationProvider>
                 </div>
-                <div v-if="line.type === 'GIVE'" class="w-full mb-1">
+                <!--<div v-if="line.type === 'GIVE'" class="w-full mb-1">
                   <ValidationProvider
                     name="reward_parameters"
                     rules="required"
@@ -157,7 +157,7 @@
                       {{ errors[0] }}
                     </span>
                   </ValidationProvider>
-                </div>
+                </div>-->
                 <div class="w-full">
                   <ValidationProvider
                     name="parameters"
@@ -165,7 +165,17 @@
                     v-slot="{ errors }"
                     persist
                   >
-                    <fgpe-chips
+                    <arguments-input
+                      name="parameters"
+                      v-model="line.parameters"
+                      :placeholder="
+                        $t('GamificationLayer.Rule.ActionParameters')
+                      "
+                      :challenges="challenges"
+                      :exercises="exercises"
+                      :rewards="rewards"
+                    />
+                    <!--<fgpe-chips
                       name="parameters"
                       v-model="line.parameters"
                       :placeholder="
@@ -185,7 +195,7 @@
                       >
                         {{ param }}
                       </vs-chip>
-                    </fgpe-chips>
+                    </fgpe-chips>-->
                     <span v-show="errors[0]" class="text-danger text-sm">
                       {{ errors[0] }}
                     </span>
@@ -206,7 +216,6 @@
 <script>
 import { ValidationProvider } from "vee-validate";
 
-import FgpeChips from "@/components/FgpeChips";
 import FgpeSelect from "@/components/FgpeSelect";
 import MultiRowInput from "@/components/MultiRowInput";
 import AddUpdateFileSidebar from "@/components/sidebar-form/AddUpdateFileSidebar";
@@ -225,12 +234,13 @@ import {
   MODULE_BASE as REWARD_MODULE_BASE,
   REWARD_LIST
 } from "@/store/rewards/reward.constants";
+import ArgumentsInput from "@/components/arguments-input/ArgumentsInput";
 
 export default {
   name: "rule-sidebar",
   components: {
+    ArgumentsInput,
     ValidationProvider,
-    "fgpe-chips": FgpeChips,
     "fgpe-select": FgpeSelect,
     "multi-row-input": MultiRowInput,
     "add-update-file-sidebar": AddUpdateFileSidebar,
@@ -287,14 +297,9 @@ export default {
       const actions = [];
       this.rule.actions.forEach(a => {
         const action = {
-          type: a.type
+          type: a.type,
+          parameters: a.parameters
         };
-        if (a.type === "GIVE") {
-          action.reward_parameter = a.parameters[0];
-          action.parameters = a.parameters.slice(1);
-        } else {
-          action.parameters = a.parameters;
-        }
         actions.push(action);
       });
       this.$set(this, "actions", actions);
@@ -303,10 +308,7 @@ export default {
       this.rule.actions.splice(0, this.rule.actions.length);
       const actions = val.map(a => ({
         type: a.type,
-        parameters:
-          a.type === "GIVE"
-            ? [a.reward_parameter, ...a.parameters]
-            : a.parameters
+        parameters: a.parameters
       }));
       this.rule.actions.push(...actions);
     }
@@ -333,7 +335,7 @@ export default {
   },
   methods: {
     removeActionParameter(line, i) {
-      this.line.parameters.splice(i, 1);
+      this.value.splice(i, 1);
       return false;
     },
 

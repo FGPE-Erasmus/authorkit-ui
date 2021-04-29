@@ -186,6 +186,15 @@ pre {
     overflow: auto;
 }
 
+.back-home {
+    top: 0;
+    left: 0;
+    position: absolute;
+    height: 64px;
+    width: 64px;
+    cursor: pointer;
+}
+
 @media (max-width: 576px) {
     .router-view {
         padding: 1.2rem !important;

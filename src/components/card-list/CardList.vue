@@ -121,11 +121,11 @@ export default {
     },
     allowCreate: {
       type: Boolean,
-      default: true
+      default: false
     },
     allowImport: {
       type: Boolean,
-      default: true
+      default: false
     },
     columns: Array
   },

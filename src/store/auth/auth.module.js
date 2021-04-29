@@ -78,10 +78,9 @@ const state = {
 
 const getters = {
   isAuthenticated: state => {
+    console.log(state.tokenExpiryTime)
     return (
-      state.token &&
-      state.tokenExpiryTime &&
-      new Date(Date.now()) < new Date(state.tokenExpiryTime)
+      state.token && state.tokenExpiryTime && Date.now() < state.tokenExpiryTime
     );
   },
   isUserLoggedIn: (state, getters) => state.profile && getters.isAuthenticated,
@@ -307,7 +306,7 @@ const mutations = {
   [AUTH_VERIFY_EMAIL_SUCCESS]: (state, res) => {
     state.loading = Math.max(state.loading - 1, 0);
     state.token = res.accessToken;
-    state.tokenExpiryTime = new Date(Date.now() + res.expiresIn * 1000);
+    state.tokenExpiryTime = Date.now() + res.expiresIn * 1000;
   },
   [AUTH_VERIFY_EMAIL_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
@@ -320,31 +319,31 @@ const mutations = {
   [AUTH_LOGIN_SUCCESS]: (state, res) => {
     state.loading = Math.max(state.loading - 1, 0);
     state.token = res.accessToken;
-    state.tokenExpiryTime = new Date(Date.now() + res.expiresIn * 1000);
+    state.tokenExpiryTime = Date.now() + res.expiresIn * 1000;
     clearTokenStorage();
     if (res.remember_me) {
       localStorage.setItem(STORAGE_REMEMBER_ME, true);
       localStorage.setItem(STORAGE_ACCESS_TOKEN, res.accessToken);
       localStorage.setItem(
         STORAGE_ACCESS_TOKEN_EXPIRY_TIME,
-        new Date(Date.now() + res.expiresIn * 1000)
+        Date.now() + res.expiresIn * 1000
       );
       localStorage.setItem(STORAGE_REFRESH_TOKEN, res.refreshToken);
       localStorage.setItem(
         STORAGE_REFRESH_TOKEN_EXPIRY_TIME,
-        new Date(Date.now() + res.refreshTokenExpiresIn * 1000)
+        Date.now() + res.refreshTokenExpiresIn * 1000
       );
     } else {
       localStorage.setItem(STORAGE_REMEMBER_ME, false);
       sessionStorage.setItem(STORAGE_ACCESS_TOKEN, res.accessToken);
       sessionStorage.setItem(
         STORAGE_ACCESS_TOKEN_EXPIRY_TIME,
-        new Date(Date.now() + res.expiresIn * 1000)
+        Date.now() + res.expiresIn * 1000
       );
       sessionStorage.setItem(STORAGE_REFRESH_TOKEN, res.refreshToken);
       sessionStorage.setItem(
         STORAGE_REFRESH_TOKEN_EXPIRY_TIME,
-        new Date(Date.now() + res.refreshTokenExpiresIn * 1000)
+        Date.now() + res.refreshTokenExpiresIn * 1000
       );
     }
   },
@@ -417,7 +416,7 @@ const mutations = {
   [AUTH_FETCH_AUTHENTICATED_USER_SUCCESS]: (state, user) => {
     state.loading = Math.max(state.loading - 1, 0);
     state.profile = user;
-    const remember = localStorage.getItem(STORAGE_REMEMBER_ME) == "true";
+    const remember = localStorage.getItem(STORAGE_REMEMBER_ME) === "true";
     if (remember) {
       localStorage.setItem(STORAGE_USER_PROFILE, JSON.stringify(user));
     } else {

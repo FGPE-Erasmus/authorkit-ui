@@ -1,6 +1,9 @@
 <template>
   <div class="h-screen flex w-full">
     <div class="vx-col sm:w-3/5 md:w-3/5 lg:w-3/4 xl:w-3/5 mx-auto self-center">
+      <div class="back-home" v-on:click="$router.push('/home')">
+        <vs-icon size="large" icon="chevron_left" icon-pack="mi"></vs-icon>
+      </div>
       <fgpe-card>
         <div slot="no-body" class="full-page-bg-color">
           <div class="vx-row">

@@ -18,6 +18,13 @@ class ProjectsService extends HttpService {
     });
   }
 
+  listPublic(query) {
+    return this.client.get(`projects/public-list`, {
+      headers: this.headers,
+      params: query && this.buildQuery(query)
+    });
+  }
+
   getOne(id, query) {
     return this.client.get(`projects/${id}`, {
       headers: this.headers,
@@ -56,6 +63,16 @@ class ProjectsService extends HttpService {
 
   export(id, format = "zip") {
     return this.client.get(`projects/${id}/export`, {
+      responseType: "arraybuffer",
+      headers: this.headers,
+      params: {
+        format
+      }
+    });
+  }
+
+  exportPublic(id, format = "zip") {
+    return this.client.get(`projects/${id}/public-export`, {
       responseType: "arraybuffer",
       headers: this.headers,
       params: {

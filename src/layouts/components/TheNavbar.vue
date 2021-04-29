@@ -57,7 +57,12 @@
         ></feather-icon>
 
         <!-- NOTIFICATIONS -->
-        <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
+        <!--<vs-dropdown
+          v-if="user && user.email"
+          vs-custom-content
+          vs-trigger-click
+          class="cursor-pointer"
+        >
           <feather-icon
             icon="BellIcon"
             class="cursor-pointer mt-1 sm:mr-6 mr-2"
@@ -71,7 +76,7 @@
 
             <VuePerfectScrollbar
               ref="mainSidebarPs"
-              class="scroll-area--nofications-dropdown p-0 mb-10"
+              class="scroll-area&#45;&#45;nofications-dropdown p-0 mb-10"
               :settings="settings"
             >
               <ul class="bordered-items">
@@ -125,10 +130,13 @@
               <span>View All Notifications</span>
             </div>
           </vs-dropdown-menu>
-        </vs-dropdown>
+        </vs-dropdown>-->
 
         <!-- USER META -->
-        <div class="the-navbar__user-meta flex items-center">
+        <div
+          v-if="isUserLoggedIn"
+          class="the-navbar__user-meta flex items-center"
+        >
           <div class="text-right leading-tight hidden sm:block">
             <p class="font-semibold">{{ name }}</p>
             <small>{{ user.email }}</small>
@@ -182,7 +190,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
 import {
@@ -240,6 +248,10 @@ export default {
       lights: state => state.theme_settings.lights,
       showSearchIcon: state => state.theme_settings.showSearchIcon,
       user: state => state.auth.profile
+    }),
+
+    ...mapGetters({
+      isUserLoggedIn: "auth/isUserLoggedIn"
     }),
 
     sidebarWidth() {

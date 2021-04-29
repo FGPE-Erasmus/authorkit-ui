@@ -636,6 +636,34 @@ export default {
       }
     }
   },
+  ArgumentsInput: {
+    Title: "Arguments",
+    _Variables: "Variables",
+    Variables: {
+      _Type: "Type",
+      Type: {
+        CHALLENGE: "CHALLENGE",
+        EXERCISE: "EXERCISE",
+        REWARD: "REWARD"
+      }
+    },
+    EditVariables: "Edit Variables ...",
+    Popup: {
+      Title: "Edit Variables ...",
+      _Variables: "Variables",
+      Variables: {
+        Challenge: "Challenge",
+        Exercise: "Exercise",
+        Reward: "Reward",
+        _Type: "Type",
+        Type: {
+          CHALLENGE: "CHALLENGE",
+          EXERCISE: "EXERCISE",
+          REWARD: "REWARD"
+        }
+      }
+    }
+  },
 
   // sidebars
   ExecutableFile: {

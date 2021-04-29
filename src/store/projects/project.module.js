@@ -5,9 +5,11 @@ import {
   PROJECT_CREATE,
   PROJECT_UPDATE,
   PROJECT_LIST,
+  PROJECT_LIST_PUBLIC,
   PROJECT_SHARES,
   PROJECT_IMPORT,
   PROJECT_EXPORT,
+  PROJECT_EXPORT_PUBLIC,
   PROJECT_DELETE,
   PROJECT_CREATE_PERMISSION,
   PROJECT_UPDATE_PERMISSION,
@@ -26,6 +28,9 @@ import {
   PROJECT_LIST_REQUEST,
   PROJECT_LIST_SUCCESS,
   PROJECT_LIST_ERROR,
+  PROJECT_LIST_PUBLIC_REQUEST,
+  PROJECT_LIST_PUBLIC_SUCCESS,
+  PROJECT_LIST_PUBLIC_ERROR,
   PROJECT_SHARES_REQUEST,
   PROJECT_SHARES_SUCCESS,
   PROJECT_SHARES_ERROR,
@@ -35,6 +40,9 @@ import {
   PROJECT_EXPORT_REQUEST,
   PROJECT_EXPORT_SUCCESS,
   PROJECT_EXPORT_ERROR,
+  PROJECT_EXPORT_PUBLIC_REQUEST,
+  PROJECT_EXPORT_PUBLIC_SUCCESS,
+  PROJECT_EXPORT_PUBLIC_ERROR,
   PROJECT_DELETE_REQUEST,
   PROJECT_DELETE_SUCCESS,
   PROJECT_DELETE_ERROR,
@@ -97,6 +105,23 @@ const actions = {
         })
         .catch(err => {
           commit(PROJECT_LIST_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
+  },
+
+  [PROJECT_LIST_PUBLIC]: ({ commit }, query) => {
+    return new Promise((resolve, reject) => {
+      commit(PROJECT_LIST_PUBLIC_REQUEST);
+      projectService
+        .listPublic(query)
+        .then(res => {
+          commit(PROJECT_LIST_PUBLIC_SUCCESS, res.data);
+
+          resolve(res.data);
+        })
+        .catch(err => {
+          commit(PROJECT_LIST_PUBLIC_ERROR, err.response.data);
           reject(err.response.data);
         });
     });
@@ -264,6 +289,24 @@ const actions = {
     });
   },
 
+  [PROJECT_EXPORT_PUBLIC]: ({ commit }, id) => {
+    return new Promise((resolve, reject) => {
+      commit(PROJECT_EXPORT_PUBLIC_REQUEST);
+      projectService
+        .exportPublic(id)
+        .then(res => {
+          commit(PROJECT_EXPORT_PUBLIC_SUCCESS, res.data);
+
+          resolve(res.data);
+        })
+        .catch(err => {
+          const data = err.response ? err.response.data : err;
+          commit(PROJECT_EXPORT_PUBLIC_ERROR, data);
+          reject(data);
+        });
+    });
+  },
+
   [PROJECT_DELETE]: ({ commit, rootState }, id) => {
     return new Promise((resolve, reject) => {
       commit(PROJECT_DELETE_REQUEST);
@@ -324,6 +367,16 @@ const mutations = {
     state.loading = Math.max(state.loading - 1, 0);
   },
 
+  [PROJECT_LIST_PUBLIC_REQUEST]: state => {
+    state.loading++;
+  },
+  [PROJECT_LIST_PUBLIC_SUCCESS]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+  [PROJECT_LIST_PUBLIC_ERROR]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+
   [PROJECT_SHARES_REQUEST]: state => {
     state.loading++;
   },
@@ -381,6 +434,16 @@ const mutations = {
     state.loading = Math.max(state.loading - 1, 0);
   },
   [PROJECT_EXPORT_ERROR]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+
+  [PROJECT_EXPORT_PUBLIC_REQUEST]: state => {
+    state.loading++;
+  },
+  [PROJECT_EXPORT_PUBLIC_SUCCESS]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+  [PROJECT_EXPORT_PUBLIC_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
   },
 
