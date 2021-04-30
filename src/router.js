@@ -41,7 +41,17 @@ const router = new Router({
       children: [
         {
           path: "/",
-          redirect: "/home"
+          redirect: "/home",
+          meta: {
+            rule: ["*"]
+          }
+        },
+        {
+          path: "",
+          redirect: "/home",
+          meta: {
+            rule: ["*"]
+          }
         },
         {
           path: "/home",

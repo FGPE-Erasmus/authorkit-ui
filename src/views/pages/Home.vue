@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import {mapGetters, mapState} from "vuex";
+import { mapGetters, mapState } from "vuex";
 import {
   MODULE_BASE,
   PROJECT_EXPORT_PUBLIC,
@@ -90,7 +90,7 @@ export default {
     }),
     ...mapGetters({
       isUserLoggedIn: "auth/isUserLoggedIn"
-    }),
+    })
   },
   created() {
     this.fetchProjects();

@@ -78,7 +78,6 @@ const state = {
 
 const getters = {
   isAuthenticated: state => {
-    console.log(state.tokenExpiryTime)
     return (
       state.token && state.tokenExpiryTime && Date.now() < state.tokenExpiryTime
     );

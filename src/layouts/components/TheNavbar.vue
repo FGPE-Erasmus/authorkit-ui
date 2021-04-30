@@ -191,7 +191,6 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
 import {
   TOGGLE_LIGHTS,
@@ -357,7 +356,6 @@ export default {
     }
   },
   components: {
-    VuePerfectScrollbar,
     I18nSelect
   }
 };
