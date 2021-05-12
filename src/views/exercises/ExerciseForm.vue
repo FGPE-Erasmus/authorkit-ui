@@ -156,7 +156,9 @@ export default {
         event: "",
         platform: this.last_used.platform,
         difficulty: this.last_used.difficulty,
-        status: this.last_used.status
+        status: this.last_used.status,
+        timeout: 0,
+        programmingLanguages: []
       };
     },
     exerciseId() {
@@ -250,7 +252,9 @@ export default {
         event: exercise.event,
         platform: exercise.platform,
         difficulty: exercise.difficulty,
-        status: exercise.status
+        status: exercise.status,
+        timeout: exercise.timeout,
+        programmingLanguages: exercise.programmingLanguages
       };
       this.presentation = {
         instructions: exercise.instructions,

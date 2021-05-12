@@ -495,7 +495,7 @@ export default {
           this.test = undefined;
           this.isTestsSidebarActive = true;
         } else {
-          this.test = item;
+          this.test = Object.assign({}, item);
           this.isTestsSidebarActive = true;
         }
       } else {

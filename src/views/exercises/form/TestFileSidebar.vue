@@ -201,6 +201,91 @@
           </vs-tooltip>
         </div>
       </div>
+
+      <div class="vx-row">
+        <div class="vx-col w-full mb-2">
+          <ValidationProvider
+            name="timeout"
+            rules="required|min:0"
+            v-slot="{ errors }"
+            persist
+          >
+            <vs-tooltip
+              :title="$t('TestFile.Timeout')"
+              :text="$t('TestFile.Hints.Timeout')"
+              color="primary"
+              position="left"
+            >
+              <label class="fgpe-label">
+                {{ $t("TestFile.Timeout") }}
+              </label>
+              <vs-input-number
+                name="timeout"
+                v-model.number="test.timeout"
+                :step="1"
+                min="0"
+                size="medium"
+                icon-pack="mi"
+              />
+            </vs-tooltip>
+            <span v-show="errors[0]" class="text-danger text-sm">
+              {{ errors[0] }}
+            </span>
+          </ValidationProvider>
+        </div>
+      </div>
+
+      <div class="vx-row">
+        <div class="vx-col w-full mb-2">
+          <ValidationProvider
+            name="feedback"
+            rules=""
+            v-slot="{ errors }"
+            persist
+          >
+            <vs-tooltip
+              :title="$t('TestFile.Feedback')"
+              :text="$t('TestFile.Hints.Feedback')"
+              color="primary"
+              position="left"
+            >
+              <multi-row-input
+                :label="$t('TestFile.Feedback')"
+                name="feedback"
+                v-model="test.feedback"
+                :empty-line="{ message: '', weight: 0 }"
+                :empty-check="l => !l.message && !l.weight"
+                v-slot:default="{ line }"
+              >
+                <div class="flex">
+                  <div class="w-2/3 flex justify-center items-center pb-1">
+                    <vs-input
+                      name="message"
+                      v-model="line.message"
+                      :placeholder="$t('TestFile.FeedbackMessage')"
+                      class="w-full"
+                    />
+                  </div>
+                  <div class="w-1/3 flex justify-center items-center">
+                    <vs-input-number
+                      name="weight"
+                      v-model.number="line.weight"
+                      :step="1"
+                      min="0"
+                      size="small"
+                      icon-pack="mi"
+                    />
+                  </div>
+                </div>
+              </multi-row-input>
+            </vs-tooltip>
+            <span v-show="errors[0]" class="text-danger text-sm">
+              {{ errors[0] }}
+            </span>
+          </ValidationProvider>
+        </div>
+      </div>
+
       <fgpe-code-editor-popup
         :active="editorOpen"
         @close-popup="closeEditor"
@@ -227,6 +312,7 @@ import {
 import FgpeChips from "@/components/FgpeChips";
 import FgpeCodeEditorPopup from "@/components/FgpeCodeEditorPopup";
 import AddUpdateFileSidebar from "@/components/sidebar-form/AddUpdateFileSidebar";
+import MultiRowInput from "@/components/MultiRowInput";
 
 export default {
   name: "test-file-sidebar",
@@ -234,7 +320,8 @@ export default {
     ValidationProvider,
     "fgpe-chips": FgpeChips,
     "fgpe-code-editor-popup": FgpeCodeEditorPopup,
-    "add-update-file-sidebar": AddUpdateFileSidebar
+    "add-update-file-sidebar": AddUpdateFileSidebar,
+    "multi-row-input": MultiRowInput
   },
   props: {
     name: String,
@@ -306,7 +393,9 @@ export default {
         },
         arguments: [],
         weight: 0,
-        visible: false
+        visible: false,
+        timeout: 0,
+        feedback: []
       },
       test: undefined,
       inputFile: undefined,
@@ -328,13 +417,13 @@ export default {
     };
   },
   watch: {
-    item(val) {
-      if (!val) {
+    isSidebarActive() {
+      if (!this.item) {
         this.test = JSON.parse(JSON.stringify(this.empty));
         this.inputFile = undefined;
         this.outputFile = undefined;
       } else {
-        this.test = Object.assign({}, val);
+        this.test = Object.assign({}, this.item);
         this.inputFilename = this.test.input.pathname;
         this.outputFilename = this.test.output.pathname;
       }
@@ -374,6 +463,8 @@ export default {
         arguments: this.test.arguments,
         weight: this.test.weight,
         visible: this.test.visible,
+        timeout: this.test.timeout,
+        feedback: this.test.feedback,
         input: this.inputFile,
         output: this.outputFile
       };

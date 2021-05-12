@@ -67,3 +67,8 @@ input.autocomplete-input {
   padding: 12px;
   background-image: none;
 }
+
+.vs-input-number.vs-input-number-size-small .vs-input-number--input {
+  width: 20px;
+  min-width: 20px;
+}

@@ -288,6 +288,8 @@ export default {
     Event: "Event",
     Platform: "Platform",
     Difficulty: "Difficulty",
+    Timeout: "Timeout",
+    ProgrammingLanguages: "Programming Languages",
     Status: "Status",
     Instructions: "Instructions",
     Statements: "Statements",
@@ -403,6 +405,9 @@ export default {
       Event: "Event at which the exercise was created (if any).",
       Platform: "Platform requirements (if any).",
       Difficulty: "The difficulty of the exercise.",
+      ProgrammingLanguages:
+        "Programming languages to which the exercise was designed.",
+      Timeout: "Maximum execution time of the exercise (in seconds).",
       Status: "The status of the exercise.",
       Instructions: "Instructions to teachers about the exercise.",
       Statements:
@@ -706,12 +711,19 @@ export default {
     Arguments: "Arguments",
     Weight: "Weight",
     Visible: "Visible?",
+    Timeout: "Timeout",
+    Feedback: "Feedback",
+    FeedbackMessage: "Message",
+    FeedbackWeight: "Weight",
     Hints: {
       Input: "Input test file to feed the program with.",
       Output: "Output test file to compare the program's output with.",
       Arguments: "Arguments to pass to the tested program.",
       Weight: "Weight of this test in the overall grade.",
-      Visible: "Is this test visible?"
+      Visible: "Is this test visible?",
+      Timeout: "Maximum execution time of this test (in seconds)",
+      Feedback:
+        "Feedback messages and respective weight to display when the test fails."
     }
   },
 
@@ -730,8 +742,9 @@ export default {
       Q1: "What is this?",
       A1:
         "AuthorKit is a web application to support the authors through the whole process of preparing gamified programming exercises. The authoring process aims for simplicity and reusability, allowing you to import content from popular non-gamified exercise formats, and export it or share it with other peers, internally or via a GitHub repository.",
-      Q2: "Q",
-      A2: "A",
+      Q2: "Can I load my existing set of programming exercises?",
+      A2:
+        "As of now, AuthorKit supports programming exercises adhering to one of three formats: YAPExIL, MEF, and SIPE. Hence, you are able to upload them if they comply to one of those formats. Otherwise, if you think your format is a must-have to AuthorKit, ask us to integrate it or make a PR.",
       Q3: "Q",
       A3: "A",
       Q4: "Q",
@@ -756,7 +769,7 @@ export default {
       A13: "A",
       Q14: "Q",
       A14: "A",
-      Q15: "Q",
+      Q15: "How to define actions in rules?",
       A15: "A",
       Q16: "How to define criteria properties?",
       A16:
@@ -1010,7 +1023,9 @@ export default {
     exercise: "Exercise",
     reward: "Reward",
     message: "Message",
-    subject: "Subject"
+    subject: "Subject",
+    inputFile: "Input File",
+    outputFile: "Output File"
   },
 
   Messages: {

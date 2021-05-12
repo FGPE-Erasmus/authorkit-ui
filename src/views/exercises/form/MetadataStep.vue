@@ -253,7 +253,7 @@
           </vs-tooltip>
         </ValidationProvider>
       </div>
-      <div class="vx-col sm:w-1/2 w-full mb-6">
+      <div class="vx-col sm:w-1/2 w-full mb-2">
         <ValidationProvider
           name="platform"
           rules="max:250"
@@ -273,6 +273,78 @@
               class="w-full"
               :disabled="permissions[projectId] < 2"
             />
+            <span v-show="errors[0]" class="text-danger text-sm">
+              {{ errors[0] }}
+            </span>
+          </vs-tooltip>
+        </ValidationProvider>
+      </div>
+    </div>
+    <div class="vx-row">
+      <div class="vx-col sm:w-1/2 w-full mb-2">
+        <ValidationProvider
+          name="timeout"
+          rules="required|min:0"
+          v-slot="{ errors }"
+          persist
+        >
+          <vs-tooltip
+            :title="$t('Exercise.Timeout')"
+            :text="$t('Exercise.Hints.Timeout')"
+            color="primary"
+            position="left"
+          >
+            <label class="fgpe-label">
+              {{ $t("Exercise.Timeout") }}
+            </label>
+            <vs-input-number
+              name="timeout"
+              v-model.number="metadata.timeout"
+              :step="1"
+              min="0"
+              size="medium"
+              icon-pack="mi"
+            />
+          </vs-tooltip>
+          <span v-show="errors[0]" class="text-danger text-sm">
+            {{ errors[0] }}
+          </span>
+        </ValidationProvider>
+      </div>
+      <div class="vx-col sm:w-1/2 w-full mb-6">
+        <ValidationProvider
+          name="programmingLanguages"
+          rules="eachMax:50"
+          v-slot="{ errors }"
+          persist
+        >
+          <vs-tooltip
+            :title="$t('Exercise.ProgrammingLanguages')"
+            :text="$t('Exercise.Hints.ProgrammingLanguages')"
+            color="primary"
+          >
+            <fgpe-chips
+              name="programmingLanguages"
+              v-model="metadata.programmingLanguages"
+              :label-placeholder="$t('Exercise.ProgrammingLanguages')"
+              :unique="true"
+              icon-pack="mi md-16"
+              remove-icon="delete_forever"
+              @input="updateValue()"
+              class="mt-5"
+              :disabled="permissions[projectId] < 2"
+            >
+              <vs-chip
+                v-for="programmingLanguage in metadata.programmingLanguages"
+                :key="programmingLanguage"
+                @click="removeProgrammingLanguages(programmingLanguage)"
+                closable
+                icon-pack="mi"
+                close-icon="close"
+              >
+                {{ programmingLanguage }}
+              </vs-chip>
+            </fgpe-chips>
             <span v-show="errors[0]" class="text-danger text-sm">
               {{ errors[0] }}
             </span>
@@ -350,9 +422,19 @@ export default {
       this.metadata.difficulty = from.difficulty;
       this.metadata.event = from.event;
       this.metadata.platform = from.platform;
+      this.metadata.timeout = from.timeout;
+      this.metadata.programmingLanguages = from.programmingLanguages;
     },
     removeKeyword(keyword) {
       this.metadata.keywords.splice(this.metadata.keywords.indexOf(keyword), 1);
+      this.updateValue();
+      return false;
+    },
+    removeProgrammingLanguages(programmingLanguage) {
+      this.metadata.programmingLanguages.splice(
+        this.metadata.programmingLanguages.indexOf(programmingLanguage),
+        1
+      );
       this.updateValue();
       return false;
     },
