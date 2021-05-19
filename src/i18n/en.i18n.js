@@ -386,7 +386,7 @@ export default {
       }
     },
     ExportDialog: {
-      Title: "Choose exporting format",
+      Title: "Choose exporting format for exercise",
       Format: {
         yapexil: "YAPExIL",
         mef: "MEF"
@@ -596,7 +596,7 @@ export default {
       Reward: "Reward",
       Cronjob: {
         InvalidExpression: "Invalid cron expression"
-      }
+      },
     },
     _Rule: "Rule",
     Rule: {
@@ -614,6 +614,18 @@ export default {
     PickExercisesDialog: {
       Title: "Pick Exercises",
       SelectAll: "Select All"
+    },
+    ExportDialog: {
+      Title: "Choose exporting format",
+      Format: {
+        yapexil: "GEdIL + YAPExIL",
+        mef: "GEdIL + MEF",
+        doNotIncludeExercises: "GEdIL (i.e., do not include exercises)"
+      },
+      Action: {
+        Ok: "OK",
+        Cancel: "Cancel"
+      }
     }
   },
   ValueExtractor: {
@@ -894,8 +906,8 @@ export default {
         "    current_time: number\n" +
         "}\n" +
         '</pre><h5 id="example-queries">Example Queries</h5>\n' +
-        "<p>Number of exercises that the player solved in a set of two</p>\n" +
-        '<pre>$.player.submissions[?((@.exerciseId === ${V0} || @.exerciseId === ${V1}) &amp;&amp; @.result === <span>"ACCEPTED"</span>)].length\n' +
+        "<p>Exercises that the player solved from a set of two</p>\n" +
+        '<pre>$.player.submissions[?((@.exerciseId === ${V0} || @.exerciseId === ${V1}) &amp;&amp; @.result === <span>"ACCEPTED"</span>)]\n' +
         "</pre>"
     }
   },

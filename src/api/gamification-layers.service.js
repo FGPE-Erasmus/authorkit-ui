@@ -59,12 +59,13 @@ class GamificationLayerService extends HttpService {
     });
   }
 
-  export(id, format = "zip") {
+  export(id, exercises = "", format = "zip") {
     return this.client.get(`gamification-layers/${id}/export`, {
       responseType: "arraybuffer",
       headers: this.headers,
       params: {
-        format
+        format,
+        exercises: exercises ? exercises : undefined
       }
     });
   }

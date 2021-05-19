@@ -126,7 +126,14 @@ export default {
     ExportExerciseDialog
   },
   data: () => ({
-    sortingOptions: ["title", "type", "difficulty", "updated_at", "created_at"],
+    sortingOptions: [
+      "title",
+      "module",
+      "type",
+      "difficulty",
+      "updated_at",
+      "created_at"
+    ],
     exercises: [],
     currentPage: 1,
     itemsPerPage: 6,

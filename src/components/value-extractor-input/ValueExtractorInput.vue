@@ -108,7 +108,7 @@ export default {
       this.variables.forEach(variable => {
         expression = expression.replaceAll(
           "${" + variable.id + "}",
-          '"' + variable.value + '"'
+          variable.value
         );
       });
       return expression;
@@ -221,7 +221,7 @@ export default {
       let variableExpr = expr;
       for (const variable of variables) {
         variableExpr = variableExpr.replaceAll(
-          '"' + variable.value + '"',
+          variable.value,
           "${" + variable.id + "}"
         );
       }
