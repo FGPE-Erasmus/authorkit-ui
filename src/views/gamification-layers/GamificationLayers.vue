@@ -41,7 +41,9 @@
           </vs-td>
           <vs-td>
             <p>
-              {{ $t("GamificationLayer.Statuses." + item.status.toUpperCase()) }}
+              {{
+                $t("GamificationLayer.Statuses." + item.status.toUpperCase())
+              }}
             </p>
           </vs-td>
         </card-list-row>
@@ -61,10 +63,10 @@
       </template>
     </card-list>
     <export-gamification-layer-dialog
-        :active.sync="exportDialog.active"
-        :exercises="exportDialog.exercises"
-        @export="exportAndDownload($event)"
-        @cancel="
+      :active.sync="exportDialog.active"
+      :exercises="exportDialog.exercises"
+      @export="exportAndDownload($event)"
+      @cancel="
         exportDialog.active = false;
         exportDialog.file = undefined;
       "

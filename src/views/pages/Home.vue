@@ -48,12 +48,14 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
+
 import {
   MODULE_BASE,
   PROJECT_EXPORT_PUBLIC,
   PROJECT_LIST_PUBLIC
 } from "@/store/projects/project.constants";
 import * as downloads from "@/assets/utils/downloads";
+import * as search from "@/assets/utils/search";
 import { truncateWithEllipses } from "@/assets/utils/strings";
 import { TOGGLE_TABLE_VIEW } from "@/store/constants";
 import CardList from "@/components/card-list/CardList";
@@ -91,6 +93,33 @@ export default {
     ...mapGetters({
       isUserLoggedIn: "auth/isUserLoggedIn"
     })
+  },
+  watch: {
+    itemsPerPage: function() {
+      this.fetchProjects();
+    },
+    currentPage: function() {
+      this.fetchProjects();
+    },
+    sortingOrder: function() {
+      this.fetchProjects();
+    },
+    searchQuery: {
+      handler: function() {
+        if (!this.searchQuery) {
+          this.searchObj = undefined;
+        } else {
+          this.searchObj = search.searchQueryToSearch(
+            this.searchQuery,
+            ["name", "description"],
+            ["status"]
+          );
+        }
+        this.currentPage = 1;
+        this.fetchProjects();
+      },
+      deep: true
+    }
   },
   created() {
     this.fetchProjects();

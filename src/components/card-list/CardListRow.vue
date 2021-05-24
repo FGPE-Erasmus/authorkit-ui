@@ -11,7 +11,7 @@
           "
           icon="EyeIcon"
           class="flex items-center mr-4 cursor-pointer text-base"
-          svgClasses="w-5 h-5"
+          svgClasses="w-7 h-7"
         />
         <feather-icon
           v-if="allowEdit"
@@ -21,7 +21,7 @@
           "
           icon="EditIcon"
           class="flex items-center mr-4 cursor-pointer text-base"
-          svgClasses="w-5 h-5"
+          svgClasses="w-7 h-7"
         />
         <feather-icon
           v-if="allowShare"
@@ -31,7 +31,7 @@
           "
           icon="Share2Icon"
           class="flex items-center mr-4 cursor-pointer text-base"
-          svgClasses="w-5 h-5"
+          svgClasses="w-7 h-7"
         />
         <feather-icon
           v-if="allowExport"
@@ -41,7 +41,7 @@
           "
           icon="ArrowDownCircleIcon"
           class="flex items-center mr-4 cursor-pointer text-base"
-          svgClasses="w-5 h-5"
+          svgClasses="w-7 h-7"
         />
         <feather-icon
           v-if="allowRemove"
@@ -51,7 +51,7 @@
           "
           icon="TrashIcon"
           class="flex items-center mr-4 cursor-pointer text-danger"
-          svgClasses="w-5 h-5"
+          svgClasses="w-7 h-7"
         />
       </div>
     </vs-td>

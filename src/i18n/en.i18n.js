@@ -596,7 +596,7 @@ export default {
       Reward: "Reward",
       Cronjob: {
         InvalidExpression: "Invalid cron expression"
-      },
+      }
     },
     _Rule: "Rule",
     Rule: {

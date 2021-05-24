@@ -175,9 +175,6 @@ const actions = {
     { id, exercises, format }
   ) => {
     return new Promise((resolve, reject) => {
-      console.log(id)
-      console.log(exercises)
-      console.log(format)
       commit(GAMIFICATION_LAYER_EXPORT_REQUEST);
       gamificationlayerService
         .authenticate(rootState.auth.token)
