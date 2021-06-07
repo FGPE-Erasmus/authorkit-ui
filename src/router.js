@@ -40,14 +40,14 @@ const router = new Router({
       component: () => import("@/layouts/main/Main.vue"),
       children: [
         {
-          path: "/",
+          path: "",
           redirect: "/home",
           meta: {
             rule: ["*"]
           }
         },
         {
-          path: "",
+          path: "/",
           redirect: "/home",
           meta: {
             rule: ["*"]

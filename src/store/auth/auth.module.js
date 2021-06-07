@@ -23,7 +23,8 @@ import {
   AUTH_GITHUB_LOGIN, */
   AUTH_RESET_PASSWORD,
   AUTH_SET_PASSWORD,
-  /* AUTH_REFRESH_TOKEN, */
+  AUTH_REFRESH_TOKEN,
+  AUTH_AUTO_REFRESH_TOKEN,
   AUTH_LOGOUT,
   AUTH_FETCH_AUTHENTICATED_USER,
 
@@ -54,7 +55,8 @@ import {
   AUTH_LOGOUT_ERROR,
   AUTH_FETCH_AUTHENTICATED_USER_REQUEST,
   AUTH_FETCH_AUTHENTICATED_USER_ERROR,
-  AUTH_FETCH_AUTHENTICATED_USER_SUCCESS
+  AUTH_FETCH_AUTHENTICATED_USER_SUCCESS,
+  AUTH_SET_REFRESH_TASK
 } from "./auth.constants";
 
 const state = {
@@ -67,13 +69,22 @@ const state = {
     localStorage.getItem(STORAGE_ACCESS_TOKEN_EXPIRY_TIME) ||
     sessionStorage.getItem(STORAGE_ACCESS_TOKEN_EXPIRY_TIME) ||
     0,
+  refreshToken:
+    localStorage.getItem(STORAGE_REFRESH_TOKEN) ||
+    sessionStorage.getItem(STORAGE_REFRESH_TOKEN) ||
+    "",
+  refreshTokenExpiryTime:
+    localStorage.getItem(STORAGE_REFRESH_TOKEN_EXPIRY_TIME) ||
+    sessionStorage.getItem(STORAGE_REFRESH_TOKEN_EXPIRY_TIME) ||
+    0,
   profile: JSON.parse(
     localStorage.getItem(STORAGE_USER_PROFILE) ||
       sessionStorage.getItem(STORAGE_USER_PROFILE) ||
       "{}"
   ),
   status: "",
-  hasLoadedOnce: false
+  hasLoadedOnce: false,
+  refreshTask: undefined
 };
 
 const getters = {
@@ -169,6 +180,8 @@ const actions = {
             router.push(router.currentRoute.query.to || "/");
           });
 
+          dispatch(AUTH_AUTO_REFRESH_TOKEN);
+
           resolve(res.data);
         })
         .catch(err => {
@@ -236,16 +249,55 @@ const actions = {
     });
   },
 
-  /* [AUTH_REFRESH_TOKEN]: ({ commit, dispatch }, payload) => {}, */
+  [AUTH_AUTO_REFRESH_TOKEN]: ({ state, commit, dispatch }) => {
+    if (!state.tokenExpiryTime) {
+      return;
+    }
+    const expiryTime = state.tokenExpiryTime;
+    const now = Date.now();
+    const timeUntilRefresh = Math.max(expiryTime - now - 5 * 60 * 1000, 1000);
+    console.log(timeUntilRefresh);
+    if (timeUntilRefresh > 0) {
+      if (state.refreshTask) {
+        clearTimeout(state.refreshTask);
+      }
+      const refreshTask = setTimeout(
+        () => dispatch(AUTH_REFRESH_TOKEN),
+        timeUntilRefresh
+      );
+      commit(AUTH_SET_REFRESH_TASK, refreshTask);
+    }
+  },
 
-  [AUTH_LOGOUT]: ({ commit }) => {
+  [AUTH_REFRESH_TOKEN]: ({ state, commit, dispatch }) => {
+    return new Promise((resolve, reject) => {
+      commit(AUTH_LOGIN_REQUEST);
+      console.log("refreshing token ...");
+      authService
+        .refreshToken(state.refreshToken)
+        .then(res => {
+          commit(AUTH_LOGIN_SUCCESS, res.data);
+          dispatch(AUTH_AUTO_REFRESH_TOKEN);
+          resolve(res.data);
+        })
+        .catch(err => {
+          commit(AUTH_LOGIN_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
+  },
+
+  [AUTH_LOGOUT]: ({ state, commit }) => {
     return new Promise((resolve, reject) => {
       commit(AUTH_LOGOUT_REQUEST);
       authService
         .logout()
         .then(() => {
           commit(AUTH_LOGOUT_SUCCESS);
-
+          if (state.refreshTask) {
+            clearTimeout(state.refreshTask);
+          }
+          commit(AUTH_SET_REFRESH_TASK, undefined);
           router.go();
 
           resolve();
@@ -319,6 +371,9 @@ const mutations = {
     state.loading = Math.max(state.loading - 1, 0);
     state.token = res.accessToken;
     state.tokenExpiryTime = Date.now() + res.expiresIn * 1000;
+    state.refreshToken = res.refreshToken;
+    state.refreshTokenExpiryTime =
+      Date.now() + res.refreshTokenExpiresIn * 1000;
     clearTokenStorage();
     if (res.remember_me) {
       localStorage.setItem(STORAGE_REMEMBER_ME, true);
@@ -424,6 +479,11 @@ const mutations = {
   },
   [AUTH_FETCH_AUTHENTICATED_USER_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
+  },
+
+  // user profile fetched
+  [AUTH_SET_REFRESH_TASK]: (state, task) => {
+    state.refreshTask = task;
   }
 };
 

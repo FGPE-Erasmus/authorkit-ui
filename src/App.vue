@@ -8,7 +8,11 @@
 import { mapGetters } from "vuex";
 import colors from "@/../colors.config.json";
 
-import { AUTH_LOGOUT } from "@/store/auth/auth.constants";
+import {
+  MODULE_BASE,
+  AUTH_LOGOUT,
+  AUTH_AUTO_REFRESH_TOKEN
+} from "@/store/auth/auth.constants";
 
 export default {
   watch: {
@@ -19,12 +23,13 @@ export default {
       this.toggleLoading(val);
     }
   },
-  async created() {
-    // proceed with logout (401 returned)
+  created() {
+    this.$store.dispatch(`${MODULE_BASE}/${AUTH_AUTO_REFRESH_TOKEN}`);
+    // proceed with logout (401 returned
     this.$http.interceptors.response.use(undefined, function(err) {
       return new Promise(function() {
         if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-          this.$store.dispatch(AUTH_LOGOUT);
+          this.$store.dispatch(`${MODULE_BASE}/${AUTH_LOGOUT}`);
         }
         throw err;
       });

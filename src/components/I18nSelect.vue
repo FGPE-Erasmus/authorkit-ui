@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import { UPDATE_I18N_LOCALE } from "@/store/constants";
+
 export default {
   name: "i18n-select",
   components: {},
@@ -50,19 +52,20 @@ export default {
   watch: {},
   computed: {
     getCurrentLocaleData() {
-      const locale = this.$i18n.locale;
-      if (locale == "en") return { flag: "uk", lang: "English (UK)" };
-      else if (locale == "pt") return { flag: "pt", lang: "Portuguese" };
-      else if (locale == "fr") return { flag: "fr", lang: "French" };
-      else if (locale == "it") return { flag: "it", lang: "Italian" };
-      else if (locale == "pl") return { flag: "pl", lang: "Polish" };
-      else if (locale == "dk") return { flag: "dk", lang: "Danish" };
+      const locale = this.$store.getters.locale;
+      if (locale === "en") return { flag: "uk", lang: "English (UK)" };
+      else if (locale === "pt") return { flag: "pt", lang: "Portuguese" };
+      else if (locale === "fr") return { flag: "fr", lang: "French" };
+      else if (locale === "it") return { flag: "it", lang: "Italian" };
+      else if (locale === "pl") return { flag: "pl", lang: "Polish" };
+      else if (locale === "dk") return { flag: "dk", lang: "Danish" };
       return { flag: "uk", lang: "English (UK)" };
     }
   },
   methods: {
     updateLocale(locale) {
       this.$i18n.locale = locale;
+      this.$store.dispatch(UPDATE_I18N_LOCALE, locale);
     }
   }
 };

@@ -15,7 +15,12 @@ export default {
     Profile: "Profile",
     Logout: "Logout",
     Search: {
+      Button: "Search",
       Placeholder: "Search"
+    },
+    Lights: {
+      On: "Turn the lights off",
+      Off: "Turn the lights on"
     }
   },
 

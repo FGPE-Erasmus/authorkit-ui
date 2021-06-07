@@ -553,7 +553,11 @@
   }
 
   .vs-input-number {
-    background: $content-dark-bg;
+    //background: $content-dark-bg;
+
+    input {
+      background: none !important;
+    }
 
     button {
 

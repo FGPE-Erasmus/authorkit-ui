@@ -77,7 +77,8 @@ const getters = {
     state.leaderboard.loading ||
     state.reward.loading ||
     state.rule.loading ||
-    state.user.loading
+    state.user.loading,
+  locale: state => state.locale
 };
 
 const actions = {

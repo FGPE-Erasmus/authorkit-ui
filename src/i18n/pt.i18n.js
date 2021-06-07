@@ -1,1 +1,4 @@
-export default {};
+export default {
+  Home: "Home",
+  Profile: "Perfil"
+};

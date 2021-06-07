@@ -42,19 +42,33 @@
             ></feather-icon>
           </div>
         </div>
-        <feather-icon
-          v-if="showSearchIcon"
-          icon="SearchIcon"
-          @click="showFullSearch = true"
-          class="cursor-pointer navbar-fuzzy-search sm:mr-6 mr-2"
-        ></feather-icon>
+
+        <!-- SEARCH -->
+        <vs-tooltip
+          :text="$t('Navbar.Search.Button')"
+          position="bottom"
+          class="flex items-center sm:mr-6 mr-2"
+        >
+          <feather-icon
+            v-if="showSearchIcon"
+            icon="SearchIcon"
+            @click="showFullSearch = true"
+            class="cursor-pointer navbar-fuzzy-search"
+          ></feather-icon>
+        </vs-tooltip>
 
         <!-- LIGHT TOGGLER -->
-        <feather-icon
-          :icon="lights ? 'SunIcon' : 'MoonIcon'"
-          @click="toggleLights"
-          class="cursor-pointer sm:mr-6 mr-2"
-        ></feather-icon>
+        <vs-tooltip
+          :text="$t('Navbar.Lights.' + (lights ? 'On' : 'Off'))"
+          position="bottom"
+          class="flex items-center sm:mr-6 mr-2"
+        >
+          <feather-icon
+            :icon="lights ? 'SunIcon' : 'MoonIcon'"
+            @click="toggleLights"
+            class="cursor-pointer"
+          ></feather-icon>
+        </vs-tooltip>
 
         <!-- NOTIFICATIONS -->
         <!--<vs-dropdown
@@ -183,6 +197,22 @@
               </ul>
             </vs-dropdown-menu>
           </vs-dropdown>
+        </div>
+        <div
+          v-else
+          class="the-navbar__user-meta flex items-center sm:mr-6 mr-2"
+          @click="$router.push('/pages/login')"
+        >
+          <vs-tooltip
+            :text="$t('Login.Title')"
+            position="bottom"
+            class="flex items-center"
+          >
+            <feather-icon
+              icon="LogInIcon"
+              class="cursor-pointer"
+            ></feather-icon>
+          </vs-tooltip>
         </div>
       </vs-navbar>
     </div>

@@ -7,6 +7,8 @@ export const AUTH_RESEND_VERIFY_EMAIL = "resend-verify-email";
 export const AUTH_RESET_PASSWORD = "reset-password";
 export const AUTH_SET_PASSWORD = "set-password";
 export const AUTH_LOGIN = "login";
+export const AUTH_REFRESH_TOKEN = "refresh-token";
+export const AUTH_AUTO_REFRESH_TOKEN = "auto-refresh-token";
 export const AUTH_FACEBOOK_LOGIN = "facebook-login";
 export const AUTH_TWITTER_LOGIN = "twitter-login";
 export const AUTH_GOOGLE_LOGIN = "google-login";
@@ -59,3 +61,5 @@ export const AUTH_FETCH_AUTHENTICATED_USER_SUCCESS =
   "AUTH_FETCH_AUTHENTICATED_USER_SUCCESS";
 export const AUTH_FETCH_AUTHENTICATED_USER_ERROR =
   "AUTH_FETCH_AUTHENTICATED_USER_ERROR";
+
+export const AUTH_SET_REFRESH_TASK = "AUTH_SET_REFRESH_TASK";

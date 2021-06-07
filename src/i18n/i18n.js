@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
 
+import store from "../store/store";
 import enData from "./en.i18n";
 import ptData from "./pt.i18n";
 import frData from "./fr.i18n";
@@ -11,7 +12,7 @@ import dkData from "./dk.i18n";
 Vue.use(VueI18n);
 
 export default new VueI18n({
-  locale: "en", // set default locale
+  locale: store.getters.locale, // set default locale
   messages: {
     en: enData,
     pt: ptData,
@@ -19,5 +20,6 @@ export default new VueI18n({
     it: itData,
     pl: plData,
     dk: dkData
-  }
+  },
+  fallbackLocale: "en"
 });
