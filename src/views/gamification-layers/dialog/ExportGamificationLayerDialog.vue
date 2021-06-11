@@ -1,6 +1,11 @@
 <template>
   <vs-prompt
-    @accept="$emit('export', currentExerciseFormat)"
+    @accept="
+      $emit(
+        'export',
+        currentExerciseFormat === 'none' ? '' : currentExerciseFormat
+      )
+    "
     @cancel="$emit('cancel')"
     @close="$emit('cancel')"
     :active.sync="dialogActive"
@@ -20,9 +25,14 @@
       <vs-radio v-model="currentExerciseFormat" vs-value="mef" class="w-full">{{
         $t("GamificationLayer.ExportDialog.Format.mef")
       }}</vs-radio>
-      <vs-radio v-model="currentExerciseFormat" vs-value="" class="w-full">{{
-        $t("GamificationLayer.ExportDialog.Format.doNotIncludeExercises")
-      }}</vs-radio>
+      <vs-radio
+        v-model="currentExerciseFormat"
+        vs-value="none"
+        class="w-full"
+        >{{
+          $t("GamificationLayer.ExportDialog.Format.doNotIncludeExercises")
+        }}</vs-radio
+      >
     </div>
   </vs-prompt>
 </template>
@@ -37,19 +47,19 @@ export default {
     },
     exercises: {
       type: String,
-      default: ""
+      default: "none"
     }
   },
   data() {
     return {
       dialogActive: this.active,
-      currentExerciseFormat: this.exercises
+      currentExerciseFormat: this.exercises || "none"
     };
   },
   watch: {
     active(val) {
       this.dialogActive = val;
-      this.currentExerciseFormat = this.exercises;
+      this.currentExerciseFormat = this.exercises || "none";
     }
   }
 };
