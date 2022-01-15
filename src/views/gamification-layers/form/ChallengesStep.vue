@@ -166,21 +166,6 @@ export default {
     },
     rewardTree() {
       return [];
-    },
-    rulesTree() {
-      return this.value.rules.map(rule => ({
-        id: rule.id,
-        text: "rule",
-        data: {
-          ...rule
-        },
-        state: {
-          editable: false,
-          draggable: false,
-          droppable: true
-        },
-        children: []
-      }));
     }
   },
   data() {
@@ -728,7 +713,7 @@ export default {
     },
 
     activateRuleSidebar(rule) {
-      this.rule = rule;
+      this.rule = JSON.parse(JSON.stringify(rule));
       this.isRuleSidebarActive = true;
     },
 

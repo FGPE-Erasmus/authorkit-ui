@@ -640,7 +640,8 @@ export default {
       _Type: "Type",
       Type: {
         CHALLENGE: "CHALLENGE",
-        EXERCISE: "EXERCISE"
+        EXERCISE: "EXERCISE",
+        REWARD: "REWARD"
       }
     },
     EditVariables: "Edit Variables ...",
@@ -653,7 +654,8 @@ export default {
         _Type: "Type",
         Type: {
           CHALLENGE: "CHALLENGE",
-          EXERCISE: "EXERCISE"
+          EXERCISE: "EXERCISE",
+          REWARD: "REWARD"
         }
       }
     }
@@ -776,10 +778,73 @@ export default {
       A8: "A",
       Q9: "Q",
       A9: "A",
-      Q10: "Q",
-      A10: "A",
-      Q11: "Q",
-      A11: "A",
+      Q10: "How to develop a source-code checker?",
+      A10:
+        "<p class='my-1'>A source-code checker is an external program that is invoked before dynamic correction to classify/process the program's source code. In this field you can write a command line to invoke a source-code checker and you may use these variables:</p>" +
+        "<ul style='list-style: none; padding-inline-start: 40px; margin: 1em 0'>" +
+        "<li>$home         - Mooshak's home director</li>" +
+        "<li>$program      - absolute pathname of file with submitted program</li>" +
+        "<li>$problem      - absolute pathname of problem</li>" +
+        "<li>$solution     - absolute pathname of problem solution file</li>" +
+        "<li>$environment  - absolute pathname of environment data file</li>" +
+        "</ul>" +
+        "<p class='my-1'>The values of these variables will also be available to the process as environment variables with the same names in capitals. For instance, the command line variable $home will be available as the environment variable HOME.</p>" +
+        "<p class='my-1'>The special corrector must return the new classification as its exit code. The correspondence between exit values and classifications is the following:</p>" +
+        "<ul style='list-style: none; padding-inline-start: 40px; margin: 1em 0'>" +
+        "<li>  0 - Accepted</li>" +
+        "<li>  1 - Presentation Error</li>" +
+        "<li>  2 - Wrong Answer</li>" +
+        "<li>  3 - Evaluation Skipped</li>" +
+        "<li>  4 - Output Limit Exceeded</li>" +
+        "<li>  5 - Memory Limit Exceeded</li>" +
+        "<li>  6 - Time Limit Exceeded</li>" +
+        "<li>  7 - Invalid Function</li>" +
+        "<li>  8 - Invalid Exit Value</li>" +
+        "<li>  9 - Runtime Error</li>" +
+        "<li> 10 - Compile Time Error</li>" +
+        "<li> 11 - Invalid Submission</li>" +
+        "<li> 12 - Program Size Exceeded</li>" +
+        "<li> 13 - Requires Reevaluation</li>" +
+        "<li> 14 - Evaluating</li>" +
+        "</ul>" +
+        "<p class='my-1'>If the exit value is a negative value, then its symmetric is taken as the submission mark, and the classification is Accepted (e.g. If exit value is -100 then the mark is 100).</p>" +
+        "<p class='my-1'>Use $FILE to refer to the absolute path to the script file.</p>",
+      Q11: "How to develop a output checker?",
+      A11:
+        "<p class='my-1'>An output checker is an external program that is invoked after Mooshak's correction to classify each run. In this field you can write a command line to invoke a dynamic corrector and you may use these variables:</p>" +
+        "<ul style='list-style: none; padding-inline-start: 40px; margin: 1em 0'>" +
+        "<li>$home       - Mooshak's home directory</li>" +
+        "<li>$program    - absolute pathname of file with submitted program</li>" +
+        "<li>$problem    - absolute pathname of problem</li>" +
+        "<li>$input      - absolute pathname of input data file</li>" +
+        "<li>$expected   - absolute pathname of file with expected output</li>" +
+        "<li>$obtained   - absolute pathname of file with obtained output</li>" +
+        "<li>$error      - absolute pathname of file with obtained error output</li>" +
+        "<li>$args       - command line arguments</li>" +
+        "<li>$context    - absolute path name of context file</li>" +
+        "<li>$classify_code  - (integer) current classification on Mooshak</li>" +
+        "</ul>" +
+        "<p class='my-1'>The values of these variables will also be available to the process as environment variables with the same names in capitals.For instance, the command line variable $classify will be available as as the environment variable CLASSIFY_CODE</p>" +
+        "<p class='my-1'>The special corrector must return the new classification as its exit code, i.e. the new value for CLASSIFY_CODE. The correspondence between exit values and classifications is the following:</p>" +
+        "<ul style='list-style: none; padding-inline-start: 40px; margin: 1em 0'>" +
+        "<li>  0 - Accepted</li>" +
+        "<li>  1 - Presentation Error</li>" +
+        "<li>  2 - Wrong Answer</li>" +
+        "<li>  3 - Evaluation Skipped</li>" +
+        "<li>  4 - Output Limit Exceeded</li>" +
+        "<li>  5 - Memory Limit Exceeded</li>" +
+        "<li>  6 - Time Limit Exceeded</li>" +
+        "<li>  7 - Invalid Function</li>" +
+        "<li>  8 - Invalid Exit Value</li>" +
+        "<li>  9 - Runtime Error</li>" +
+        "<li> 10 - Compile Time Error</li>" +
+        "<li> 11 - Invalid Submission</li>" +
+        "<li> 12 - Program Size Exceeded</li>" +
+        "<li> 13 - Requires Reevaluation</li>" +
+        "<li> 14 - Evaluating</li>" +
+        "</ul>" +
+        "<p class='my-1'>If the exit value is a negative value, then its symmetric is taken as the submission mark, and the classification is Accepted (e.g. If exit value is -100 then the mark is 100).</p>" +
+        "<p class='my-1'>Use $FILE to refer to the absolute path to the script file.</p>",
       Q12: "Q",
       A12: "A",
       Q13: "Q",

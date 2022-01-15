@@ -56,6 +56,7 @@
             v-model="rule.criteria"
             :challenges="challenges"
             :exercises="exercises"
+            :rewards="rewards"
           />
         </div>
       </div>
@@ -284,33 +285,25 @@ export default {
         this.getRewards();
         this.getChallenges();
         this.getExercises();
+        this.resetValue(this.item);
       } else {
         this.rule = JSON.parse(JSON.stringify(this.empty));
       }
     },
-    item(val) {
-      if (!val || !val.id) {
-        this.rule = Object.assign({}, this.empty);
-      } else {
-        this.rule = Object.assign({}, this.empty, val);
-      }
-      const actions = [];
-      this.rule.actions.forEach(a => {
-        const action = {
-          type: a.type,
-          parameters: a.parameters
-        };
-        actions.push(action);
-      });
-      this.$set(this, "actions", actions);
-    },
-    actions(val) {
-      this.rule.actions.splice(0, this.rule.actions.length);
-      const actions = val.map(a => ({
-        type: a.type,
-        parameters: a.parameters
-      }));
-      this.rule.actions.push(...actions);
+    /*item(val) {
+      this.resetValue(val);
+    },*/
+    actions: {
+      handler(val) {
+        this.rule.actions.splice(0, this.rule.actions.length);
+        val.forEach(a => {
+          this.rule.actions.push({
+            type: a.type,
+            parameters: a.parameters
+          });
+        });
+      },
+      deep: true
     }
   },
   computed: {
@@ -334,6 +327,20 @@ export default {
     }
   },
   methods: {
+    resetValue(value) {
+      if (!value || !value.id) {
+        this.rule = Object.assign({}, this.empty);
+        this.actions = [];
+      } else {
+        this.rule = Object.assign(
+          {},
+          this.empty,
+          JSON.parse(JSON.stringify(value))
+        );
+        this.actions = JSON.parse(JSON.stringify(value.actions));
+      }
+    },
+
     removeActionParameter(line, i) {
       this.value.splice(i, 1);
       return false;

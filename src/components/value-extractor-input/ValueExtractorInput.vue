@@ -50,6 +50,7 @@
       :value="variables"
       :challenges="challenges"
       :exercises="exercises"
+      :rewards="rewards"
       @accept="
         variables = $event;
         variableDialogActive = false;
@@ -98,6 +99,10 @@ export default {
       type: Array,
       default: () => []
     },
+    rewards: {
+      type: Array,
+      default: () => []
+    },
     mode: {
       type: String
     }
@@ -135,6 +140,12 @@ export default {
         obj[item.id] = item;
         return obj;
       }, {});
+    },
+    rewardsById() {
+      return this.rewards.reduce((obj, item) => {
+        obj[item.id] = item;
+        return obj;
+      }, {});
     }
   },
 
@@ -142,10 +153,19 @@ export default {
     jsonPathExpr() {
       this.$emit("input", this.fullJsonExpression);
     },
+    variables: {
+      handler() {
+        this.$emit("input", this.fullJsonExpression);
+      },
+      deep: true
+    },
     exercises() {
       this.variables = this.buildVariablesFromExpr(this.fullJsonExpression);
     },
     challenges() {
+      this.variables = this.buildVariablesFromExpr(this.fullJsonExpression);
+    },
+    rewards() {
       this.variables = this.buildVariablesFromExpr(this.fullJsonExpression);
     }
   },
@@ -153,7 +173,7 @@ export default {
   data() {
     return {
       isFocus: false,
-      types: ["CHALLENGE", "EXERCISE"],
+      types: ["CHALLENGE", "EXERCISE", "REWARD"],
       variableDialogActive: false,
       jsonPathExpr: "",
       variables: []
@@ -207,11 +227,17 @@ export default {
     },
     buildVariablesFromExpr(expr) {
       return this.extractUUIDs(expr).reduce((acc, nextValue, i) => {
+        let type;
+        if (Object.keys(this.exercisesById).includes(nextValue)) {
+          type = "EXERCISE";
+        } else if (Object.keys(this.challengesById).includes(nextValue)) {
+          type = "CHALLENGE";
+        } else {
+          type = "REWARD";
+        }
         acc.push({
           id: `V${i}`,
-          type: Object.keys(this.exercisesById).includes(nextValue)
-            ? "EXERCISE"
-            : "CHALLENGE",
+          type,
           value: nextValue
         });
         return acc;
@@ -234,12 +260,20 @@ export default {
       if (!variable.value) {
         return "";
       }
-      const title =
-        variable.type === "EXERCISE"
-          ? this.exercisesById[variable.value] &&
-            this.exercisesById[variable.value].label
-          : this.challengesById[variable.value] &&
-            this.challengesById[variable.value].label;
+      let title;
+      if (variable.type === "EXERCISE") {
+        title =
+          this.exercisesById[variable.value] &&
+          this.exercisesById[variable.value].label;
+      } else if (variable.type === "CHALLENGE") {
+        title =
+          this.challengesById[variable.value] &&
+          this.challengesById[variable.value].label;
+      } else {
+        title =
+          this.rewardsById[variable.value] &&
+          this.rewardsById[variable.value].label;
+      }
       if (title && title.length > 10) {
         return title.substr(0, 10) + "...";
       }

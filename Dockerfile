@@ -1,11 +1,16 @@
 # build stage
-FROM node:lts-alpine as builder
+FROM node:12-alpine as builder
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN apk add --no-cache --virtual .gyp \
+        python3 py-pip \
+        make \
+        g++ \
+    && npm install \
+    && apk del .gyp
 
 COPY . .
 

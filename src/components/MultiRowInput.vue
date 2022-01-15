@@ -80,18 +80,25 @@ export default {
   },
   data() {
     return {
-      lines: this.value.map(this.inverseTransform),
+      lines: [],
       loopShield: false
     };
   },
+  mounted() {
+    this.lines = JSON.parse(
+      JSON.stringify(this.value.map(this.inverseTransform))
+    );
+  },
   watch: {
     value: {
-      handler: function(val) {
-        val = val || [];
+      handler: function(newValue, oldValue) {
+        console.log(`${oldValue} -> ${newValue}`)
 
         // ugly loop protection - FIX with better alternative
         this.loopShield = true;
-        this.lines = JSON.parse(JSON.stringify(val.map(this.inverseTransform)));
+        console.log(newValue)
+        this.lines = JSON.parse(JSON.stringify(newValue.map(this.inverseTransform)));
+        console.log(this.lines)
         this.$nextTick(() => {
           this.loopShield = false;
         });

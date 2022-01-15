@@ -54,6 +54,7 @@
             @input="line.condition.left_property = $event"
             :challenges="challenges"
             :exercises="exercises"
+            :rewards="rewards"
             :mode="line.condition.left_entity"
             :placeholder="$t('GamificationLayer.Criteria.LeftProperty')"
             class="w-full"
@@ -123,6 +124,7 @@
             @input="line.condition.right_property = $event"
             :challenges="challenges"
             :exercises="exercises"
+            :rewards="rewards"
             :mode="line.condition.right_entity"
             :placeholder="$t('GamificationLayer.Criteria.RightProperty')"
             class="w-full"
@@ -183,6 +185,10 @@ export default {
       default: () => []
     },
     challenges: {
+      type: Array,
+      default: () => []
+    },
+    rewards: {
       type: Array,
       default: () => []
     }

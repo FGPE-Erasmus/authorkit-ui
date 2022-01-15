@@ -66,6 +66,19 @@
           :picker-threshold="1"
         >
         </fgpe-select>
+        <fgpe-select
+          v-else-if="line.type === 'REWARD'"
+          name="rewards"
+          v-model="line.value"
+          class="w-full select-large"
+          :options="rewards"
+          :clearable="false"
+          :searchable="false"
+          :multiple="false"
+          :reduce="option => option.id"
+          :picker-threshold="1"
+        >
+        </fgpe-select>
       </div>
     </multi-row-input>
   </vs-prompt>
@@ -96,6 +109,10 @@ export default {
     challenges: {
       type: Array,
       default: () => []
+    },
+    rewards: {
+      type: Array,
+      default: () => []
     }
   },
   computed: {
@@ -111,7 +128,7 @@ export default {
   data() {
     return {
       activeLocal: false,
-      types: ["CHALLENGE", "EXERCISE"],
+      types: ["CHALLENGE", "EXERCISE", "REWARD"],
       variables: []
     };
   },

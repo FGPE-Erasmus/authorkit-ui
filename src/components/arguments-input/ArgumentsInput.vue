@@ -119,7 +119,31 @@ export default {
 
   watch: {
     args() {
-      this.$emit("input", this.fullArgs);
+      if (!this.loopShield) {
+        this.$emit("input", this.fullArgs);
+      }
+    },
+    variables: {
+      handler() {
+        if (!this.loopShield) {
+          this.$emit("input", this.fullArgs);
+        }
+      },
+      deep: true
+    },
+    value: {
+      handler() {
+        this.loopShield = true;
+        //this.variables = this.buildVariablesFromArgs(this.value);
+        this.args = this.replaceUUIDsByVariablesInArgs(
+          this.value,
+          this.variables
+        );
+        this.$nextTick(() => {
+          this.loopShield = false;
+        });
+      },
+      deep: true
     },
     exercises() {
       this.variables = this.buildVariablesFromArgs(this.fullArgs);
@@ -138,16 +162,16 @@ export default {
       types: ["CHALLENGE", "EXERCISE", "REWARD"],
       variableDialogActive: false,
       args: [],
-      variables: []
+      variables: [],
+      loopShield: false
     };
   },
   mounted() {
+    this.loopShield = true;
+    this.variables = this.buildVariablesFromArgs(this.value);
+    this.args = this.replaceUUIDsByVariablesInArgs(this.value, this.variables);
     this.$nextTick(() => {
-      this.variables = this.buildVariablesFromArgs(this.value);
-      this.args = this.replaceUUIDsByVariablesInArgs(
-        this.value,
-        this.variables
-      );
+      this.loopShield = false;
     });
   },
   methods: {
