@@ -10,6 +10,7 @@
       :items="gamificationLayers"
       :allow-create="permissions[projectId] >= 2"
       :allow-import="permissions[projectId] >= 2"
+      :allow-template="permissions[projectId] >= 2"
       :columns="[
         'GamificationLayer.Name',
         'GamificationLayer.Description',
@@ -21,6 +22,7 @@
       @viewchange="changeView($event)"
       @create="create"
       @import="uploadAndImport"
+      @template="selectTemplate"
     >
       <template v-slot:row="{ item }">
         <card-list-row
@@ -278,6 +280,9 @@ export default {
             color: "danger"
           });
         });
+    },
+    selectTemplate() {
+      console.log("Test!");
     }
   }
 };

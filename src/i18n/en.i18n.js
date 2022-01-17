@@ -146,6 +146,7 @@ export default {
     Header: {
       Create: "Create",
       Import: "Import",
+      Template: "Choose Template",
       ItemsPerPage: "{start}-{end} of {size}",
       Order: {
         ASC: "&uarr;",

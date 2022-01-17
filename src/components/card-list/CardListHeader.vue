@@ -22,6 +22,14 @@
           $t("CardList.Header.Import")
         }}</span>
       </div>
+      <div
+        v-if="allowTemplate"
+        class="py-2 px-6 mr-4 rounded-lg cursor-pointer md:flex inline-block items-center justify-between text-lg text-base text-primary border border-solid border-primary"
+        @click="$emit('template')"
+      >
+        <feather-icon icon="ArrowUpCircleIcon" svgClasses="h-4 w-4" />
+        <span class="ml-2 text-base">{{ $t("CardList.Header.Template") }}</span>
+      </div>
     </div>
 
     <div class="md:flex items-center">
@@ -139,6 +147,10 @@ export default {
       default: true
     },
     allowImport: {
+      type: Boolean,
+      default: true
+    },
+    allowTemplate: {
       type: Boolean,
       default: true
     }

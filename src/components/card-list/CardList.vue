@@ -11,8 +11,10 @@
           :table-view="tableView"
           :allow-create="allowCreate"
           :allow-import="allowImport"
+          :allow-template="allowTemplate"
           @create="$emit('create')"
           @import="$emit('import', $event)"
+          @template="$emit('template')"
           @itemsperpagechange="$emit('itemsperpagechange', $event)"
           @sortchange="$emit('sortchange', $event)"
           @viewchange="$emit('viewchange', $event)"
@@ -124,6 +126,10 @@ export default {
       default: false
     },
     allowImport: {
+      type: Boolean,
+      default: false
+    },
+    allowTemplate: {
       type: Boolean,
       default: false
     },
