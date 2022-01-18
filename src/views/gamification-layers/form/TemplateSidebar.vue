@@ -80,7 +80,7 @@ import {
 import {
   MODULE_BASE as GAMIFICATION_MODULE_BASE,
   GAMIFICATION_LAYER_TEMPLATES
-} from "@/store/gamification-layers/gamification-layers.constants";
+} from "@/store/gamification-layers/gamification-layer.constants";
 
 export default {
   name: "template-sidebar",
@@ -183,27 +183,18 @@ export default {
 
     getTemplates() {
       this.$store
-        .dispatch(
-          `${GAMIFICATION_MODULE_BASE}/${GAMIFICATION_LAYER_TEMPLATES}`,
-          {
-            select: ["id", "title", "module"]
-          }
-        )
+        .dispatch(`${GAMIFICATION_MODULE_BASE}/${GAMIFICATION_LAYER_TEMPLATES}`)
         .then(res => {
           console.log(res);
-          /*
-          this.templates = res.map(exercise => ({
-            id: exercise.id,
-            label: exercise.module
-              ? `[${exercise.module}] ${exercise.title}`
-              : exercise.title
+          this.templates = res.map(templates => ({
+            id: templates.id,
+            label: templates.id
           }));
-
-           */
         })
         .catch(err => {
+          console.log(err);
           this.$vs.notify({
-            title: "Failed to get exercises",
+            title: "Failed to get templates",
             text: err.message,
             iconPack: "mi",
             icon: "error",

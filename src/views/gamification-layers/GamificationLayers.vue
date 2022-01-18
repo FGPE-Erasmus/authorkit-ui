@@ -100,7 +100,8 @@ import {
   GAMIFICATION_LAYER_LIST,
   GAMIFICATION_LAYER_DELETE,
   GAMIFICATION_LAYER_IMPORT,
-  GAMIFICATION_LAYER_EXPORT
+  GAMIFICATION_LAYER_EXPORT,
+  GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE
 } from "@/store/gamification-layers/gamification-layer.constants";
 
 import CardList from "@/components/card-list/CardList";
@@ -193,10 +194,33 @@ export default {
     },
 
     async sendDataTemplate(template) {
-      console.log(template);
-      //await this.createChallenge(template);
-      this.isTemplateSidebarActive = false;
-      this.fetchGamificationLayers();
+      await this.createChallengeFromTemplate(template);
+    },
+
+    createChallengeFromTemplate(template) {
+      //console.log(template.exercises[0].id);
+      this.$store
+        .dispatch(
+          `${MODULE_BASE}/${GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE}`,
+          Object.assign({
+            project_id: this.projectId,
+            template_id: template.templates[0].id
+          })
+        )
+        .then(res => {
+          console.log("Creating...", res);
+          this.isTemplateSidebarActive = false;
+          this.fetchGamificationLayers();
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to create gamification layer from template",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
     },
 
     fetchGamificationLayers() {

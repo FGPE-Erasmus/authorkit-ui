@@ -2,15 +2,23 @@ export const MODULE_BASE = "gamificationLayer";
 
 // actions
 export const GAMIFICATION_LAYER_GET = "gamification-layer-get";
-export const GAMIFICATION_LAYER_CREATE = "gamification-layer-create";
+export const GAMIFICATION_LAYER_CREATE = "gamification-create-create";
 export const GAMIFICATION_LAYER_UPDATE = "gamification-layer-update";
 export const GAMIFICATION_LAYER_LIST = "gamification-layer-list";
 export const GAMIFICATION_LAYER_DELETE = "gamification-layer-delete";
 export const GAMIFICATION_LAYER_EXPORT = "gamification-layer-export";
 export const GAMIFICATION_LAYER_IMPORT = "gamification-layer-import";
 export const GAMIFICATION_LAYER_TEMPLATES = "gamification-templates-list";
+export const GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE =
+  "gamification-create-create-template";
 
 // mutations
+export const GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE_REQUEST =
+  "GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE_REQUEST";
+export const GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE_SUCCESS =
+  "GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE_SUCCESS";
+export const GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE_ERROR =
+  "GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE_ERROR";
 export const GAMIFICATION_LAYER_TEMPLATES_REQUEST =
   "GAMIFICATION_LAYER_TEMPLATES_REQUEST";
 export const GAMIFICATION_LAYER_TEMPLATES_SUCCESS =
