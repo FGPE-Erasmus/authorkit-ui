@@ -462,6 +462,7 @@ export default {
       Next: "Next",
       Finish: "Finish"
     },
+    _Template: "Gamification with imported template",
     _Challenge: "Challenge",
     Challenge: {
       Name: "Name",
@@ -487,7 +488,8 @@ export default {
         HARD: "HARD",
         MASTER: "MASTER"
       },
-      LinkedExercises: "Linked Exercises"
+      LinkedExercises: "Linked Exercises",
+      AvailableTemplates: "Select Template"
     },
     _Leaderboard: "Leaderboard",
     Leaderboard: {

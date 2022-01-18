@@ -30,6 +30,12 @@ class GamificationLayerService extends HttpService {
     });
   }
 
+  getTemplatesList() {
+    return this.client.get(`gamification-layers/templates-list`, {
+      headers: this.headers
+    });
+  }
+
   create(obj) {
     return this.client.post(`gamification-layers`, obj, {
       headers: this.headers

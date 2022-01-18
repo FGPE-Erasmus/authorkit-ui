@@ -8,6 +8,7 @@ import {
   GAMIFICATION_LAYER_DELETE,
   GAMIFICATION_LAYER_IMPORT,
   GAMIFICATION_LAYER_EXPORT,
+  GAMIFICATION_LAYER_TEMPLATES,
 
   // mutations
   GAMIFICATION_LAYER_GET_REQUEST,
@@ -30,7 +31,10 @@ import {
   GAMIFICATION_LAYER_IMPORT_ERROR,
   GAMIFICATION_LAYER_EXPORT_REQUEST,
   GAMIFICATION_LAYER_EXPORT_SUCCESS,
-  GAMIFICATION_LAYER_EXPORT_ERROR
+  GAMIFICATION_LAYER_EXPORT_ERROR,
+  GAMIFICATION_LAYER_TEMPLATES_REQUEST,
+  GAMIFICATION_LAYER_TEMPLATES_SUCCESS,
+  GAMIFICATION_LAYER_TEMPLATES_ERROR
 } from "./gamification-layer.constants";
 
 const state = {
@@ -40,6 +44,28 @@ const state = {
 const getters = {};
 
 const actions = {
+  [GAMIFICATION_LAYER_TEMPLATES]: ({
+    commit,
+    rootState: { auth, project }
+  }) => {
+    return new Promise((resolve, reject) => {
+      commit(GAMIFICATION_LAYER_TEMPLATES_REQUEST);
+      gamificationlayerService
+        .authenticate(auth.token)
+        .onProject(project.activeProject && project.activeProject.id)
+        .getTemplatesList()
+        .then(res => {
+          commit(GAMIFICATION_LAYER_TEMPLATES_SUCCESS, res.data);
+
+          resolve(res.data);
+        })
+        .catch(err => {
+          commit(GAMIFICATION_LAYER_TEMPLATES_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
+  },
+
   [GAMIFICATION_LAYER_GET]: ({ commit, rootState }, id) => {
     return new Promise((resolve, reject) => {
       commit(GAMIFICATION_LAYER_GET_REQUEST);
@@ -196,6 +222,16 @@ const actions = {
 };
 
 const mutations = {
+  [GAMIFICATION_LAYER_TEMPLATES_REQUEST]: state => {
+    state.loading++;
+  },
+  [GAMIFICATION_LAYER_TEMPLATES_SUCCESS]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+  [GAMIFICATION_LAYER_TEMPLATES_ERROR]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+
   [GAMIFICATION_LAYER_CREATE_REQUEST]: state => {
     state.loading++;
   },

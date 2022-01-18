@@ -1,79 +1,90 @@
 <template>
-  <div id="gamification-layers">
-    <card-list
-      :sorting-options="sortingOptions"
-      :current-page="currentPage"
-      :items-per-page="itemsPerPage"
-      :sorting-order="sortingOrder"
-      :table-view="tableView"
-      :total="totalItems"
-      :items="gamificationLayers"
-      :allow-create="permissions[projectId] >= 2"
-      :allow-import="permissions[projectId] >= 2"
-      :allow-template="permissions[projectId] >= 2"
-      :columns="[
-        'GamificationLayer.Name',
-        'GamificationLayer.Description',
-        'GamificationLayer.Status'
-      ]"
-      @itemsperpagechange="itemsPerPage = $event"
-      @currentpagechange="currentPage = $event"
-      @sortchange="sortingOrder = $event"
-      @viewchange="changeView($event)"
-      @create="create"
-      @import="uploadAndImport"
-      @template="selectTemplate"
-    >
-      <template v-slot:row="{ item }">
-        <card-list-row
-          :allow-view="permissions[projectId] === 1"
-          :allow-export="permissions[projectId] >= 1"
-          :allow-edit="permissions[projectId] >= 2"
-          :allow-remove="permissions[projectId] >= 4"
-          @view="edit(item)"
-          @edit="edit(item)"
-          @export="triggerExport(item)"
-          @remove="confirmDelete(item)"
-        >
-          <vs-td>
-            <p>{{ truncateWithEllipses(item.name, 20) }}</p>
-          </vs-td>
-          <vs-td>
-            <p>{{ truncateWithEllipses(item.description || "", 40) }}</p>
-          </vs-td>
-          <vs-td>
-            <p>
-              {{
-                $t("GamificationLayer.Statuses." + item.status.toUpperCase())
-              }}
-            </p>
-          </vs-td>
-        </card-list-row>
-      </template>
-      <template v-slot:card="{ item }">
-        <gamification-layer-card
-          :gamificationLayer="item"
-          :allow-view="permissions[projectId] === 1"
-          :allow-export="permissions[projectId] >= 1"
-          :allow-edit="permissions[projectId] >= 2"
-          :allow-remove="permissions[projectId] >= 4"
-          @view="edit(item)"
-          @edit="edit(item)"
-          @export="triggerExport(item)"
-          @remove="confirmDelete(item)"
-        />
-      </template>
-    </card-list>
-    <export-gamification-layer-dialog
-      :active.sync="exportDialog.active"
-      :exercises="exportDialog.exercises"
-      @export="exportAndDownload($event)"
-      @cancel="
-        exportDialog.active = false;
-        exportDialog.file = undefined;
+  <form>
+    <template-sidebar
+      :is-sidebar-active="isTemplateSidebarActive"
+      :item="template"
+      @submit="sendDataTemplate"
+      @close-sidebar="
+        isTemplateSidebarActive = false;
+        template = undefined;
       "
     />
-  </div>
+    <div id="gamification-layers">
+      <card-list
+        :sorting-options="sortingOptions"
+        :current-page="currentPage"
+        :items-per-page="itemsPerPage"
+        :sorting-order="sortingOrder"
+        :table-view="tableView"
+        :total="totalItems"
+        :items="gamificationLayers"
+        :allow-create="permissions[projectId] >= 2"
+        :allow-import="permissions[projectId] >= 2"
+        :allow-template="permissions[projectId] >= 2"
+        :columns="[
+          'GamificationLayer.Name',
+          'GamificationLayer.Description',
+          'GamificationLayer.Status'
+        ]"
+        @itemsperpagechange="itemsPerPage = $event"
+        @currentpagechange="currentPage = $event"
+        @sortchange="sortingOrder = $event"
+        @viewchange="changeView($event)"
+        @create="create"
+        @import="uploadAndImport"
+        @template="activateTemplateSidebar"
+      >
+        <template v-slot:row="{ item }">
+          <card-list-row
+            :allow-view="permissions[projectId] === 1"
+            :allow-export="permissions[projectId] >= 1"
+            :allow-edit="permissions[projectId] >= 2"
+            :allow-remove="permissions[projectId] >= 4"
+            @view="edit(item)"
+            @edit="edit(item)"
+            @export="triggerExport(item)"
+            @remove="confirmDelete(item)"
+          >
+            <vs-td>
+              <p>{{ truncateWithEllipses(item.name, 20) }}</p>
+            </vs-td>
+            <vs-td>
+              <p>{{ truncateWithEllipses(item.description || "", 40) }}</p>
+            </vs-td>
+            <vs-td>
+              <p>
+                {{
+                  $t("GamificationLayer.Statuses." + item.status.toUpperCase())
+                }}
+              </p>
+            </vs-td>
+          </card-list-row>
+        </template>
+        <template v-slot:card="{ item }">
+          <gamification-layer-card
+            :gamificationLayer="item"
+            :allow-view="permissions[projectId] === 1"
+            :allow-export="permissions[projectId] >= 1"
+            :allow-edit="permissions[projectId] >= 2"
+            :allow-remove="permissions[projectId] >= 4"
+            @view="edit(item)"
+            @edit="edit(item)"
+            @export="triggerExport(item)"
+            @remove="confirmDelete(item)"
+          />
+        </template>
+      </card-list>
+      <export-gamification-layer-dialog
+        :active.sync="exportDialog.active"
+        :exercises="exportDialog.exercises"
+        @export="exportAndDownload($event)"
+        @cancel="
+          exportDialog.active = false;
+          exportDialog.file = undefined;
+        "
+      />
+    </div>
+  </form>
 </template>
 
 <script>
@@ -96,15 +107,18 @@ import CardList from "@/components/card-list/CardList";
 import CardListRow from "@/components/card-list/CardListRow";
 import GamificationLayerCard from "@/views/gamification-layers/GamificationLayerCard";
 import ExportGamificationLayerDialog from "@/views/gamification-layers/dialog/ExportGamificationLayerDialog";
+import TemplateSidebar from "./form/TemplateSidebar";
 
 export default {
   components: {
     "export-gamification-layer-dialog": ExportGamificationLayerDialog,
+    "template-sidebar": TemplateSidebar,
     CardList,
     CardListRow,
     GamificationLayerCard
   },
   data: () => ({
+    isTemplateSidebarActive: false,
     sortingOptions: ["name", "updated_at", "created_at"],
     gamificationLayers: [],
     currentPage: 1,
@@ -171,6 +185,18 @@ export default {
     truncateWithEllipses,
     changeView(tableView) {
       this.$store.dispatch(TOGGLE_TABLE_VIEW, tableView);
+    },
+
+    activateTemplateSidebar(instruction) {
+      this.instruction = instruction;
+      this.isTemplateSidebarActive = true;
+    },
+
+    async sendDataTemplate(template) {
+      console.log(template);
+      //await this.createChallenge(template);
+      this.isTemplateSidebarActive = false;
+      this.fetchGamificationLayers();
     },
 
     fetchGamificationLayers() {
@@ -280,9 +306,6 @@ export default {
             color: "danger"
           });
         });
-    },
-    selectTemplate() {
-      console.log("Test!");
     }
   }
 };
