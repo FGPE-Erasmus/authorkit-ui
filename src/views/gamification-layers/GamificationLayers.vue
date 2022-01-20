@@ -198,19 +198,22 @@ export default {
     },
 
     createChallengeFromTemplate(template) {
-      //console.log(template.exercises[0].id);
       this.$store
         .dispatch(
           `${MODULE_BASE}/${GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE}`,
           Object.assign({
             project_id: this.projectId,
-            template_id: template.templates[0].id
+            template_id: template.templates[0].id,
+            exercise_ids: template.exercises
           })
         )
-        .then(res => {
-          console.log("Creating...", res);
+        .then(async res => {
+          let gamificationLayerId = res.id;
           this.isTemplateSidebarActive = false;
-          this.fetchGamificationLayers();
+          await this.fetchGamificationLayers();
+          await this.$router.push(
+            `/projects/${this.projectId}/gamification-layers/${gamificationLayerId}`
+          );
         })
         .catch(err => {
           this.$vs.notify({
@@ -279,6 +282,8 @@ export default {
     },
     exportAndDownload(exercises) {
       const glId = this.exportDialog.glId;
+      console.log(glId);
+      console.log(exercises);
       this.$store
         .dispatch(`${MODULE_BASE}/${GAMIFICATION_LAYER_EXPORT}`, {
           id: glId,

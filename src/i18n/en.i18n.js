@@ -628,7 +628,8 @@ export default {
       Format: {
         yapexil: "GEdIL + YAPExIL",
         mef: "GEdIL + MEF",
-        doNotIncludeExercises: "GEdIL (i.e., do not include exercises)"
+        doNotIncludeExercises: "GEdIL (i.e., do not include exercises)",
+        template: "Export as template"
       },
       Action: {
         Ok: "OK",

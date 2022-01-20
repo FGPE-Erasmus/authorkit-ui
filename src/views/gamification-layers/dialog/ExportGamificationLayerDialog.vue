@@ -33,6 +33,12 @@
           $t("GamificationLayer.ExportDialog.Format.doNotIncludeExercises")
         }}</vs-radio
       >
+      <vs-radio
+        v-model="currentExerciseFormat"
+        vs-value="none"
+        class="w-full"
+        >{{ $t("GamificationLayer.ExportDialog.Format.template") }}</vs-radio
+      >
     </div>
   </vs-prompt>
 </template>
