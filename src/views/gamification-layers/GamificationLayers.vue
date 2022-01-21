@@ -2,9 +2,11 @@
   <form>
     <template-sidebar
       :is-sidebar-active="isTemplateSidebarActive"
+      :is-exercise-active="isTemplateExerciseActive"
       :item="template"
       @submit="sendDataTemplate"
       @close-sidebar="
+        isTemplateExerciseActive = false;
         isTemplateSidebarActive = false;
         template = undefined;
       "
@@ -119,6 +121,7 @@ export default {
     GamificationLayerCard
   },
   data: () => ({
+    isTemplateExerciseActive: false,
     isTemplateSidebarActive: false,
     sortingOptions: ["name", "updated_at", "created_at"],
     gamificationLayers: [],
@@ -188,9 +191,9 @@ export default {
       this.$store.dispatch(TOGGLE_TABLE_VIEW, tableView);
     },
 
-    activateTemplateSidebar(instruction) {
-      this.instruction = instruction;
+    activateTemplateSidebar() {
       this.isTemplateSidebarActive = true;
+      this.isTemplateExerciseActive = false;
     },
 
     async sendDataTemplate(template) {
@@ -203,13 +206,14 @@ export default {
           `${MODULE_BASE}/${GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE}`,
           Object.assign({
             project_id: this.projectId,
-            template_id: template.templates[0].id,
+            template_id: template.templates.id,
             exercise_ids: template.exercises
           })
         )
         .then(async res => {
           let gamificationLayerId = res.id;
           this.isTemplateSidebarActive = false;
+          this.isTemplateExerciseActive = false;
           await this.fetchGamificationLayers();
           await this.$router.push(
             `/projects/${this.projectId}/gamification-layers/${gamificationLayerId}`
@@ -223,6 +227,8 @@ export default {
             icon: "error",
             color: "danger"
           });
+          this.isTemplateSidebarActive = false;
+          this.isTemplateExerciseActive = false;
         });
     },
 

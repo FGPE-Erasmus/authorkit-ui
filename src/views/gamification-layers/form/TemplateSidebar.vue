@@ -1,6 +1,7 @@
 <template>
   <add-update-file-sidebar
     :name="$t('GamificationLayer._Template')"
+    :is-exercise-active="isExerciseActive"
     :is-sidebar-active="isSidebarActive"
     @submit="$emit('submit', templateDto)"
     @close-sidebar="$emit('close-sidebar')"
@@ -24,9 +25,10 @@
               :options="templates"
               :clearable="false"
               :searchable="true"
-              :multiple="true"
+              :multiple="false"
               :reduce="option => option.id"
               :picker-threshold="1"
+              @input="selectedTemplate()"
             >
             </fgpe-select>
             <span v-show="errors[0]" class="text-danger text-sm">
@@ -35,7 +37,16 @@
           </ValidationProvider>
         </div>
       </div>
-      <div class="vx-row">
+      <div ref="exercises" class="vx-row" style="visibility: hidden">
+        <div>
+          <label
+            id="exercises_number"
+            class="vx-col w-full mb-2 fgpe-select--label"
+            ref="exercises_number"
+          >
+            {{ $t("SelectExercises.Exercises") }}
+          </label>
+        </div>
         <div class="vx-col w-full mb-2">
           <ValidationProvider
             name="exercises"
@@ -90,10 +101,13 @@ export default {
     "add-update-file-sidebar": AddUpdateFileSidebar
   },
   props: {
-    projectId: String,
     gamificationLayerId: String,
     parentChallengeId: String,
     isSidebarActive: {
+      type: Boolean,
+      required: true
+    },
+    isExerciseActive: {
       type: Boolean,
       required: true
     },
@@ -105,10 +119,14 @@ export default {
   watch: {
     isSidebarActive(val) {
       if (val) {
-        this.getExercises();
         this.getTemplates();
       } else {
         this.challenge = JSON.parse(JSON.stringify(this.empty));
+      }
+      if (!this.isExerciseActive) {
+        this.$refs.exercises.style.visibility = "hidden";
+        this.templates = [];
+        this.exercises = [];
       }
     },
     item(val) {
@@ -140,9 +158,9 @@ export default {
         exercises: this.challenge.exercises
           ? this.challenge.exercises.map(id => ({ id }))
           : [],
-        templates: this.challenge.templates
-          ? this.challenge.templates.map(id => ({ id }))
-          : []
+        templates: this.templates.find(
+          ({ id }) => id === this.challenge.templates
+        )
       };
     }
   },
@@ -151,9 +169,30 @@ export default {
       this.pickerActive = true;
     },
 
-    onExercisesSelected(exercises) {
-      this.pickerActive = false;
-      this.challenge.exercises = exercises;
+    selectedTemplate() {
+      this.$refs.exercises.style.visibility = "visible";
+      this.getExercises();
+    },
+
+    getTemplates() {
+      this.$store
+        .dispatch(`${GAMIFICATION_MODULE_BASE}/${GAMIFICATION_LAYER_TEMPLATES}`)
+        .then(res => {
+          for (const [key, value] of Object.entries(res)) {
+            console.log(key);
+            this.templates.push(value);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.$vs.notify({
+            title: "Failed to get templates",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
     },
 
     getExercises() {
@@ -162,7 +201,6 @@ export default {
           select: ["id", "title", "module"]
         })
         .then(res => {
-          console.log(res);
           this.exercises = res.map(exercise => ({
             id: exercise.id,
             label: exercise.module
@@ -173,28 +211,6 @@ export default {
         .catch(err => {
           this.$vs.notify({
             title: "Failed to get exercises",
-            text: err.message,
-            iconPack: "mi",
-            icon: "error",
-            color: "danger"
-          });
-        });
-    },
-
-    getTemplates() {
-      this.$store
-        .dispatch(`${GAMIFICATION_MODULE_BASE}/${GAMIFICATION_LAYER_TEMPLATES}`)
-        .then(res => {
-          console.log(res);
-          this.templates = res.map(templates => ({
-            id: templates.id,
-            label: templates.id
-          }));
-        })
-        .catch(err => {
-          console.log(err);
-          this.$vs.notify({
-            title: "Failed to get templates",
             text: err.message,
             iconPack: "mi",
             icon: "error",
