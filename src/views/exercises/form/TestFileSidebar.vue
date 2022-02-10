@@ -252,7 +252,7 @@
               <multi-row-input
                 :label="$t('TestFile.Feedback')"
                 name="feedback"
-                v-model="test.feedback"
+                v-model="feedback"
                 :empty-line="{ message: '', weight: 0 }"
                 :empty-check="l => !l.message && !l.weight"
                 v-slot:default="{ line }"
@@ -335,6 +335,7 @@ export default {
   },
   created() {
     this.test = Object.assign({}, this.empty);
+    this.feedback = [];
   },
   data() {
     return {
@@ -413,20 +414,32 @@ export default {
       outputCode: "",
 
       filename: "",
-      code: ""
+      code: "",
+
+      feedback: []
     };
   },
   watch: {
-    isSidebarActive() {
-      if (!this.item) {
+    isSidebarActive(val) {
+      if (!val) {
         this.test = JSON.parse(JSON.stringify(this.empty));
         this.inputFile = undefined;
         this.outputFile = undefined;
+        this.feedback.splice(0, this.feedback.length);
       } else {
         this.test = Object.assign({}, this.item);
         this.inputFilename = this.test.input.pathname;
         this.outputFilename = this.test.output.pathname;
+        if (!Array.isArray(this.test.feedback)) this.test.feedback = [];
+        this.test.feedback.forEach(item => this.feedback.push(item));
       }
+    },
+    feedback: {
+      handler(val) {
+        this.test.feedback.splice(0, this.test.feedback.length);
+        val.forEach(item => this.test.feedback.push(item));
+      },
+      deep: true
     }
   },
   computed: {
