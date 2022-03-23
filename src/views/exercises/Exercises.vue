@@ -172,7 +172,15 @@ export default {
         } else {
           this.searchObj = search.searchQueryToSearch(
             this.searchQuery,
-            ["title", "keywords", "event", "platform"],
+            [
+              "title",
+              "keywords",
+              "event",
+              "platform",
+              "programmingLanguages",
+              "solutions.lang",
+              "solutions.pathname"
+            ],
             ["status", "type", "difficulty"]
           );
         }
@@ -195,6 +203,23 @@ export default {
     })
   },
   created() {
+    if (!this.searchQuery) {
+      this.searchObj = undefined;
+    } else {
+      this.searchObj = search.searchQueryToSearch(
+        this.searchQuery,
+        [
+          "title",
+          "keywords",
+          "event",
+          "platform",
+          "programmingLanguages",
+          "solutions.lang",
+          "solutions.pathname"
+        ],
+        ["status", "type", "difficulty"]
+      );
+    }
     this.fetchExercises();
   },
   mounted() {},
@@ -210,7 +235,8 @@ export default {
           page: this.currentPage,
           limit: this.itemsPerPage,
           search: this.searchObj,
-          sort: [`${this.sortingOrder.field},${this.sortingOrder.order}`]
+          sort: [`${this.sortingOrder.field},${this.sortingOrder.order}`],
+          join: this.searchObj ? ["solutions"] : undefined
         })
         .then(res => {
           this.exercises = res.data;

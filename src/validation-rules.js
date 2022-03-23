@@ -66,7 +66,7 @@ extend("triggers", {
 extend("strongPassword", {
   message: i18n.t("validation.strongPassword"),
   validate: value => {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&.,\-_])(?=.{8,})/gm.test(
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[*!@$%^&(){}[\]:;<>,.?/~_+=|-])(?=.{8,})/gm.test(
       value
     );
   }
