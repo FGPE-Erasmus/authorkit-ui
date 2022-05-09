@@ -1107,7 +1107,9 @@ export default {
     message: "Message",
     subject: "Subject",
     inputFile: "Input File",
-    outputFile: "Output File"
+    outputFile: "Output File",
+    timeout: "Time out",
+    weight: "Weight"
   },
 
   Messages: {

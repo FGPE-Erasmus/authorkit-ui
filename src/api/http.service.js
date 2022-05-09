@@ -143,6 +143,10 @@ export default class HttpService {
           parentKey ? `${parentKey}[${key}]` : key
         );
       });
+    } else if (data && Array.isArray(data)) {
+      data.forEach(value => {
+        this.buildFormData(value, formData, `${parentKey}[]`);
+      });
     } else {
       const value = data === null ? "" : data;
       formData.append(parentKey, value);

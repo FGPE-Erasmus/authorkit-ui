@@ -421,7 +421,7 @@ export default {
   },
   watch: {
     isSidebarActive(val) {
-      if (!val) {
+      if (!val || !this.item) {
         this.test = JSON.parse(JSON.stringify(this.empty));
         this.inputFile = undefined;
         this.outputFile = undefined;

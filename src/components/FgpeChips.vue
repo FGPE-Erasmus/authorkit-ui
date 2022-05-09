@@ -3,7 +3,6 @@
     <label
       v-if="labelPlaceholder ? false : label"
       class="con-chips--label"
-      for=""
       @click="focusInput"
     >
       {{ label }}
