@@ -35,7 +35,7 @@
       >
       <vs-radio
         v-model="currentExerciseFormat"
-        vs-value="none"
+        vs-value="template"
         class="w-full"
         >{{ $t("GamificationLayer.ExportDialog.Format.template") }}</vs-radio
       >
