@@ -8,11 +8,13 @@
     :allow-view="allowView && !allowEdit"
     :allow-export="allowExport"
     :allow-edit="allowEdit"
+    :allow-upload="allowUpload"
     :allow-remove="allowRemove"
     @view="$emit('view')"
     @edit="$emit('edit')"
     @export="$emit('export')"
     @remove="$emit('remove')"
+    @upload="$emit('upload')"
   >
     <div class="flex mt-6 flex-wrap" vs-align="end"></div>
   </fgpe-card>
@@ -42,6 +44,10 @@ export default {
     allowRemove: {
       type: Boolean,
       default: true
+    },
+    allowUpload: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -58,3 +64,4 @@ export default {
   }
 };
 </script>
+

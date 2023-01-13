@@ -23,7 +23,12 @@
         <slot name="actions">
           <vs-dropdown
             v-if="
-              allowView || allowExport || allowEdit || allowShare || allowRemove
+              allowView ||
+                allowExport ||
+                allowEdit ||
+                allowShare ||
+                allowRemove ||
+                allowUpload
             "
             class="cursor-pointer"
             vs-trigger-click
@@ -65,6 +70,15 @@
                 <div class="flex flex-row">
                   <feather-icon
                     icon="ArrowDownCircleIcon"
+                    class="flex items-center mr-2"
+                    svgClasses="w-4 h-4"
+                  /><span>{{ $t("Card.Actions.Export") }}</span>
+                </div>
+              </vs-dropdown-item>
+              <vs-dropdown-item v-if="allowUpload" @click="$emit('upload')">
+                <div class="flex flex-row">
+                  <feather-icon
+                    icon="ArrowUpCircleIcon"
                     class="flex items-center mr-2"
                     svgClasses="w-4 h-4"
                   /><span>{{ $t("Card.Actions.Export") }}</span>
@@ -170,6 +184,10 @@ export default {
     allowRemove: {
       type: Boolean,
       default: false
+    },
+    allowUpload: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -233,3 +251,4 @@ export default {
   components: {}
 };
 </script>
+

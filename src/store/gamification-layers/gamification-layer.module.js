@@ -10,6 +10,7 @@ import {
   GAMIFICATION_LAYER_EXPORT,
   GAMIFICATION_LAYER_TEMPLATES,
   GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE,
+  GAMIFICATION_LAYER_UPLOAD_TEMPLATE,
 
   // mutations
   GAMIFICATION_LAYER_GET_REQUEST,
@@ -38,7 +39,10 @@ import {
   GAMIFICATION_LAYER_TEMPLATES_ERROR,
   GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE_REQUEST,
   GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE_SUCCESS,
-  GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE_ERROR
+  GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE_ERROR,
+  GAMIFICATION_LAYER_UPLOAD_TEMPLATE_REQUEST,
+  GAMIFICATION_LAYER_UPLOAD_TEMPLATE_SUCCESS,
+  GAMIFICATION_LAYER_UPLOAD_TEMPLATE_ERROR
 } from "./gamification-layer.constants";
 
 const state = {
@@ -92,6 +96,30 @@ const actions = {
             GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE_ERROR,
             err.response.data
           );
+          reject(err.response.data);
+        });
+    });
+  },
+
+  [GAMIFICATION_LAYER_UPLOAD_TEMPLATE]: (
+    { commit, rootState },
+    gamification_layer
+  ) => {
+    return new Promise((resolve, reject) => {
+      commit(GAMIFICATION_LAYER_UPLOAD_TEMPLATE_REQUEST);
+      gamificationlayerService
+        .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
+        .upload(gamification_layer)
+        .then(res => {
+          commit(GAMIFICATION_LAYER_UPLOAD_TEMPLATE_SUCCESS, res.data);
+
+          resolve(res.data);
+        })
+        .catch(err => {
+          commit(GAMIFICATION_LAYER_UPLOAD_TEMPLATE_ERROR, err.response.data);
           reject(err.response.data);
         });
     });
@@ -273,6 +301,16 @@ const mutations = {
     state.loading = Math.max(state.loading - 1, 0);
   },
 
+  [GAMIFICATION_LAYER_UPLOAD_TEMPLATE_REQUEST]: state => {
+    state.loading++;
+  },
+  [GAMIFICATION_LAYER_UPLOAD_TEMPLATE_SUCCESS]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+  [GAMIFICATION_LAYER_UPLOAD_TEMPLATE_ERROR]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+
   [GAMIFICATION_LAYER_CREATE_REQUEST]: state => {
     state.loading++;
   },
@@ -351,3 +389,4 @@ export default {
   actions,
   mutations
 };
+

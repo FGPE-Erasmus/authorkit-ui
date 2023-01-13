@@ -41,10 +41,12 @@
             :allow-view="permissions[projectId] === 1"
             :allow-export="permissions[projectId] >= 1"
             :allow-edit="permissions[projectId] >= 2"
+            :allow-upload="permissions[projectId] >= 2"
             :allow-remove="permissions[projectId] >= 4"
             @view="edit(item)"
             @edit="edit(item)"
             @export="triggerExport(item)"
+            @upload="uploadTemplate(item)"
             @remove="confirmDelete(item)"
           >
             <vs-td>
@@ -68,10 +70,12 @@
             :allow-view="permissions[projectId] === 1"
             :allow-export="permissions[projectId] >= 1"
             :allow-edit="permissions[projectId] >= 2"
+            :allow-upload="permissions[projectId] >= 2"
             :allow-remove="permissions[projectId] >= 4"
             @view="edit(item)"
             @edit="edit(item)"
             @export="triggerExport(item)"
+            @upload="uploadTemplate(item)"
             @remove="confirmDelete(item)"
           />
         </template>
@@ -103,7 +107,8 @@ import {
   GAMIFICATION_LAYER_DELETE,
   GAMIFICATION_LAYER_IMPORT,
   GAMIFICATION_LAYER_EXPORT,
-  GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE
+  GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE,
+  GAMIFICATION_LAYER_UPLOAD_TEMPLATE
 } from "@/store/gamification-layers/gamification-layer.constants";
 
 import CardList from "@/components/card-list/CardList";
@@ -288,8 +293,6 @@ export default {
     },
     exportAndDownload(exercises) {
       const glId = this.exportDialog.glId;
-      console.log(glId);
-      console.log(exercises);
       this.$store
         .dispatch(`${MODULE_BASE}/${GAMIFICATION_LAYER_EXPORT}`, {
           id: glId,
@@ -310,8 +313,27 @@ export default {
       this.exportDialog.glId = undefined;
       this.exportDialog.active = false;
     },
-
+    uploadTemplate(gamificationLayer) {
+      console.log(gamificationLayer.id);
+      this.$store
+        .dispatch(`${MODULE_BASE}/${GAMIFICATION_LAYER_UPLOAD_TEMPLATE}`, {
+          id: gamificationLayer.id
+        })
+        .then(() => {
+          this.fetchGamificationLayers();
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to upload gamification layer as template",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
+    },
     confirmDelete(gamificationLayer) {
+      console.log(gamificationLayer);
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
@@ -345,3 +367,4 @@ export default {
   }
 };
 </script>
+

@@ -11,6 +11,7 @@
           :table-view="tableView"
           :allow-create="allowCreate"
           :allow-import="allowImport"
+          :allow-upload="allowUpload"
           :allow-template="allowTemplate"
           @create="$emit('create')"
           @import="$emit('import', $event)"
@@ -18,6 +19,7 @@
           @itemsperpagechange="$emit('itemsperpagechange', $event)"
           @sortchange="$emit('sortchange', $event)"
           @viewchange="$emit('viewchange', $event)"
+          @upload="$emit('upload', $event)"
         />
       </slot>
     </div>
@@ -133,6 +135,10 @@ export default {
       type: Boolean,
       default: false
     },
+    allowUpload: {
+      type: Boolean,
+      default: false
+    },
     columns: Array
   },
   data: () => ({
@@ -147,3 +153,4 @@ export default {
   methods: {}
 };
 </script>
+

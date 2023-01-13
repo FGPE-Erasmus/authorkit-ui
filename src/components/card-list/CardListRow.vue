@@ -44,6 +44,16 @@
           svgClasses="w-7 h-7"
         />
         <feather-icon
+            v-if="allowUpload"
+            @click="
+            $emit('upload');
+            $event.stopPropagation();
+          "
+            icon="ArrowUpCircleIcon"
+            class="flex items-center mr-4 cursor-pointer text-base"
+            svgClasses="w-7 h-7"
+        />
+        <feather-icon
           v-if="allowRemove"
           @click="
             $emit('remove');
@@ -82,6 +92,10 @@ export default {
     allowRemove: {
       type: Boolean,
       default: false
+    },
+    allowUpload: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -89,3 +103,4 @@ export default {
   }
 };
 </script>
+

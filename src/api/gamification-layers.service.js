@@ -37,7 +37,6 @@ class GamificationLayerService extends HttpService {
   }
 
   createFromTemplate(obj) {
-    console.log(obj);
     return this.client.post(`gamification-template/create-from-template`, obj, {
       headers: this.headers
     });
@@ -51,6 +50,13 @@ class GamificationLayerService extends HttpService {
 
   update(id, obj) {
     return this.client.patch(`gamification-layers/${id}`, obj, {
+      headers: this.headers
+    });
+  }
+
+  upload(obj) {
+    console.log(obj);
+    return this.client.post(`gamification-template/upload`, obj, {
       headers: this.headers
     });
   }
@@ -85,3 +91,4 @@ class GamificationLayerService extends HttpService {
 }
 
 export default new GamificationLayerService();
+
