@@ -77,6 +77,17 @@ class GamificationLayerService extends HttpService {
     });
   }
 
+  importTemplate(obj) {
+    const fd = this.buildFormData(obj);
+    const headers = Object.assign(
+      { "Content-Type": "multipart/form-data" },
+      this.headers
+    );
+    return this.client.post("gamification-template/import", fd, {
+      headers
+    });
+  }
+
   export(id, exercises = "", format = "zip") {
     return this.client.get(`gamification-layers/${id}/export`, {
       responseType: "arraybuffer",
@@ -90,4 +101,3 @@ class GamificationLayerService extends HttpService {
 }
 
 export default new GamificationLayerService();
-

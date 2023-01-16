@@ -110,7 +110,8 @@ import {
   GAMIFICATION_LAYER_IMPORT,
   GAMIFICATION_LAYER_EXPORT,
   GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE,
-  GAMIFICATION_LAYER_UPLOAD_TEMPLATE
+  GAMIFICATION_LAYER_UPLOAD_TEMPLATE,
+  GAMIFICATION_TEMPLATE_IMPORT
 } from "@/store/gamification-layers/gamification-layer.constants";
 
 import CardList from "@/components/card-list/CardList";
@@ -270,7 +271,23 @@ export default {
       );
     },
     importTemplate(file) {
-      console.log(file);
+      this.$store
+        .dispatch(`${MODULE_BASE}/${GAMIFICATION_TEMPLATE_IMPORT}`, {
+          name: file.name,
+          file
+        })
+        .then(() => {
+          this.fetchGamificationLayers();
+        })
+        .catch(err => {
+          this.$vs.notify({
+            title: "Failed to import gamification layer template",
+            text: err.message,
+            iconPack: "mi",
+            icon: "error",
+            color: "danger"
+          });
+        });
     },
     uploadAndImport(file) {
       this.$store
@@ -373,4 +390,3 @@ export default {
   }
 };
 </script>
-
