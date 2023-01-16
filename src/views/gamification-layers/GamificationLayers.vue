@@ -22,6 +22,7 @@
         :items="gamificationLayers"
         :allow-create="permissions[projectId] >= 2"
         :allow-import="permissions[projectId] >= 2"
+        :allow-import-template="permissions[projectId] >= 2"
         :allow-template="permissions[projectId] >= 2"
         :columns="[
           'GamificationLayer.Name',
@@ -34,6 +35,7 @@
         @viewchange="changeView($event)"
         @create="create"
         @import="uploadAndImport"
+        @templateimport="importTemplate"
         @template="activateTemplateSidebar"
       >
         <template v-slot:row="{ item }">
@@ -266,6 +268,9 @@ export default {
       this.$router.push(
         `/projects/${this.projectId}/gamification-layers/${gamificationLayer.id}`
       );
+    },
+    importTemplate(file) {
+      console.log(file);
     },
     uploadAndImport(file) {
       this.$store
