@@ -317,7 +317,8 @@ export default {
       this.$store
         .dispatch(`${MODULE_BASE}/${GAMIFICATION_LAYER_UPLOAD_TEMPLATE}`, {
           project_id: this.projectId,
-          gl_id: gamificationLayer.id
+          gl_id: gamificationLayer.id,
+          gl_name: gamificationLayer.name
         })
         .then(() => {
           this.fetchGamificationLayers();
