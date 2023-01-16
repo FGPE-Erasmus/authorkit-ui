@@ -25,10 +25,10 @@
       <div
         v-if="allowImportTemplate"
         class="py-2 px-6 mr-4 rounded-lg cursor-pointer md:flex inline-block items-center justify-between text-lg text-base text-primary border border-solid border-primary"
-        @click="chooseArchive"
+        @click="chooseArchiveTemplate"
       >
         <feather-icon icon="ArrowDownCircleIcon" svgClasses="h-4 w-4" />
-        <span class="ml-2 text-base">{{ $t("CardList.Header.Template") }}</span>
+        <span class="ml-2 text-base">{{ $t("CardList.Header.ImportTemplate") }}</span>
       </div>
       <div
         v-if="allowTemplate"
@@ -127,6 +127,15 @@
       accept="application/zip,application/octet-stream,application/x-zip-compressed,multipart/x-zip,text/javascript,application/json"
       @change="importArchive($event.target.files[0])"
     />
+    <input
+      v-if="allowImportTemplate"
+      id="archiveImportTemplate"
+      type="file"
+      hidden
+      style="display:none"
+      accept="application/zip,application/octet-stream,application/x-zip-compressed,multipart/x-zip,text/javascript,application/json"
+      @change="importArchiveTemplate($event.target.files[0])"
+    />
   </div>
 </template>
 
@@ -187,6 +196,9 @@ export default {
     onSortingOrderChanged(field, order) {
       this.$emit("sortchange", { field, order });
     },
+    chooseArchiveTemplate() {
+      document.getElementById("archiveImportTemplate").click();
+    },
     chooseArchive() {
       document.getElementById("archiveImport").click();
     },
@@ -195,6 +207,12 @@ export default {
         this.$emit("import", file);
       }
       document.getElementById("archiveImport").value = "";
+    },
+    importArchiveTemplate(file) {
+      if (file) {
+        this.$emit("templateimport", file);
+      }
+      document.getElementById("archiveImportTemplate").value = "";
     }
   }
 };
