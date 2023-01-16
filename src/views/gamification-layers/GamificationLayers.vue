@@ -314,10 +314,10 @@ export default {
       this.exportDialog.active = false;
     },
     uploadTemplate(gamificationLayer) {
-      console.log(gamificationLayer.id);
       this.$store
         .dispatch(`${MODULE_BASE}/${GAMIFICATION_LAYER_UPLOAD_TEMPLATE}`, {
-          id: gamificationLayer.id
+          project_id: this.projectId,
+          gl_id: gamificationLayer.id
         })
         .then(() => {
           this.fetchGamificationLayers();

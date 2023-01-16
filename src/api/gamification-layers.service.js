@@ -55,7 +55,6 @@ class GamificationLayerService extends HttpService {
   }
 
   upload(obj) {
-    console.log(obj);
     return this.client.post(`gamification-template/upload`, obj, {
       headers: this.headers
     });
