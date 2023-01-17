@@ -273,7 +273,7 @@ export default {
     importTemplate(file) {
       this.$store
         .dispatch(`${MODULE_BASE}/${GAMIFICATION_TEMPLATE_IMPORT}`, {
-          name: file.name,
+          gl_name: file.name,
           file
         })
         .then(() => {

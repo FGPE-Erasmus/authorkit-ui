@@ -13,7 +13,7 @@ export const GAMIFICATION_LAYER_CREATE_FROM_TEMPLATE =
   "gamification-create-create-template";
 export const GAMIFICATION_LAYER_UPLOAD_TEMPLATE =
   "gamification-template-upload";
-export const GAMIFICATION_TEMPLATE_IMPORT = "gamification-layer-import";
+export const GAMIFICATION_TEMPLATE_IMPORT = "gamification-template-import";
 
 // mutations
 export const GAMIFICATION_TEMPLATE_IMPORT_REQUEST =

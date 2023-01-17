@@ -238,7 +238,7 @@ const actions = {
 
   [GAMIFICATION_TEMPLATE_IMPORT]: (
     { commit, rootState },
-    { name, file }
+    { gl_name, file }
   ) => {
     return new Promise((resolve, reject) => {
       commit(GAMIFICATION_TEMPLATE_IMPORT_REQUEST);
@@ -247,7 +247,7 @@ const actions = {
         .onProject(
           rootState.project.activeProject && rootState.project.activeProject.id
         )
-        .importTemplate({ name, file })
+        .importTemplate({ gl_name, file })
         .then(res => {
           commit(GAMIFICATION_TEMPLATE_IMPORT_SUCCESS, res.data);
           resolve(res.data);
