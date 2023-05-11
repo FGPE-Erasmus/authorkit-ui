@@ -477,7 +477,7 @@ export default {
         weight: this.test.weight,
         visible: this.test.visible,
         timeout: this.test.timeout,
-        feedback: this.test.feedback,
+        feedback: this.test.feedback || [],
         input: this.inputFile,
         output: this.outputFile
       };
