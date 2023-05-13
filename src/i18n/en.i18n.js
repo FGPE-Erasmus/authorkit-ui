@@ -21,7 +21,8 @@ export default {
     Lights: {
       On: "Turn the lights off",
       Off: "Turn the lights on"
-    }
+    },
+    HelpTutorial: "Show help tutorial"
   },
 
   // auth pages
@@ -139,7 +140,64 @@ export default {
     Skip: "Skip",
     Previous: "Previous",
     Next: "Next",
-    Finish: "Finish"
+    Finish: "Finish",
+    Navbar: {
+      languageSwitch: "You can change UI language from here.",
+      searchButton:
+        "You can click here to filter results by some field values. Use &lt;field&gt;:&lt;value&gt; for fields" +
+        " whose value belongs to a well-defined set of possible values and/or any text for open text fields.",
+      themeButton: "You can switch between light and dark mode here.",
+      tutorialButton: "Use this button to toggle this contextual help.",
+      loginButton: "Click here to go to sign-in form.",
+      userAvatar:
+        "This is your identification. Click to open a dropdown to open user profile or exit session."
+    },
+    Projects: {
+      createButton:
+        "Click here to create a project. A project is just an organizational unit within AuthorKit, which can be " +
+        "exported/imported in different AuthorKit instances and shared among users within the same AuthorKit instance.",
+      importButton:
+        "Click here to import a project. A project archive contains a JSON metadata file describing the project, " +
+        "a folder <code>exercises</code> with all exercises in YAPExIL format, and a folder " +
+        "<code>gamification-layers</code> with all gamification layers in GEdIL format.",
+      sortingFieldSelector: "Choose a field and the order to sort results by.",
+      pageSizeSelector: "Select the size of the page.",
+      listViewToggle: "Toggle between the list and card views.",
+      pagination: "Navigate among results' pages.",
+      content:
+        "<p>Here are the projects that you can see.</p><p>Clicking in a row/card opens the project context, where" +
+        " you will be able to manage/view exercises and gamification layers.</p>"
+    },
+    Exercises: {
+      createButton:
+        "Click here to create an exercise. An exercise is a non-gamified task that the learners will solve, supported" +
+        " with feedback from the automated assessment system we load it into.",
+      importButton:
+        "Click here to import an exercise in a supported exercise format. AuthorKit uses YAPExIL format for exercises," +
+        " but it allows to import existing exercises in other formats such as SIPE and MEF. The same for exporting " +
+        "exercises.",
+      sortingFieldSelector: "Choose a field and the order to sort results by.",
+      pageSizeSelector: "Select the size of the page.",
+      listViewToggle: "Toggle between the list and card views.",
+      pagination: "Navigate among results' pages.",
+      content:
+        "<p>Here are the exercises of the project.</p><p>Clicking in a row/card opens the exercise form, where" +
+        " you will be able to edit/view exercise data and files. </p>"
+    },
+    GamificationLayers: {
+      createButton:
+        "Click here to create a gamification layer. A gamification layer is an envelope for a set of exercises that " +
+        "adds rules, rewards, leaderboards, and some mods to them.",
+      importButton:
+        "Click here to import a gamification layer in GEdIL format.",
+      sortingFieldSelector: "Choose a field and the order to sort results by.",
+      pageSizeSelector: "Select the size of the page.",
+      listViewToggle: "Toggle between the list and card views.",
+      pagination: "Navigate among results' pages.",
+      content:
+        "<p>Here are the gamification layers of the project.</p><p>Clicking in a row/card opens the gamification " +
+        "layer form, where you will be able to edit/view the gamification layer. </p>"
+    }
   },
 
   CardList: {
@@ -279,7 +337,8 @@ export default {
       DRAFT: "Draft",
       ANNOUNCED: "Announced",
       OPEN: "Open",
-      CLOSED: "Closed"
+      CLOSED: "Closed",
+      UNPUBLISHED: "Unpublished"
     },
     Public: "Public?"
   },
@@ -768,16 +827,18 @@ export default {
       A3: "A",
       Q4: "Q",
       A4: "A",
-      Q5: "Q",
-      A5: "A",
+      Q5: "How to create a project?",
+      A5:
+        '<p>See the video below</p><br/><video width="100%" controls><source src="{src}" type="video/mp4"></video>',
       Q6: "Q",
       A6: "A",
       Q7: "Q",
       A7: "A",
       Q8: "Q",
       A8: "A",
-      Q9: "Q",
-      A9: "A",
+      Q9: "How to create an exercise?",
+      A9:
+        '<p>See the video below</p><br/><video width="100%" controls><source src="{src}" type="video/mp4"></video>',
       Q10: "How to develop a source-code checker?",
       A10:
         "<p class='my-1'>A source-code checker is an external program that is invoked before dynamic correction to classify/process the program's source code. In this field you can write a command line to invoke a source-code checker and you may use these variables:</p>" +
@@ -847,8 +908,9 @@ export default {
         "<p class='my-1'>Use $FILE to refer to the absolute path to the script file.</p>",
       Q12: "Q",
       A12: "A",
-      Q13: "Q",
-      A13: "A",
+      Q13: "How to create a gamification layer?",
+      A13:
+        '<p>See the video below</p><br/><video width="100%" controls><source src="{src}" type="video/mp4"></video>',
       Q14: "Q",
       A14: "A",
       Q15: "How to define actions in rules?",

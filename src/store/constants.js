@@ -13,6 +13,8 @@ export const STORAGE_LAST_USED_VALUES = "last_used_values";
 
 // actions
 export const TOGGLE_LIGHTS = "toggle-lights";
+export const SHOW_TUTORIAL = "show-tutorial";
+export const HIDE_TUTORIAL = "hide-tutorial";
 export const TOGGLE_TABLE_VIEW = "toggle-table-view";
 export const SHOW_SEARCH_ICON = "show-search-icon";
 export const HIDE_SEARCH_ICON = "hide-search-icon";
@@ -31,6 +33,7 @@ export const UPDATE_LAST_USED_FIELD_VALUES = "update-last-used-field-values";
 
 // mutations
 export const THEME_TOGGLE_LIGHTS = "THEME_TOGGLE_LIGHTS";
+export const THEME_TOGGLE_TUTORIAL = "THEME_TOGGLE_TUTORIAL";
 export const THEME_TOGGLE_TABLE_VIEW = "THEME_TOGGLE_TABLE_VIEW";
 export const THEME_SEARCH_ICON = "THEME_SEARCH_ICON";
 export const THEME_UPDATE_SIDEBAR_WIDTH = "THEME_UPDATE_SIDEBAR_WIDTH";

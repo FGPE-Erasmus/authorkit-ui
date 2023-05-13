@@ -1,6 +1,12 @@
 <template>
   <div class="layout--main" :class="[navbarClasses, footerClasses]">
-    <fgpe-tour :steps="steps" v-if="!disableThemeTour" />
+    <fgpe-tour
+      :active="tutorial"
+      :steps="tutorialSteps"
+      @stop="onFinishTour"
+      @skip="onFinishTour"
+      @finish="onFinishTour"
+    />
 
     <fgpe-sidebar
       :logo="require('@/assets/images/logo/logo-nocaption.svg')"
@@ -76,11 +82,13 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import {mapGetters, mapState} from "vuex";
 import BackToTop from "vue-backtotop";
 
 import themeConfig from "@/../theme.config.js";
 import {
+  HIDE_TUTORIAL,
+  SHOW_TUTORIAL,
   THEME_TOGGLE_IS_SIDEBAR_ACTIVE,
   THEME_UPDATE_SIDEBAR_WIDTH
 } from "@/store/constants";
@@ -101,16 +109,13 @@ export default {
       windowWidth: window.innerWidth,
       hideScrollToTop: themeConfig.hideScrollToTop,
       disableThemeTour: themeConfig.disableThemeTour,
-      steps: [
-        {
-          target: "#btnSidebarToggler",
-          content: "Toggle Collapse Sidebar."
-        },
-        {
-          target: ".i18n-locale",
-          content: "You can change language from here."
-        }
-      ]
+      assets: {
+        projectsTutorialUrl: require("@/assets/videos/projects-tutorial.mp4"),
+        exercisesTutorialUrl: require("@/assets/videos/exercises-tutorial.mp4"),
+        exerciseCreateTutorialUrl: require("@/assets/videos/exercise-create-tutorial.mp4"),
+        glTutorialUrl: require("@/assets/videos/gl-tutorial.mp4"),
+        glCreateTutorialUrl: require("@/assets/videos/gl-create-tutorial.mp4")
+      }
     };
   },
   watch: {
@@ -120,10 +125,221 @@ export default {
   },
   computed: {
     ...mapState({
+      isSidebarActive: state => state.isSidebarActive,
       sidebarWidth: state => state.sidebarWidth,
       bodyOverlay: state => state.bodyOverlay,
+      tutorial: state => state.theme_settings.tutorial,
+      showSearchIcon: state => state.theme_settings.showSearchIcon,
       activeProject: state => state.project.activeProject
     }),
+
+    ...mapGetters({
+      isUserLoggedIn: "auth/isUserLoggedIn"
+    }),
+
+    tutorialSteps() {
+      return [
+        this.isSidebarActive &&
+          this.sidebarWidth === "default" && {
+            target: "#btnSidebarToggler",
+            content: "Toggle Collapse Sidebar."
+          },
+        {
+          target: "#languageSwitch",
+          content: this.$t("Tour.Navbar.languageSwitch")
+        },
+        this.showSearchIcon && {
+          target: "#searchButton",
+          content: this.$t("Tour.Navbar.searchButton")
+        },
+        {
+          target: "#themeButton",
+          content: this.$t("Tour.Navbar.themeButton")
+        },
+        {
+          target: "#tutorialButton",
+          content: this.$t("Tour.Navbar.tutorialButton")
+        },
+        !this.isUserLoggedIn && {
+          target: "#loginButton",
+          content: this.$t("Tour.Navbar.loginButton")
+        },
+        this.isUserLoggedIn && {
+          target: "#userAvatar",
+          content: this.$t("Tour.Navbar.userAvatar")
+        },
+        ...this.projectsTutorialSteps,
+        ...this.exercisesTutorialSteps,
+        ...this.exerciseFormTutorialSteps,
+        ...this.glTutorialSteps,
+        ...this.glFormTutorialSteps
+      ].filter(el => el);
+    },
+
+    projectsTutorialSteps() {
+      if (!this.$route.path.match(/\/home|\/dashboard/i)) return [];
+      return [
+        this.isUserLoggedIn && {
+          target: "#createButton",
+          content: this.$t("Tour.Projects.createButton")
+        },
+        this.isUserLoggedIn && {
+          target: "#importButton",
+          content: this.$t("Tour.Projects.importButton")
+        },
+        {
+          target: "#sortingFieldSelector",
+          content: this.$t("Tour.Projects.sortingFieldSelector")
+        },
+        {
+          target: "#pageSizeSelector",
+          content: this.$t("Tour.Projects.pageSizeSelector")
+        },
+        {
+          target: "#listViewToggle",
+          content: this.$t("Tour.Projects.listViewToggle")
+        },
+        {
+          target: ".vs-pagination--nav",
+          content: this.$t("Tour.Projects.pagination")
+        },
+        {
+          target: ".card-list__content",
+          content: this.$t("Tour.Projects.content")
+        },
+        {
+          content:
+            '<video width="100%" controls>\n' +
+            '  <source src="' +
+            this.assets.projectsTutorialUrl +
+            '" type="video/mp4">\n' +
+            "</video>"
+        }
+      ];
+    },
+
+    exercisesTutorialSteps() {
+      if (!this.$route.path.match(/\/projects\/[0-9a-z-]+\/exercises\/?$/i)) return [];
+      return [
+        this.isUserLoggedIn && {
+          target: "#createButton",
+          content: this.$t("Tour.Exercises.createButton")
+        },
+        this.isUserLoggedIn && {
+          target: "#importButton",
+          content: this.$t("Tour.Exercises.importButton")
+        },
+        {
+          target: "#sortingFieldSelector",
+          content: this.$t("Tour.Exercises.sortingFieldSelector")
+        },
+        {
+          target: "#pageSizeSelector",
+          content: this.$t("Tour.Exercises.pageSizeSelector")
+        },
+        {
+          target: "#listViewToggle",
+          content: this.$t("Tour.Exercises.listViewToggle")
+        },
+        {
+          target: ".vs-pagination--nav",
+          content: this.$t("Tour.Exercises.pagination")
+        },
+        {
+          target: ".card-list__content",
+          content: this.$t("Tour.Exercises.content")
+        },
+        {
+          content:
+            '<video width="100%" controls>\n' +
+            '  <source src="' +
+            this.assets.exercisesTutorialUrl +
+            '" type="video/mp4">\n' +
+            "</video>"
+        }
+      ];
+    },
+
+    exerciseFormTutorialSteps() {
+      if (
+        !this.$route.path.match(
+          /\/projects\/[0-9a-z-]+\/exercises\/[0-9a-z-]+/i
+        )
+      )
+        return [];
+      return [
+        {
+          content:
+            '<video width="100%" controls>\n' +
+            '  <source src="' +
+            this.assets.exerciseCreateTutorialUrl +
+            '" type="video/mp4">\n' +
+            "</video>"
+        }
+      ];
+    },
+
+    glTutorialSteps() {
+      if (!this.$route.path.match(/\/projects\/[0-9a-z-]+\/gamification-layers\/?$/i)) return [];
+      return [
+        this.isUserLoggedIn && {
+          target: "#createButton",
+          content: this.$t("Tour.GamificationLayers.createButton")
+        },
+        this.isUserLoggedIn && {
+          target: "#importButton",
+          content: this.$t("Tour.GamificationLayers.importButton")
+        },
+        {
+          target: "#sortingFieldSelector",
+          content: this.$t("Tour.GamificationLayers.sortingFieldSelector")
+        },
+        {
+          target: "#pageSizeSelector",
+          content: this.$t("Tour.GamificationLayers.pageSizeSelector")
+        },
+        {
+          target: "#listViewToggle",
+          content: this.$t("Tour.GamificationLayers.listViewToggle")
+        },
+        {
+          target: ".vs-pagination--nav",
+          content: this.$t("Tour.GamificationLayers.pagination")
+        },
+        {
+          target: ".card-list__content",
+          content: this.$t("Tour.GamificationLayers.content")
+        },
+        {
+          content:
+            '<video width="100%" controls>\n' +
+            '  <source src="' +
+            this.assets.glCreateTutorialUrl +
+            '" type="video/mp4">\n' +
+            "</video>"
+        }
+      ];
+    },
+
+    glFormTutorialSteps() {
+      if (
+        !this.$route.path.match(
+          /\/projects\/[0-9a-z-]+\/gamification-layers\/[0-9a-z-]+/i
+        )
+      )
+        return [];
+      return [
+        {
+          content:
+            '<video width="100%" controls>\n' +
+            '  <source src="' +
+            this.assets.glCreateTutorialUrl +
+            '" type="video/mp4">\n' +
+            "</video>"
+        }
+      ];
+    },
+
     isProjectContext() {
       return !!this.$route.path.match(/\/projects\/(.+)/i);
     },
@@ -248,6 +464,9 @@ export default {
     },
     toggleHideScrollToTop(val) {
       this.hideScrollToTop = val;
+    },
+    onFinishTour() {
+      this.$store.dispatch(HIDE_TUTORIAL);
     }
   },
   components: {

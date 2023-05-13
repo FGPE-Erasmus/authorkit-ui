@@ -26,7 +26,7 @@ import {
   THEME_UPDATE_WINDOW_BREAKPOINT,
   SETTINGS_UPDATE_I18N_LOCALE,
   SETTINGS_UPDATE_LAST_USED_FIELD_VALUES,
-  SESSION_UPDATE_SEARCH_QUERY
+  SESSION_UPDATE_SEARCH_QUERY, SHOW_TUTORIAL, THEME_TOGGLE_TUTORIAL, HIDE_TUTORIAL
 } from "./constants";
 
 const state = {
@@ -42,6 +42,7 @@ const state = {
   userRole: null,
   theme_settings: {
     lights: localStorage.getItem(STORAGE_THEME_LIGHTS) !== "false",
+    tutorial: false,
     tableView: localStorage.getItem(STORAGE_THEME_TABLE_VIEW) !== "false",
     showSearchIcon: false
   },
@@ -87,6 +88,12 @@ const actions = {
     const lights = !state.theme_settings.lights;
     commit(THEME_TOGGLE_LIGHTS, lights);
     localStorage.setItem(STORAGE_THEME_LIGHTS, lights);
+  },
+  [SHOW_TUTORIAL]: ({ commit }) => {
+    commit(THEME_TOGGLE_TUTORIAL, true);
+  },
+  [HIDE_TUTORIAL]: ({ commit }) => {
+    commit(THEME_TOGGLE_TUTORIAL, false);
   },
   [TOGGLE_TABLE_VIEW]: ({ commit, state }) => {
     const tableView = !state.theme_settings.tableView;
@@ -142,6 +149,9 @@ const mutations = {
   // theme
   [THEME_TOGGLE_LIGHTS]: (state, toggle) => {
     state.theme_settings.lights = toggle;
+  },
+  [THEME_TOGGLE_TUTORIAL]: (state, toggle) => {
+    state.theme_settings.tutorial = toggle;
   },
   [THEME_TOGGLE_TABLE_VIEW]: (state, toggle) => {
     state.theme_settings.tableView = toggle;

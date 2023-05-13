@@ -39,7 +39,7 @@
                 {{ $t(`Documentation.Questions.Q${que.id}`) }}
               </h5>
             </div>
-            <div v-html="$t(`Documentation.Questions.A${que.id}`)"></div>
+            <div v-html="$t(`Documentation.Questions.A${que.id}`, que.args)"></div>
           </vs-collapse-item>
         </vs-collapse>
       </div>
@@ -84,19 +84,22 @@ export default {
           id: 2,
           categoryId: 2
         },
-        {
+        /*{
           id: 3,
           categoryId: 2
         },
         {
           id: 4,
           categoryId: 2
-        },
+        },*/
         {
           id: 5,
-          categoryId: 3
+          categoryId: 3,
+          args: {
+            src: require("@/assets/videos/projects-tutorial.mp4")
+          }
         },
-        {
+        /*{
           id: 6,
           categoryId: 3
         },
@@ -107,10 +110,13 @@ export default {
         {
           id: 8,
           categoryId: 3
-        },
+        },*/
         {
           id: 9,
-          categoryId: 4
+          categoryId: 4,
+          args: {
+            src: require("@/assets/videos/exercise-create-tutorial.mp4")
+          }
         },
         {
           id: 10,
@@ -120,18 +126,21 @@ export default {
           id: 11,
           categoryId: 4
         },
-        {
+        /*{
           id: 12,
           categoryId: 4
-        },
+        },*/
         {
           id: 13,
-          categoryId: 5
+          categoryId: 5,
+          args: {
+            src: require("@/assets/videos/gl-create-tutorial.mp4")
+          }
         },
-        {
+        /*{
           id: 14,
           categoryId: 5
-        },
+        },*/
         {
           id: 15,
           categoryId: 5

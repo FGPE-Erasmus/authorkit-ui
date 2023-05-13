@@ -14,7 +14,7 @@
 
         <vs-spacer></vs-spacer>
 
-        <i18n-select class="sm:mr-6 mr-2" />
+        <i18n-select class="sm:mr-6 mr-2" id="languageSwitch" />
 
         <div
           class="search-full-container w-full h-full absolute pin-l rounded-lg"
@@ -54,6 +54,7 @@
             icon="SearchIcon"
             @click="showFullSearch = true"
             class="cursor-pointer navbar-fuzzy-search"
+            id="searchButton"
           ></feather-icon>
         </vs-tooltip>
 
@@ -67,6 +68,21 @@
             :icon="lights ? 'SunIcon' : 'MoonIcon'"
             @click="toggleLights"
             class="cursor-pointer"
+            id="themeButton"
+          ></feather-icon>
+        </vs-tooltip>
+
+        <!-- HELP TUTORIAL TOGGLER -->
+        <vs-tooltip
+          :text="$t('Navbar.HelpTutorial')"
+          position="bottom"
+          class="flex items-center sm:mr-6 mr-2"
+        >
+          <feather-icon
+            icon="HelpCircleIcon"
+            @click="showHelpTutorial"
+            class="cursor-pointer"
+            id="tutorialButton"
           ></feather-icon>
         </vs-tooltip>
 
@@ -169,6 +185,7 @@
                 width="40"
                 height="40"
                 class="shadow-md cursor-pointer block con-vs-avatar-primary"
+                id="userAvatar"
               />
             </div>
             <vs-dropdown-menu>
@@ -191,6 +208,7 @@
                   <feather-icon
                     icon="LogOutIcon"
                     svgClasses="w-4 h-4"
+                    id="logoutButton"
                   ></feather-icon>
                   <span class="ml-2">{{ $t("Navbar.Logout") }}</span>
                 </li>
@@ -211,6 +229,7 @@
             <feather-icon
               icon="LogInIcon"
               class="cursor-pointer"
+              id="loginButton"
             ></feather-icon>
           </vs-tooltip>
         </div>
@@ -225,7 +244,7 @@ import { mapGetters, mapState } from "vuex";
 import {
   TOGGLE_LIGHTS,
   UPDATE_SEARCH_QUERY,
-  THEME_TOGGLE_IS_SIDEBAR_ACTIVE
+  THEME_TOGGLE_IS_SIDEBAR_ACTIVE, SHOW_TUTORIAL
 } from "@/store/constants";
 import { MODULE_BASE, AUTH_LOGOUT } from "@/store/auth/auth.constants";
 import I18nSelect from "@/components/I18nSelect.vue";
@@ -343,8 +362,13 @@ export default {
 
       return "Just Now";
     },
+
     toggleLights() {
       this.$store.dispatch(TOGGLE_LIGHTS);
+    },
+
+    showHelpTutorial() {
+      this.$store.dispatch(SHOW_TUTORIAL);
     },
 
     onSearch() {

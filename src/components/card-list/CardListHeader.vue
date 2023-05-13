@@ -8,6 +8,7 @@
         v-if="allowCreate"
         class="py-2 px-6 mr-4 rounded-lg cursor-pointer md:flex inline-block items-center justify-between text-lg text-base text-white bg-primary"
         @click="$emit('create')"
+        id="createButton"
       >
         <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
         <span class="ml-2 text-base">{{ $t("CardList.Header.Create") }}</span>
@@ -16,6 +17,7 @@
         v-if="allowImport"
         class="py-2 px-6 mr-4 rounded-lg cursor-pointer md:flex inline-block items-center justify-between text-lg text-base text-primary border border-solid border-primary"
         @click="chooseArchive"
+        id="importButton"
       >
         <feather-icon icon="ArrowUpCircleIcon" svgClasses="h-4 w-4" />
         <span class="ml-2 text-base text-primary">{{
@@ -30,6 +32,7 @@
           v-if="sortingOptions.length > 0"
           vs-trigger-click
           class="cursor-pointer ml-4"
+          id="sortingFieldSelector"
         >
           <div
             class="px-6 py-2 border border-solid border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between"
@@ -66,7 +69,7 @@
             </template>
           </vs-dropdown-menu>
         </vs-dropdown>
-        <vs-dropdown vs-trigger-click class="cursor-pointer ml-4">
+        <vs-dropdown vs-trigger-click class="cursor-pointer ml-4" id="pageSizeSelector">
           <div
             class="px-6 py-2 border border-solid border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between"
           >
@@ -99,6 +102,7 @@
           icon-pack="mi"
           :icon="tableView ? 'view_list' : 'view_comfy'"
           @click="onViewChanged"
+          id="listViewToggle"
         ></vs-icon>
       </div>
     </div>
