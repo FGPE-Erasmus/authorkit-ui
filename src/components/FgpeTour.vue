@@ -105,13 +105,13 @@ export default {
     }
   },
   watch: {
-    async active(v) {
+    active(v) {
       if (v) {
-        await this.$tours["fgpeTour"].start("0");
+        this.$tours["fgpeTour"].start("0");
         document.body.classList.add("v-tour--active");
       } else this.$tours["fgpeTour"].stop();
     },
-    steps(steps, oldSteps) {
+    steps(/*steps, oldSteps*/) {
       if (!this.active) return;
       /*const idx = this.$tours["fgpeTour"].currentStep;
       this.$tours["fgpeTour"].stop();
