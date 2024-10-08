@@ -166,7 +166,20 @@ const router = new Router({
               { i18n: "Support.Title", active: true }
             ]
           }
-        }
+        },
+        {
+          path: "/projects/:project_id/chatgpt-form/:id",
+          name: "chatgpt-form",
+          component: () => import("@/views/exercises/ChatGPTForm.vue"),
+          meta: {
+            breadcrumb: [
+              { i18n: "Home", url: "/" },
+              { i18n: "ChatGPTForm", active: true }
+            ],
+            pageTitle: "ChatGPTForm",
+            rule: ["user"]
+          }
+        },
       ]
     },
     {

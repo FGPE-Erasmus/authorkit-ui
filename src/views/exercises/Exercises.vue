@@ -10,6 +10,7 @@
       :items="exercises"
       :allow-create="permissions[projectId] >= 2"
       :allow-import="permissions[projectId] >= 2"
+      :allow-generate="permissions[projectId] >= 2"
       :columns="[
         'Exercise.Title',
         'Exercise.Module',
@@ -23,6 +24,7 @@
       @viewchange="changeView($event)"
       @create="create"
       @import="triggerImport"
+      @generate="generate"
     >
       <template v-slot:row="{ item }">
         <card-list-row

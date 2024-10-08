@@ -228,6 +228,7 @@ export default {
           }
         })
         .then(res => {
+          console.log("EXERCISE", id);
           this.unwrap(res);
           this.$refs["exercise-wizard"].activateAll();
         })

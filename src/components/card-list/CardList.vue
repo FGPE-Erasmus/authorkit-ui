@@ -11,9 +11,11 @@
           :table-view="tableView"
           :allow-create="allowCreate"
           :allow-import="allowImport"
+          :allow-generate="allowGenerate"
           :allow-import-template="allowImportTemplate"
           :allow-upload="allowUpload"
           :allow-template="allowTemplate"
+          @generate="$emit('generate')"
           @create="$emit('create')"
           @import="$emit('import', $event)"
           @templateimport="$emit('templateimport', $event)"
@@ -130,6 +132,10 @@ export default {
       default: false
     },
     allowImport: {
+      type: Boolean,
+      default: false
+    },
+    allowGenerate: {
       type: Boolean,
       default: false
     },

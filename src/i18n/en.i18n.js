@@ -4,6 +4,7 @@ export default {
   Dashboard: "Dashboard",
   Exercises: "Exercises",
   ExerciseForm: "Exercise Form",
+  ChatGPTForm: "ChatGPT Form",
   GamificationLayers: "Gamification Layers",
   GamificationLayerForm: "Gamification Layer Form",
   Help: "Help",
