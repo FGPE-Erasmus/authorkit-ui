@@ -48,7 +48,7 @@ export default {
                 icon: "check_circle",
                 color: "success"
               });
-              this.$router.push(`/projects/${this.projectId}/exercises`);
+              this.$router.push(`/projects/${this.projectId}/gamification-layers/${res}`);
 
               resolve(res);
             })
