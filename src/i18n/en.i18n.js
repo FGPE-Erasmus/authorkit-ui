@@ -147,6 +147,7 @@ export default {
     Header: {
       Create: "Create",
       Import: "Import",
+      Generate: "Create using OpenAI",
       Template: "Choose Template",
       ImportTemplate: "Import Template",
       ItemsPerPage: "{start}-{end} of {size}",

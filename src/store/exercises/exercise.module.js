@@ -19,6 +19,7 @@ import {
   EXERCISE_TESTSET_CREATE,
   EXERCISE_TESTSET_UPDATE,
   EXERCISE_TESTSET_DELETE,
+  EXERCISE_GENERATE,
 
   // mutations
   EXERCISE_GET_REQUEST,
@@ -68,7 +69,10 @@ import {
   EXERCISE_FILE_TRANSLATE_REQUEST,
   EXERCISE_FILE_TRANSLATE_SUCCESS,
   EXERCISE_FILE_TRANSLATE_ERROR,
-  EXERCISE_EXPORT_MEF
+  EXERCISE_EXPORT_MEF,
+  EXERCISE_GENERATE_REQUEST,
+  EXERCISE_GENERATE_SUCCESS,
+  EXERCISE_GENERATE_ERROR
 } from "./exercise.constants";
 
 const state = {
@@ -522,6 +526,27 @@ const actions = {
           reject(err.response.data);
         });
     });
+  },
+
+  [EXERCISE_GENERATE]: ({ commit, rootState }, { text, project_id }) => {
+    return new Promise((resolve, reject) => {
+      commit(EXERCISE_GENERATE_REQUEST);
+      exerciseService
+        .authenticate(rootState.auth.token)
+        .onProject(
+          rootState.project.activeProject && rootState.project.activeProject.id
+        )
+        .generate(text, project_id)
+        .then(res => {
+          commit(EXERCISE_GENERATE_SUCCESS, res.data);
+
+          resolve(res.data);
+        })
+        .catch(err => {
+          commit(EXERCISE_GENERATE_ERROR, err.response.data);
+          reject(err.response.data);
+        });
+    });
   }
 };
 
@@ -673,6 +698,16 @@ const mutations = {
     state.loading = Math.max(state.loading - 1, 0);
   },
   [EXERCISE_TESTSET_DELETE_ERROR]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+
+  [EXERCISE_GENERATE_REQUEST]: state => {
+    state.loading++;
+  },
+  [EXERCISE_GENERATE_SUCCESS]: state => {
+    state.loading = Math.max(state.loading - 1, 0);
+  },
+  [EXERCISE_GENERATE_ERROR]: state => {
     state.loading = Math.max(state.loading - 1, 0);
   },
 

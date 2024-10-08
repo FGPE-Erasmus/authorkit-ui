@@ -13,30 +13,56 @@
 
 <script>
 import {
-  GENERATE
-} from "@/store/generate/generate.constants";
+  MODULE_BASE,
+  EXERCISE_GENERATE
+} from "@/store/exercises/exercise.constants";
 
 export default {
   data() {
     return {
       text: '',
+      projectId: this.$route.params.project_id || this.$store.state.project.currentProjectId
     };
+  },
+  computed: {
+    currentProjectId() {
+      return this.$route.params.project_id || this.$store.state.project.currentProjectId;
+    }
   },
   methods: {
     submitForm() {
-      console.log('Testo inviato:', this.text);
-      this.generate();
-    },
-    generate() {
-      this.$store
-        .dispatch(`${GENERATE}`)
-        .then(() => {
-          console.log("***QUI RITORNA LA RISPOSTA DAL BACKEND!");
-        })
-        .catch(err => {
-          console.log("***ERRORE!");
-          console.log(err);
-        });
+      return new Promise((resolve, reject) => {
+        this.$store
+            .dispatch(
+              `${MODULE_BASE}/${EXERCISE_GENERATE}`, {
+                text: this.text, 
+                project_id: this.projectId
+              }
+            )
+            .then(res => {
+              console.log(res);
+              this.$vs.notify({
+                title: "Exercises Generated",
+                text: `Exercise has been generate successfully.`,
+                iconPack: "mi",
+                icon: "check_circle",
+                color: "success"
+              });
+              this.$router.push(`/projects/${this.projectId}/exercises`);
+
+              resolve(res);
+            })
+            .catch(err => {
+              this.$vs.notify({
+                title: "Failed to Generate Exercise",
+                text: err.message,
+                iconPack: "mi",
+                icon: "error",
+                color: "danger"
+              });
+              reject(err);
+            });
+      });
     },
   },
 };

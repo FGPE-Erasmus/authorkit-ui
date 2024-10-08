@@ -335,7 +335,10 @@ export default {
             color: "danger"
           });
         });
-    }
+    },
+    generate() {
+      this.$router.push(`/projects/${this.projectId}/chatgpt-form/new`);
+    },
   }
 };
 </script>

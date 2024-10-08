@@ -144,6 +144,13 @@ class ExercisesService extends HttpService {
       headers: this.headers
     });
   }
+
+  generate(text, project_id) {
+    console.log("[generate] text:", text, " projectId:", project_id);
+    return this.client.post(`exercises/openAI/generate-exercises`, { text, project_id }, {
+      headers: this.headers
+    });
+  }
 }
 
 export default new ExercisesService();
