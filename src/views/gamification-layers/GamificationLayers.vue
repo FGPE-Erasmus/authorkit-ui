@@ -145,7 +145,8 @@ export default {
       active: false,
       glId: undefined,
       exercises: ""
-    }
+    },
+    template: undefined
   }),
   watch: {
     itemsPerPage: function() {

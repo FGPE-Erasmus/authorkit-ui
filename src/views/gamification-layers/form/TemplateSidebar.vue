@@ -37,7 +37,7 @@
           </ValidationProvider>
         </div>
       </div>
-      <div ref="exercises" class="vx-row" style="visibility: hidden">
+      <div ref="exercises" class="vx-row">
         <div>
           <label
             id="exercises_number"
